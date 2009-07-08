@@ -8,6 +8,7 @@
 	{% if caktcms_pagelet_head_js %}
 		{% include caktcms_pagelet_head_js %}
 	{% endif %}
+    <script type="text/javascript" src="{{ MEDIA_URL }}wymeditor/jquery.wymeditor.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -19,7 +20,7 @@
 	<div class='pagelet-preview'>
 		{% render_pagelet pagelet_preview %}
 	</div>
-    <form class='modify-pagelet' accept-charset='UTF-8' method='post' action=''>
+    <form id='pagelet-preview-form' class='modify-pagelet' accept-charset='UTF-8' method='post' action=''>
     {{ preview_form }}
         <input type='submit' name='save_btn' value='Save &rarr;' />
     </form>
@@ -27,7 +28,7 @@
 
 <h3>Edit {% if pagelet.slug %}{{ pagelet.slug }}{% else %}pagelet #{{ pagelet.pk }}{% endif %}</h3>
 
-<form class='modify-pagelet' accept-charset='UTF-8' method='post' action=''>
+<form id='pagelet-form' class='modify-pagelet' accept-charset='UTF-8' method='post' action=''>
 	<table border='0' cellspacing='0' cellpadding='0' class='spacing'>
         {{ form }}
 		<tr>
@@ -38,5 +39,26 @@
 		</tr>
 	</table>
 </form>
+<script type='text/javascript'>
+function setEditor() {
+    value = jQuery('#id_type').find('>:selected').val();
+    if (value == 'wymeditor') {
+        jQuery('#id_content').wymeditor({
+            updateSelector: "input:submit",
+            updateEvent: "click",
+        });
+    } else {
+        content_div = jQuery('#id_content');
+    	content_div.siblings('div.wym_box').remove();
+        content_div.css('display', 'inline');
+    }
+}
 
+jQuery(function() {
+    jQuery('#pagelet-form #id_type').change(function(event) {
+        setEditor();
+    });
+    setEditor();
+});
+</script>
 {% endblock %}

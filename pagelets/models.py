@@ -75,7 +75,7 @@ class Pagelet(PageletBase):
     #    ('mediawiki', 'MediaWiki'),
         ('markdown', 'Markdown'),
     #    ('tinymce', 'TinyMCE'),
-    #    ('wymeditor', 'WYMeditor'),
+        ('wymeditor', 'WYMeditor'),
         ('textile', 'Textile'),
     )
     ORDER_CHOICES = [(x, x) for x in range(-10, 11)]
