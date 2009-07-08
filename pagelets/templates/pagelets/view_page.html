@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% load pagelets %}
+
+{% block title %}{{ page.name }}{% endblock %}
+
+{% block content %}
+	{% for pagelet in pagelets %}
+        {% render_pagelet pagelet %}
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load pagelets %}
+
+{% block title %}Edit Pagelet{% endblock %}
+
+{% block javascript %}
+	{% if caktcms_pagelet_head_js %}
+		{% include caktcms_pagelet_head_js %}
+	{% endif %}
+{% endblock %}
+
+{% block content %}
+
+
+{% if pagelet_preview %}
+    <h3>Preview {% if pagelet_preview.slug %}{{ pagelet_preview.slug }}{% else %}pagelet #{{ pagelet_preview.pk }}{% endif %}</h3>
+
+	<div class='pagelet-preview'>
+		{% render_pagelet pagelet_preview %}
+	</div>
+    <form class='modify-pagelet' accept-charset='UTF-8' method='post' action=''>
+    {{ preview_form }}
+        <input type='submit' name='save_btn' value='Save &rarr;' />
+    </form>
+{% endif %}
+
+<h3>Edit {% if pagelet.slug %}{{ pagelet.slug }}{% else %}pagelet #{{ pagelet.pk }}{% endif %}</h3>
+
+<form class='modify-pagelet' accept-charset='UTF-8' method='post' action=''>
+	<table border='0' cellspacing='0' cellpadding='0' class='spacing'>
+        {{ form }}
+		<tr>
+			<td>&nbsp;</td>
+			<td class="submit">
+				<input type='submit' name='preview_btn' value='Preview &rarr;' />
+			</td>
+		</tr>
+	</table>
+</form>
+
+{% endblock %}

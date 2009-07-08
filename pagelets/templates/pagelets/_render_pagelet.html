@@ -1,0 +1,12 @@
+<div id='pagelet-{{ pagelet.pk }}' class='pagelet {% if pagelet.slug %} {{ pagelet.slug }}{% endif %}{% if perms.pagelets.change_pagelet %} editable{% endif %}{% if pagelet.css_classes %} {{ pagelet.css_classes }}{% endif %}'>
+{% if perms.pagelets.change_pagelet  %}
+    <div class="pagelet-edit-link">
+        <a href='{% url edit_pagelet pagelet.pk %}?next={{ request.get_full_path }}'>Edit {% if pagelet.slug %}{{ pagelet.slug }}{% else %}pagelet #{{ pagelet.pk }}{% endif %}</a>
+    </div>
+{% endif %}
+    <div class="pagelet-content">
+    {% if pagelet %}
+        {{ pagelet.rendered_content|safe }}
+    {% endif %}
+    </div>
+</div>
