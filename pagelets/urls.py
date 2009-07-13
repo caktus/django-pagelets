@@ -13,6 +13,11 @@ urlpatterns = patterns('',
         name='edit_pagelet',
     ),
     url(
+        r'^create/(?P<pagelet_slug>[^/]+)/$',
+        views.create_pagelet,
+        name='create_pagelet',
+    ),
+    url(
         r'^content/(?P<page_slug>[\w-]+)/$',
         views.view_page,
         name='view_page',

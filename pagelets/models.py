@@ -114,7 +114,7 @@ class Pagelet(PageletBase):
 
     def render(self, context):
         #pagelets can automagically use pagelets templatetags in order to remove boilerplate
-        loaded_cms = "{% load pagelets %}\n" + self.content
+        loaded_cms = "{% load pagelet_tags %}\n" + self.content
         """
         skip the first portions of render_to_string() ( finding the template )
          and go directly to compiling the template/pagelet
@@ -128,7 +128,7 @@ class Pagelet(PageletBase):
         """
         #XXX is this what the origin should be?
         origin = StringOrigin('pagelet: %s' % self.slug)
-        compiled = compile_string(loaded_cms, origin ).render( context )
+        compiled = compile_string(loaded_cms, origin).render(context)
         try:
             if self.type in ('html', 'tinymce', 'wymeditor'):
                 html = compiled

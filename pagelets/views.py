@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
 from django.template.loader import get_template
+from django.core.urlresolvers import reverse
 
 from pagelets.models import Pagelet, Page
 from pagelets.forms import PageletForm
@@ -25,6 +26,20 @@ def view_page(request, page_slug, template='pagelets/view_page.html'):
         context,
         context_instance=RequestContext(request),
     )
+
+
+@user_passes_test(lambda u: u.has_perm('pagelets.add_pagelet'), login_url=settings.LOGIN_URL)
+def create_pagelet(request, pagelet_slug):
+    try:
+        pagelet = Pagelet.objects.get(slug=pagelet_slug)
+    except Pagelet.DoesNotExist:
+        pagelet = Pagelet.objects.create(
+            slug=pagelet_slug,
+            created_by=request.user,
+            modified_by=request.user,
+        )
+    edit_pagelet = reverse('edit_pagelet', kwargs={'pagelet_id': pagelet.id})
+    return HttpResponseRedirect(edit_pagelet)
 
 
 @user_passes_test(lambda u: u.has_perm('pagelets.change_pagelet'), login_url=settings.LOGIN_URL)
