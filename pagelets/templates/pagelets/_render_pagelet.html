@@ -1,7 +1,11 @@
 <div{% if pagelet %} id="pagelet-{{ pagelet.pk }}"{% endif %} class="pagelet{% if pagelet_slug %} {{ pagelet_slug }}{% endif %}{% if perms.pagelets.change_pagelet %} editable{% endif %}{% if pagelet.css_classes %} {{ pagelet.css_classes }}{% endif %}">
 {% if perms.pagelets.change_pagelet  %}
     <div class="pagelet-edit-link">
-        <a href="{% url edit_pagelet pagelet.pk %}?next={{ request.get_full_path }}">Edit {% if pagelet_slug %}{{ pagelet_slug }}{% else %}pagelet{% if pagelet %} #{{ pagelet.pk }}{% endif %}{% endif %}</a>
+        {% if pagelet %}
+            <a href="{% url edit_pagelet pagelet.pk %}?next={{ request.get_full_path }}">Edit {% if pagelet_slug %}{{ pagelet_slug }}{% else %}pagelet #{{ pagelet.pk }}{% endif %}</a>
+        {% else %}
+            <a href="{% url create_pagelet pagelet_slug %}?next={{ request.get_full_path }}">Create {% if pagelet_slug %}{{ pagelet_slug }}{% else %}pagelet{% endif %}</a>
+        {% endif %}
     </div>
 {% endif %}
     <div class="pagelet-content">
