@@ -2,10 +2,13 @@
 
 {% load pagelet_tags %}
 
-{% block title %}{{ page.name }}{% endblock %}
+{% block title %}{{ page.title }}{% endblock %}
 
 {% block content %}
+    <div id='page-{{ page.pk }}' class='page {{ page.slug }}'>
+        <div class='page-title'>{{ page.title }}</div>
 	{% for pagelet in pagelets %}
         {% render_pagelet pagelet %}
     {% endfor %}
+    </div>
 {% endblock %}
