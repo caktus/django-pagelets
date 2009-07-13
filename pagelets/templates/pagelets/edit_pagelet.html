@@ -22,7 +22,9 @@
 	</div>
     <form id='pagelet-preview-form' class='modify-pagelet' accept-charset='UTF-8' method='post' action=''>
     {{ preview_form }}
+    <div class='pagelet-submit'>
         <input type='submit' name='save_btn' value='Save &rarr;' />
+    </div>
     </form>
 {% endif %}
 
@@ -31,31 +33,28 @@
 <form id='pagelet-form' class='modify-pagelet' accept-charset='UTF-8' method='post' action=''>
 	<table border='0' cellspacing='0' cellpadding='0' class='spacing'>
         {{ form }}
-		<tr>
-			<td>&nbsp;</td>
-			<td class="submit">
-				<input type='submit' name='preview_btn' value='Preview &rarr;' />
-			</td>
-		</tr>
 	</table>
+    <div class='pagelet-submit'>
+        <input type='submit' name='preview_btn' value='Preview &rarr;' />
+    </div>
 </form>
 <script type='text/javascript'>
 function setEditor() {
-    value = jQuery('#id_type').find('>:selected').val();
+    value = jQuery('#pagelet-form select[name=type]').find('>:selected').val();
     if (value == 'wymeditor') {
-        jQuery('#id_content').wymeditor({
+        jQuery('#pagelet-form textarea[name=content]').wymeditor({
             updateSelector: "input:submit",
             updateEvent: "click",
         });
     } else {
-        content_div = jQuery('#id_content');
+        content_div = jQuery('#pagelet-form textarea[name=content]');
     	content_div.siblings('div.wym_box').remove();
         content_div.css('display', 'inline');
     }
 }
 
 jQuery(function() {
-    jQuery('#pagelet-form #id_type').change(function(event) {
+    jQuery('#pagelet-form select[name=type]').change(function(event) {
         setEditor();
     });
     setEditor();

@@ -2,8 +2,20 @@
 	display: none;
 }
 
+.pagelet-preview {
+	margin-bottom: 1em;
+}
+
 .page-title {
 	font-size: 140%;
 	font-weight: bold;
 	margin: 1em 0 0.5em 0;
+}
+
+#pagelet-form table {
+    width: 100%;
+}
+
+.pagelet-submit {
+	text-align: right;
 }
