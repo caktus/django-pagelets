@@ -31,9 +31,9 @@
 <h3>Edit {% if pagelet.slug %}{{ pagelet.slug }}{% else %}pagelet #{{ pagelet.pk }}{% endif %}</h3>
 
 <form id='pagelet-form' class='modify-pagelet' accept-charset='UTF-8' method='post' action=''>
-	<table border='0' cellspacing='0' cellpadding='0' class='spacing'>
-        {{ form }}
-	</table>
+	<ul>
+        {{ form.as_ul }}
+	</ul>
     <div class='pagelet-submit'>
         <input type='submit' name='preview_btn' value='Preview &rarr;' />
     </div>
