@@ -8,7 +8,7 @@ from django.template import Node, NodeList, Variable, Library
 from django.template import TemplateSyntaxError, VariableDoesNotExist
 from django.core.urlresolvers import reverse
 
-from pagelets.models import Pagelet
+from pagelets.models import Pagelet, Page
 
 register = template.Library()
 
@@ -33,6 +33,30 @@ def render_pagelet(context, pagelet):
         pagelet.rendered_content = pagelet.render(context)
         
     context['pagelet'] = pagelet
+    return context
+
+
+@register.inclusion_tag('pagelets/_pagelink_ifexists.html', takes_context=True)
+def pagelink_ifexists(context, page, link_text):
+    """
+    Renders a link to the given page in the calling template.
+    """
+    if isinstance(page, basestring):
+        # add the slug separately because we need it in the template even
+        # if this page doesn't exist
+        context['page_slug'] = page
+        try:
+            page = Page.objects.get(slug=page)
+        except Page.DoesNotExist:
+            page = None
+    
+    if page:
+        # add the slug separately because we need it in the template even
+        # if this page doesn't exist
+        context['page_slug'] = page.slug
+        
+    context['page'] = page
+    context['link_text'] = link_text
     return context
 
 
