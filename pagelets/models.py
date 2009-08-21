@@ -52,8 +52,17 @@ class PageletBase(models.Model):
 
 
 class Page(PageletBase):
-    title = models.CharField(_('title'), max_length=255)
-    slug = models.CharField(_('slug'), unique=True, max_length=255)
+    title = models.CharField(
+        _('title'), 
+        max_length=255,
+        help_text='The page title.  To be displayed in the browser\'s title bar as well as at the top of the page.'
+    )
+    slug = models.CharField(
+        _('slug'), 
+        unique=True, 
+        max_length=255,
+        help_text='A short string with no spaces or special characters that uniquely identifies this page.  It\'s used in the page URL, so don\'t change it unless you\'re positive nothing links to this page.'
+    )
     
     def get_absolute_url(self):
     	return reverse('view_page', kwargs={'page_slug': self.slug})
@@ -93,22 +102,26 @@ class Pagelet(PageletBase):
         null=True, 
         blank=True,
     #    unique=True,
+        help_text='A short string with no spaces or special characters that uniquely identifies this pagelet.  It may be used to link to load this pagelet dynamically from other places on the site, so don\'t change it unless you\'re positive nothing depends on the current name.',
     )
     css_classes = models.CharField(
         _('CSS classes'),
         max_length=255,
         blank=True,
+        help_text='Extra CSS classes, if any, to be added to the pagelet DIV in the HTML.',
     )
     order = models.SmallIntegerField(
         null=True,
         blank=True,
         choices=ORDER_CHOICES,
+        help_text='The order in which pagelets should show up on a page.  A lower number equals higher placement.',
     )
     type = models.CharField(
         _('content type'), 
         max_length=32, 
         choices=CONTENT_TYPES, 
         default='html',
+        help_text='Controls the markup language and, in some cases, the JavaScript editor to be used for this pagelet\'s content.',
     )
     content = models.TextField(_('content'), blank=True)
 
