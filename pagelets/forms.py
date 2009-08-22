@@ -23,13 +23,6 @@ class PageletForm(forms.ModelForm):
                 attrs={'rows': 30, 'cols': 90}
             )
     
-    def clean_content(self):
-        try:
-            return self.cleaned_data['content'].encode('ascii')
-        except UnicodeEncodeError:
-            raise
-            raise forms.ValidationError('Illegal characters exist in content, please remove any fancy quotes, etc, and try previewing again.')
-    
     def save(self, commit=True, user=None):
         instance = super(PageletForm, self).save(commit=False)
         
