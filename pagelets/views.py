@@ -9,8 +9,8 @@ from django.contrib.auth.decorators import user_passes_test
 from django.template.loader import get_template
 from django.core.urlresolvers import reverse
 
-from pagelets.models import Pagelet, Page
-from pagelets.forms import PageletForm
+from pagelets.models import Pagelet, Page, PageAttachment
+from pagelets.forms import PageletForm, UploadForm
 from photologue.models import Photo, Gallery
 
 
@@ -86,3 +86,46 @@ def edit_pagelet(
         context,
         context_instance=RequestContext(request),
     )
+
+
+@user_passes_test(lambda u: u.has_perm('pagelets.add_pageattachment'), login_url=settings.LOGIN_URL)
+def add_attachment(
+    request,
+    page_slug,
+    template='pagelets/attach.html',
+  ):
+    page = get_object_or_404(Page, slug=page_slug)
+    if request.POST:
+        print request.POST
+        form = UploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            attachment = form.save(page=page)
+            return HttpResponseRedirect(
+                reverse('view_page', args=[page.slug])
+            )
+            
+    else:
+        form = UploadForm()
+    context = {
+        'page': page,
+        'form': form,
+    }
+    return render_to_response(
+        template,
+        context,
+        context_instance=RequestContext(request),
+    )
+
+
+@user_passes_test(lambda u: u.has_perm('pagelets.delete_pageattachment'), login_url=settings.LOGIN_URL)
+def remove_attachment(request, page_slug, attachment_id):
+    attachment = get_object_or_404(
+        PageAttachment,
+        pk=attachment_id,
+        page__slug=page_slug,
+    )
+    attachment.delete()
+    if 'next' in request.GET:
+        return HttpResponseRedirect(request.GET['next'])
+    else:
+        return HttpResponseRedirect('/')

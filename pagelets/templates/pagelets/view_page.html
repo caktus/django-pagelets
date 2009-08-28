@@ -7,8 +7,31 @@
 {% block content %}
     <div id='page-{{ page.pk }}' class='page {{ page.slug }}'>
         <div class='page-title'>{{ page.title }}</div>
-	{% for pagelet in pagelets %}
+    {% for pagelet in pagelets %}
         {% render_pagelet pagelet %}
     {% endfor %}
+    
+    {% ifnotequal page.attachments.count 0 %}
+        <h2>Attachments</h2>
+        <ul>
+            {% for attachment in page.attachments.all %}
+                <li>
+                    <a href='{{ attachment.file.url }}'>{{ attachment }}</a>
+                    <span class='file-size'>({{ attachment.file.size|filesizeformat }})</span>
+                    {% if perms.pagelets.delete_pageattachment %}
+                        (<a href='{% url remove_attachment page.slug,attachment.pk %}?next={{ request.get_full_path }}'>Delete</a>)
+                    {% endif %}
+                </li>
+            {% endfor %}
+            {% if perms.pagelets.add_pageattachment %}
+                <li><a href='{% url add_attachment page.slug %}'>Add additional attachment...</a></li>
+            {% endif %}
+            
+        </ul>
+    {% else %}
+        {% if perms.pagelets.add_pageattachment %}
+            <p><a href='{% url add_attachment page.slug %}'>Add attachment...</a></p>
+        {% endif %}
+    {% endifnotequal %}
     </div>
 {% endblock %}

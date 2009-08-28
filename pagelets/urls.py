@@ -22,4 +22,14 @@ urlpatterns = patterns('',
         views.view_page,
         name='view_page',
     ),
+    url(
+        r'^content/(?P<page_slug>[\w-]+)/attachment/upload/$',
+        views.add_attachment,
+        name='add_attachment',
+    ),
+    url(
+        r'^content/(?P<page_slug>[\w-]+)/attachment/(?P<attachment_id>\d+)/remove/$',
+        views.remove_attachment,
+        name='remove_attachment',
+    ),
 )

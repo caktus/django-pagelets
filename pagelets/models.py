@@ -172,3 +172,11 @@ class Pagelet(PageletBase):
     	else:
     		return self.content[:25]
 
+
+class PageAttachment(models.Model):
+    page = models.ForeignKey(Page, related_name='attachments')
+    name = models.CharField(max_length=255)
+    file = models.FileField(upload_to='attachments/pages/')
+    
+    def __unicode__(self):
+        return self.name

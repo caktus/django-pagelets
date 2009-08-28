@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.formtools.preview import FormPreview
 from django.utils.encoding import smart_unicode, force_unicode
 
-from pagelets.models import Pagelet
+from pagelets.models import Pagelet, PageAttachment
 
 class PageletForm(forms.ModelForm):
     class Meta:
@@ -38,5 +38,14 @@ class PageletForm(forms.ModelForm):
         return instance
 
 
-
-
+class UploadForm(forms.ModelForm):
+    class Meta:
+        model = PageAttachment
+        fields = ('name', 'file')
+    
+    def save(self, page, commit=True):
+        instance = super(UploadForm, self).save(commit=False)
+        instance.page = page
+        if commit:
+            instance.save()
+        return instance
