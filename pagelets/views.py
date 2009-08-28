@@ -96,7 +96,6 @@ def add_attachment(
   ):
     page = get_object_or_404(Page, slug=page_slug)
     if request.POST:
-        print request.POST
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
             attachment = form.save(page=page)
