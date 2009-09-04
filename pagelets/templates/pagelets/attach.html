@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load pagelet_tags %}
+
+{% block title %}{{ page.title }}{% endblock %}
+
+{% block content %}
+    <div id='page-{{ page.pk }}' class='page {{ page.slug }}'>
+        <div class='page-title'>Upload file to {{ page.title }}</div>
+        <form enctype="multipart/form-data" action="" method="post" accept-charset="utf-8">
+            <table>
+            {{ form }}
+            </table>
+            <p><input type="submit" value="Upload &rarr;"></p>
+        </form>
+    </div>
+{% endblock %}
