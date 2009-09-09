@@ -10,8 +10,6 @@ from django.core.urlresolvers import reverse
 from django.template import compile_string, TemplateSyntaxError, StringOrigin
 from django.template.context import Context
 
-from caktus.django.db.util import slugify_uniquely
-
 from datetime import datetime
 
 
