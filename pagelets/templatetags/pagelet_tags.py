@@ -17,7 +17,6 @@ def render_pagelet(context, pagelet, *args):
     """
     Renders the named pagelet in the calling template.
     """
-    print 'args', args
     if isinstance(pagelet, basestring):
         # add the slug separately because we need it in the template even
         # if this pagelet doesn't exist
