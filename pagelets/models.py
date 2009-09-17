@@ -10,6 +10,8 @@ from django.core.urlresolvers import reverse
 from django.template import compile_string, TemplateSyntaxError, StringOrigin
 from django.template.context import Context
 
+from caktus.django.db.util import slugify_uniquely
+
 from datetime import datetime
 
 
@@ -166,7 +168,7 @@ class Pagelet(PageletBase):
     
     def __unicode__(self):
     	if self.slug:
-    		return self.slug
+    		return self.slug.replace('_', ' ')
     	else:
     		return self.content[:25]
 
