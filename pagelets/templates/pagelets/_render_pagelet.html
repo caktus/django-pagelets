@@ -2,7 +2,7 @@
 {% if perms.pagelets.change_pagelet  %}
     <div class="pagelet-edit-link">
         {% if pagelet %}
-	<a href="{% url edit_pagelet pagelet.pk %}?next={{ request.get_full_path }}">Edit {% if link_text %}{{ link_text }}{% else %}{% if pagelet_name %}{{ pagelet_name }}{% else %}pagelet #{{ pagelet.pk }}{% endif %}{% endif %}</a>
+	<a href="{% url edit_pagelet pagelet.pk %}?next={{ request.get_full_path }}">Edit {{ pagelet }}</a>
         {% else %}
             <a href="{% url create_pagelet pagelet_slug %}?next={{ request.get_full_path }}">Create {% if pagelet_slug %}{{ pagelet_slug }}{% else %}pagelet{% endif %}</a>
         {% endif %}

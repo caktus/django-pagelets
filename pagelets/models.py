@@ -170,7 +170,7 @@ class Pagelet(PageletBase):
     	if self.slug:
     		return self.slug.replace('_', ' ')
     	else:
-    		return self.content[:25]
+    		return "pagelet #%d" % self.id
 
 
 class PageAttachment(models.Model):
