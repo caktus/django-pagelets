@@ -10,10 +10,9 @@ from django.core.urlresolvers import reverse
 from django.template import compile_string, TemplateSyntaxError, StringOrigin
 from django.template.context import Context
 
-from caktus.django.db.util import slugify_uniquely
-
 from datetime import datetime
 
+ORDER_CHOICES = [(x, x) for x in range(-10, 11)]
 
 class PageletBase(models.Model):
     creation_date = models.DateTimeField(
@@ -87,7 +86,6 @@ class Pagelet(PageletBase):
         ('wymeditor', 'WYMeditor'),
         ('textile', 'Textile'),
     )
-    ORDER_CHOICES = [(x, x) for x in range(-10, 11)]
     
     page = models.ForeignKey(
         Page, 
@@ -168,15 +166,22 @@ class Pagelet(PageletBase):
     
     def __unicode__(self):
     	if self.slug:
-    		return self.slug.replace('_', ' ')
+    		return self.slug
     	else:
-    		return "pagelet #%d" % self.id
+    		return self.content[:25]
 
 
 class PageAttachment(models.Model):
     page = models.ForeignKey(Page, related_name='attachments')
     name = models.CharField(max_length=255)
     file = models.FileField(upload_to='attachments/pages/')
+    order = models.SmallIntegerField(
+        null=True, 
+        blank=True, 
+        choices=ORDER_CHOICES,
+    )
+    class Meta:
+        ordering = ('order',)
     
     def __unicode__(self):
         return self.name
