@@ -7,7 +7,9 @@ class InlinePageletAdmin(admin.StackedInline):
     model = pagelets.Pagelet
     extra = 2
     fk_name = 'page'
-    
+
+class InlinePageAttachmentAdmin(admin.StackedInline):
+    model = pagelets.PageAttachment
     
 class PageAdmin(admin.ModelAdmin):
     list_display = (
@@ -19,7 +21,7 @@ class PageAdmin(admin.ModelAdmin):
     )
     search_fields = ('title',)
     list_filter = ('modified_by',)
-    inlines = (InlinePageletAdmin,)
+    inlines = (InlinePageletAdmin, InlinePageAttachmentAdmin,)
     
     def save_model(self, request, obj, form, change):
         if not obj.id:
