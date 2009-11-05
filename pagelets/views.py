@@ -11,8 +11,6 @@ from django.core.urlresolvers import reverse
 
 from pagelets.models import Pagelet, Page, PageAttachment
 from pagelets.forms import PageletForm, UploadForm
-from photologue.models import Photo, Gallery
-
 
 def view_page(request, page_slug, template='pagelets/view_page.html'):
     page = get_object_or_404(Page, slug=page_slug)
