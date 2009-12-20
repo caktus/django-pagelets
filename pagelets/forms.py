@@ -41,7 +41,7 @@ class PageletForm(forms.ModelForm):
 class UploadForm(forms.ModelForm):
     class Meta:
         model = PageAttachment
-        fields = ('name', 'file')
+        fields = ('name', 'file', 'order',)
     
     def save(self, page, commit=True):
         instance = super(UploadForm, self).save(commit=False)
