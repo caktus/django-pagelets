@@ -8,6 +8,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
 from django.template.loader import get_template
 from django.core.urlresolvers import reverse
+from django.db.models import Max
 
 from pagelets.models import Pagelet, Page, PageAttachment
 from pagelets.forms import PageletForm, UploadForm
@@ -27,16 +28,37 @@ def view_page(request, page_slug, template='pagelets/view_page.html'):
 
 
 @user_passes_test(lambda u: u.has_perm('pagelets.add_pagelet'), login_url=settings.LOGIN_URL)
-def create_pagelet(request, pagelet_slug):
-    try:
-        pagelet = Pagelet.objects.get(slug=pagelet_slug)
-    except Pagelet.DoesNotExist:
+def create_pagelet(request, pagelet_slug=None):
+    page = None
+    if 'page_id' in request.GET:
+        try:
+            page_id = int(request.GET['page_id'])
+            page = Page.objects.get(pk=page_id)
+        except (Page.DoesNotExist, ValueError):
+            pass
+    pagelet = None
+    if pagelet_slug:
+        try:
+            pagelet = Pagelet.objects.get(slug=pagelet_slug)
+        except Pagelet.DoesNotExist:
+            pass
+    if not pagelet:
+        order = None
+        if page:
+            # if the page exists, set the order of this pagelet to
+            # max(page.pagelets.order) + 1 
+            order = page.pagelets.aggregate(Max('order'))['order__max'] or 0
+            order += 1
         pagelet = Pagelet.objects.create(
-            slug=pagelet_slug,
+            slug=pagelet_slug or '',
             created_by=request.user,
             modified_by=request.user,
+            page=page,
+            order=order,
         )
     edit_pagelet = reverse('edit_pagelet', kwargs={'pagelet_id': pagelet.id})
+    if 'next' in request.GET:
+        edit_pagelet += '?next=%s' % request.GET['next']
     return HttpResponseRedirect(edit_pagelet)
 
 
@@ -82,6 +104,33 @@ def edit_pagelet(
     return render_to_response(
         template,
         context,
+        context_instance=RequestContext(request),
+    )
+
+
+@user_passes_test(lambda u: u.has_perm('pagelets.delete_pagelet'), login_url=settings.LOGIN_URL)
+def remove_pagelet(
+    request,
+    pagelet_id,
+    template='pagelets/remove_pagelet.html',
+    redirect_field_name=REDIRECT_FIELD_NAME,
+    redirect_to=None,
+):
+    pagelet = get_object_or_404(Pagelet, pk=pagelet_id)
+    
+    redirect_to = request.REQUEST.get(redirect_field_name, redirect_to)
+    if not redirect_to and pagelet.page:
+        reverse('view_page', kwargs={'pagelet_slug': pagelet.page.slug})
+    elif not redirect_to:
+        redirect_to = '/'
+    
+    if request.method == 'POST':
+        pagelet.delete()
+        request.user.message_set.create(message='Pagelet successfully deleted.')
+        return HttpResponseRedirect(redirect_to)
+    return render_to_response(
+        template,
+        {'pagelet': pagelet},
         context_instance=RequestContext(request),
     )
 

@@ -8,14 +8,19 @@ from pagelets import views
 
 urlpatterns = patterns('',
     url(
+        r'^create/(?:(?P<pagelet_slug>[^/]+)/)?$',
+        views.create_pagelet,
+        name='create_pagelet',
+    ),
+    url(
         r'^edit/(?P<pagelet_id>\d+)/$',
         views.edit_pagelet,
         name='edit_pagelet',
     ),
     url(
-        r'^create/(?P<pagelet_slug>[^/]+)/$',
-        views.create_pagelet,
-        name='create_pagelet',
+        r'^remove/(?P<pagelet_id>\d+)/$',
+        views.remove_pagelet,
+        name='remove_pagelet',
     ),
     url(
         r'^content/(?P<page_slug>[\w-]+)/$',

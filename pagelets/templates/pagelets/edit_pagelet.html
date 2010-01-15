@@ -16,7 +16,7 @@
 
 {% if pagelet_preview %}
     <h3>Preview {% if pagelet_preview.slug %}{{ pagelet_preview.slug }}{% else %}pagelet #{{ pagelet_preview.pk }}{% endif %}</h3>
-
+	<p><strong>This is a preview; the pagelet has not been saved.</strong>  You must click save below to save your changes.</p>
 	<div class='pagelet-preview'>
 		{% render_pagelet pagelet_preview %}
 	</div>

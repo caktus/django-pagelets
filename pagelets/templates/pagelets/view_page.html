@@ -10,6 +10,9 @@
     {% for pagelet in pagelets %}
         {% render_pagelet pagelet %}
     {% endfor %}
+        {% if perms.pagelets.add_pagelet %}
+            <p><a href='{% url create_pagelet %}?page_id={{ page.pk }}&next={{ request.get_full_path }}'>Add pagelet...</a></p>
+        {% endif %}
     
         <div id='page-attachments'>
         {% ifnotequal page.attachments.count 0 %}
