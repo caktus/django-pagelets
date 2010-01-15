@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load pagelet_tags %}
+
+{% block title %}Remove Pagelet{% endblock %}
+
+{% block content %}
+<h3>Remove {% if pagelet.slug %}{{ pagelet.slug }}{% else %}pagelet #{{ pagelet.pk }}{% endif %}</h3>
+
+<p>Are you sure you want to remove this pagelet, the contents of which appear below?</p>
+
+<div class='pagelet-preview'>
+	{% render_pagelet pagelet %}
+</div>
+
+<form accept-charset='UTF-8' method='post' action=''>
+	<table border='0' cellspacing='0' cellpadding='0' class='spacing'>
+	    <tr>
+	        <td class='submit'>
+	            <input type='button' value='Cancel' onclick='history.go(-1)'/>
+	            &nbsp;
+	            <input type='submit' name='submit' value='Remove pagelet &rarr;' />
+	        </td>
+	    </tr>
+	</table>
+</form>
+
+{% endblock %}
