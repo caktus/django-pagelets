@@ -38,26 +38,4 @@
         <input type='submit' name='preview_btn' value='Preview &rarr;' />
     </div>
 </form>
-<script type='text/javascript'>
-function setEditor() {
-    value = jQuery('#pagelet-form select[name=type]').find('>:selected').val();
-    if (value == 'wymeditor') {
-        jQuery('#pagelet-form textarea[name=content]').wymeditor({
-            updateSelector: "input:submit",
-            updateEvent: "click",
-        });
-    } else {
-        content_div = jQuery('#pagelet-form textarea[name=content]');
-    	content_div.siblings('div.wym_box').remove();
-        content_div.css('display', 'inline');
-    }
-}
-
-jQuery(function() {
-    jQuery('#pagelet-form select[name=type]').change(function(event) {
-        setEditor();
-    });
-    setEditor();
-});
-</script>
 {% endblock %}
