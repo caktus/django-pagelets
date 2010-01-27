@@ -27,8 +27,12 @@
 }
 
 #pagelet-form li {
-	margin-bottom: 1em;
-	list-style-type: none;
+    list-style-type: none;
+}
+
+#pagelet-form li label,
+div.pagelet-submit {
+    margin-top: 1em;
 }
 
 #pagelet-form ul label {

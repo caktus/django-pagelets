@@ -9,7 +9,7 @@
 	        {% endif %}
 	    </li>
 	{% endif %}
-	{% if perms.pagelets.remove_pagelet and pagelet %}
+	{% if perms.pagelets.delete_pagelet and pagelet %}
 	    <li class="pagelet-remove-link">
 			<a href="{% url remove_pagelet pagelet.pk %}?next={{ request.get_full_path }}">Remove{% if pagelet.slug %} {{ pagelet.slug }}{% endif %}</a>
 	    </li>
