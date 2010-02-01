@@ -12,8 +12,6 @@ jQuery(function() {
             });
         } else {
             jQuery.each(WYMeditor.INSTANCES, function() {
-              console.log(this._element.attr('name'));
-              console.log(content_field.attr('name'));
               if(this._element.attr('name') == content_field.attr('name')){
                   this.update();
                   $(this._box).remove();
