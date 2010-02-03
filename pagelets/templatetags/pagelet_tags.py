@@ -1,3 +1,4 @@
+import copy
 
 from django import template
 from django.conf import settings
@@ -17,6 +18,8 @@ def render_pagelet(context, pagelet):
     """
     Renders the named pagelet in the calling template.
     """
+    # don't modify the parent context
+    context = {'request': context['request'], 'perms': context['perms']}
     if isinstance(pagelet, basestring):
         # add the slug separately because we need it in the template even
         # if this pagelet doesn't exist
@@ -41,6 +44,8 @@ def pagelink_ifexists(context, page, link_text):
     """
     Renders a link to the given page in the calling template.
     """
+    # don't modify the parent context
+    context = {}
     if isinstance(page, basestring):
         # add the slug separately because we need it in the template even
         # if this page doesn't exist
@@ -58,5 +63,3 @@ def pagelink_ifexists(context, page, link_text):
     context['page'] = page
     context['link_text'] = link_text
     return context
-
-
