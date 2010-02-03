@@ -5,7 +5,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 from django.utils.encoding import smart_str
-from django.template import Node, NodeList, Variable, Library, Context
+from django.template import Node, NodeList, Variable, Library, RequestContext
 from django.template import TemplateSyntaxError, VariableDoesNotExist
 from django.core.urlresolvers import reverse
 
@@ -19,7 +19,7 @@ def render_pagelet(context, pagelet):
     Renders the named pagelet in the calling template.
     """
     # don't modify the parent context
-    context = Context({'request': context['request'], 'perms': context['perms']})
+    context =  RequestContext(context['request'])
     if isinstance(pagelet, basestring):
         # add the slug separately because we need it in the template even
         # if this pagelet doesn't exist
@@ -45,7 +45,7 @@ def pagelink_ifexists(context, page, link_text):
     Renders a link to the given page in the calling template.
     """
     # don't modify the parent context
-    context = Context({})
+    context =  RequestContext(context['request'])
     if isinstance(page, basestring):
         # add the slug separately because we need it in the template even
         # if this page doesn't exist
