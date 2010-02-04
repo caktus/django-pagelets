@@ -7,12 +7,19 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
+from django.conf import settings
+
 from django.template import compile_string, TemplateSyntaxError, StringOrigin
 from django.template.context import Context
 
 from datetime import datetime
 
 ORDER_CHOICES = [(x, x) for x in range(-10, 11)]
+
+try:
+    settings.PAGELET_CONTENT_DEFAULT
+except AttributeError:
+    settings.PAGELET_CONTENT_DEFAULT = 'html'    
 
 class PageletBase(models.Model):
     creation_date = models.DateTimeField(
@@ -118,7 +125,7 @@ class Pagelet(PageletBase):
         _('content type'), 
         max_length=32, 
         choices=CONTENT_TYPES, 
-        default='html',
+        default=settings.PAGELET_CONTENT_DEFAULT,
         help_text='Controls the markup language and, in some cases, the JavaScript editor to be used for this pagelet\'s content.',
     )
     content = models.TextField(_('content'), blank=True)
