@@ -65,7 +65,7 @@ class PageletsTest(TestCase):
         self.assertContains(response, 'Preview pagelet #%s' % pagelet.id)
         data['save_btn'] = 'Save'
         response = self.c.post(url + '?next=/', data)
-        self.assertRedirects(response, '/')
+        self.assertEqual(302, response.status_code)
         pagelet = Pagelet.objects.get(pk=pagelet.id)
         self.assertEqual(pagelet.content, data['content'])
         

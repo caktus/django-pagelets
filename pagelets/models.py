@@ -21,6 +21,17 @@ try:
 except AttributeError:
     settings.PAGELET_CONTENT_DEFAULT = 'html'    
 
+
+# settings.PAGELET_TEMPLATE_TAGS is a list of template tag names that
+# will load before each pagelet is rendered, allowing custom template
+# tags to be included without including {% load <template_tag> %}
+tags = set(['pagelet_tags'])
+if hasattr(settings, 'PAGELET_TEMPLATE_TAGS'):
+    for tag in settings.PAGELET_TEMPLATE_TAGS:
+        tags.add(tag)
+AUTO_LOAD_TEMPLATE_TAGS = '{%% load %s %%}' % ' '.join(tags)
+
+
 class PageletBase(models.Model):
     creation_date = models.DateTimeField(
         _('creation date'), 
@@ -131,8 +142,9 @@ class Pagelet(PageletBase):
     content = models.TextField(_('content'), blank=True)
 
     def render(self, context):
-        #pagelets can automagically use pagelets templatetags in order to remove boilerplate
-        loaded_cms = "{% load pagelet_tags %}\n" + self.content
+        # pagelets can automagically use pagelets templatetags 
+        # in order to remove boilerplate
+        loaded_cms = AUTO_LOAD_TEMPLATE_TAGS + self.content
         """
         skip the first portions of render_to_string() ( finding the template )
          and go directly to compiling the template/pagelet
