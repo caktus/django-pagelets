@@ -14,6 +14,11 @@ from django.template.context import Context
 
 from datetime import datetime
 
+try:
+    from tagging.fields import TagField
+except ImportError:
+    TagField = None
+
 ORDER_CHOICES = [(x, x) for x in range(-10, 11)]
 
 try:
@@ -80,6 +85,8 @@ class Page(PageletBase):
         max_length=255,
         help_text='A short string with no spaces or special characters that uniquely identifies this page.  It\'s used in the page URL, so don\'t change it unless you\'re positive nothing links to this page.'
     )
+    if TagField:
+        tags = TagField()
     
     def get_absolute_url(self):
     	return reverse('view_page', kwargs={'page_slug': self.slug})
