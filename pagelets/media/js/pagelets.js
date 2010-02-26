@@ -16,6 +16,7 @@ jQuery(function() {
                   this.update();
                   $(this._box).remove();
                   $(this._element).show();
+                  $(this._options.updateSelector).unbind(this._options.updateEvent);
                   delete this;
               }
             });
