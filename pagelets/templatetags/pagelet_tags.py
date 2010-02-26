@@ -6,8 +6,8 @@ from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 from django.utils.encoding import smart_str
 from django.template import Node, NodeList, Variable, Library, RequestContext,\
-                            Context
-from django.template import TemplateSyntaxError, VariableDoesNotExist
+                            Context, TemplateSyntaxError, VariableDoesNotExist
+
 from django.core.urlresolvers import reverse
 
 from pagelets.models import Pagelet, Page
@@ -40,6 +40,7 @@ def render_pagelet(context, pagelet):
         pagelet.rendered_content = pagelet.render(context)
         
     context['pagelet'] = pagelet
+    context['include_links'] = True
     return context
 
 
@@ -69,4 +70,41 @@ def pagelink_ifexists(context, page, link_text):
         
     context['page'] = page
     context['link_text'] = link_text
+    return context
+
+
+@register.inclusion_tag('pagelets/_page_teaser.html', takes_context=True)
+def page_content_teaser(context, page, num_words):
+    """
+    Renders a teaser of the given page object in the calling template.
+    """
+    # don't modify the parent context
+    if 'request' in context:
+        context = RequestContext(context['request'])
+    else:
+        context = Context()
+    if isinstance(page, basestring):
+        # add the slug separately because we need it in the template even
+        # if this page doesn't exist
+        context['page_slug'] = page
+        try:
+            page = Page.objects.get(slug=page)
+        except Pagelet.DoesNotExist:
+            page = None
+    
+    content = ''
+    if page:
+        # add the slug separately because we need it in the template even
+        # if this page doesn't exist
+        context['page_slug'] = page.slug
+        for pagelet in page.pagelets.order_by('order'):
+            pagelet.rendered_content = pagelet.render(context)
+            content += render_to_string('pagelets/_render_pagelet.html',
+                                        {'include_links': False,
+                                         'pagelet': pagelet},
+                                        context_instance=context)
+            print content
+    context['page'] = page
+    context['content'] = content
+    context['num_words'] = num_words
     return context
