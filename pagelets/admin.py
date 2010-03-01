@@ -1,16 +1,22 @@
 from django.contrib import admin
 
 from pagelets import models as pagelets
+try:
+    from treenav.admin import GenericMenuItemInline
+except ImportError:
+    GenericMenuItemInline = None
 
 
 class InlinePageletAdmin(admin.StackedInline):
     model = pagelets.Pagelet
-    extra = 2
+    extra = 1
     fk_name = 'page'
+
 
 class InlinePageAttachmentAdmin(admin.StackedInline):
     model = pagelets.PageAttachment
-    
+
+
 class PageAdmin(admin.ModelAdmin):
     list_display = (
         'title',
@@ -21,7 +27,9 @@ class PageAdmin(admin.ModelAdmin):
     )
     search_fields = ('title',)
     list_filter = ('modified_by',)
-    inlines = (InlinePageletAdmin, InlinePageAttachmentAdmin,)
+    inlines = [InlinePageletAdmin, InlinePageAttachmentAdmin]
+    if GenericMenuItemInline:
+        inlines.insert(0, GenericMenuItemInline)
     
     def save_model(self, request, obj, form, change):
         if not obj.id:
