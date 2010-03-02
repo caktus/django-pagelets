@@ -103,7 +103,6 @@ def page_content_teaser(context, page, num_words):
                                         {'include_links': False,
                                          'pagelet': pagelet},
                                         context_instance=context)
-            print content
     context['page'] = page
     context['content'] = content
     context['num_words'] = num_words
