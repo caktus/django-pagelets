@@ -85,6 +85,12 @@ class Page(PageletBase):
         max_length=255,
         help_text='A short string with no spaces or special characters that uniquely identifies this page.  It\'s used in the page URL, so don\'t change it unless you\'re positive nothing links to this page.'
     )
+    description = models.TextField(
+        _('description'),
+        null=True,
+        blank=True,
+        help_text='A description of the page for use in a teaser or other short excepts', 
+    )
     if TagField:
         tags = TagField()
     

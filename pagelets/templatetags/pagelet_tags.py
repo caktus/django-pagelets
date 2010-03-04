@@ -1,3 +1,4 @@
+import re
 import copy
 
 from django import template
@@ -103,6 +104,46 @@ def page_content_teaser(context, page, num_words):
                                         {'include_links': False,
                                          'pagelet': pagelet},
                                         context_instance=context)
+    context['page'] = page
+    context['content'] = content
+    context['num_words'] = num_words
+    return context
+
+@register.inclusion_tag('pagelets/_page_teaser_new.html', takes_context=True)    
+def page_teaser(context, page, num_words):
+    """
+    Renders a better teaser of the given page object in the calling template.
+    """
+    # don't modify the parent context
+    if 'request' in context:
+        context = RequestContext(context['request'])
+    else:
+        context = Context()
+    if isinstance(page, basestring):
+        # add the slug separately because we need it in the template even
+        # if this page doesn't exist
+        context['page_slug'] = page
+        try:
+            page = Page.objects.get(slug=page)
+        except Pagelet.DoesNotExist:
+            page = None
+    
+    content = ''
+    if page:
+        # add the slug separately because we need it in the template even
+        # if this page doesn't exist
+        context['page_slug'] = page.slug
+        if page.description:
+            content = page.description
+        else:
+            #If link doesn't exist in an SQL database this cannot be used
+            for pagelet in page.pagelets.extra(select={'length':'length(content)'}).order_by('-length'):
+                search = re.findall('<p>(.*?)</p>', pagelet.render(context))
+                if len(search) != 0:
+                    content += ' '.join(search)
+                else:
+                    content += pagelet.render(context)
+
     context['page'] = page
     context['content'] = content
     context['num_words'] = num_words
