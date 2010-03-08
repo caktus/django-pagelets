@@ -5,9 +5,15 @@
 {% block title %}{{ page.title }}{% endblock %}
 
 {% block meta %}
+    {% if page.meta_keywords %}
     <meta name="keywords" content="{{ page.meta_keywords }}">
+    {% endif %}
+    {% if page.meta_robots %}
     <meta name="robots" content="{{ page.meta_robots }}">
+    {% endif %}
+    {% if page.meta_description %}
     <meta name="description" content="{{ page.meta_description }}">
+    {% endif %}
 {% endblock %}
 
 {% block content %}
