@@ -4,6 +4,12 @@
 
 {% block title %}{{ page.title }}{% endblock %}
 
+{% block meta %}
+    <meta name="keywords" content="{{ page.meta_keywords }}">
+    <meta name="robots" content="{{ page.meta_robots }}">
+    <meta name="description" content="{{ page.meta_description }}">
+{% endblock %}
+
 {% block content %}
     <div id='page-{{ page.pk }}' class='page {{ page.slug }}'>
         <div class='page-title'>{{ page.title }}</div>

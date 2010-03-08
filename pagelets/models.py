@@ -91,6 +91,30 @@ class Page(PageletBase):
         blank=True,
         help_text='A description of the page for use in a teaser or other short excepts', 
     )
+    meta_description = models.TextField(
+        "Meta Description",
+        blank = True,
+        null = True,
+    )
+    meta_keywords = models.CharField(
+        "Meta Keywords",
+        max_length = 200,
+        help_text = "A comma delineated list of keywords",
+        blank = True,
+        null = True,
+    )
+    meta_robots = models.CharField(
+        "Meta Robots",
+        max_length = 20,
+        blank = True,
+        null = True,
+        choices = [
+            ('FOLLOW, INDEX', 'FOLLOW, INDEX'),
+            ('NOFOLLOW, NOINDEX', 'NOFOLLOW, NOINDEX'),
+            ('FOLLOW, NOINDEX', 'FOLLOW, NOINDEX'),
+            ('NOFOLLOW, INDEX', 'NOFOLLOW, INDEX'),
+        ]
+    )
     if TagField:
         tags = TagField()
     
