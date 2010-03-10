@@ -28,6 +28,15 @@ class PageAdmin(admin.ModelAdmin):
     search_fields = ('title',)
     list_filter = ('modified_by',)
     inlines = [InlinePageletAdmin, InlinePageAttachmentAdmin]
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'slug', 'description',)
+        }),
+        ('Optional Meta Tags', {
+            'classes': ('collapse',),
+            'fields': ('meta_description', 'meta_keywords', 'meta_robots',)
+        }),
+    )
     if GenericMenuItemInline:
         inlines.insert(0, GenericMenuItemInline)
     
