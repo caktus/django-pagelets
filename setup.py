@@ -13,7 +13,10 @@ setup(
     author_email='solutions@caktusgroup.com',
     packages=find_packages(),
     include_package_data = True,
-    exclude_package_data={ '': ['*.sql','*.pyc'] },
+    exclude_package_data={
+        '': ['*.sql', '*.pyc',],
+        'pagelets': ['media/*',]
+    },
     url='http://code.google.com/p/django-pagelets/',
     license='LICENSE.txt',
     description='Simple, flexible app for integrating static, unstructured content in a Django site',

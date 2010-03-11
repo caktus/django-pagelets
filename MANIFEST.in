@@ -1,1 +1,0 @@
-recursive-include pagelets *.html *.js *.css *.py *.txt
