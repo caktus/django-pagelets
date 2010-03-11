@@ -30,11 +30,11 @@ class PageAdmin(admin.ModelAdmin):
     inlines = [InlinePageletAdmin, InlinePageAttachmentAdmin]
     fieldsets = (
         (None, {
-            'fields': ('title', 'slug', 'description',)
+            'fields': ('title', 'slug',)
         }),
         ('Optional Meta Tags', {
             'classes': ('collapse',),
-            'fields': ('meta_description', 'meta_keywords', 'meta_robots',)
+            'fields': ('description', 'meta_keywords', 'meta_robots',)
         }),
     )
     if GenericMenuItemInline:

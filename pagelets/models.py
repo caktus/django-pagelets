@@ -88,11 +88,7 @@ class Page(PageletBase):
     description = models.TextField(
         _('description'),
         blank=True,
-        help_text='A description of the page for use in a teaser or other short excepts', 
-    )
-    meta_description = models.TextField(
-        "Meta Description",
-        blank=True,
+        help_text='A description of the page for use in the meta tags and teaser or other short excepts', 
     )
     meta_keywords = models.CharField(
         "Meta Keywords",

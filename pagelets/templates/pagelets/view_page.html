@@ -12,7 +12,7 @@
     <meta name="robots" content="{{ page.meta_robots }}">
     {% endif %}
     {% if page.meta_description %}
-    <meta name="description" content="{{ page.meta_description }}">
+    <meta name="description" content="{{ page.description|striptags|truncatewords:35 }}">
     {% endif %}
 {% endblock %}
 
