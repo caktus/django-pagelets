@@ -7,8 +7,8 @@ packages += [
     'pagelets.templates.pagelets',
 ]
 setup(
-    name='Pagelets',
-    version='0.0.0',
+    name='django-pagelets',
+    version='0.0.1',
     author='Caktus Consulting Group',
     author_email='solutions@caktusgroup.com',
     packages=find_packages(),
