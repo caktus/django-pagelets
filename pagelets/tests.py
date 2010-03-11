@@ -34,7 +34,7 @@ class PageletsTest(TestCase):
 {% endspaceless %}"""
         origin = StringOrigin('test')
         compiled = compile_string(template_str, origin).render(Context())
-        self.assertEqual(compiled, '<div class="pagelet nonexistent-pagelet"><ul class="pagelet-links"></ul><div class="pagelet-content"></div></div>')
+        self.assertEqual(compiled, '<div class="pagelet nonexistent-pagelet"><div class="pagelet-content"></div></div>')
     
     def testCreateNotexistentPagelet(self):
         self.c.login(username=self.editor.username, password='abc123')

@@ -1,5 +1,6 @@
 <div{% if pagelet %} id="pagelet-{{ pagelet.pk }}"{% endif %} class="pagelet{% if pagelet_slug %} {{ pagelet_slug }}{% endif %}{% if perms.pagelets.change_pagelet and include_links %} editable{% endif %}{% if pagelet.css_classes %} {{ pagelet.css_classes }}{% endif %}">
 	{% if include_links %}
+	{% if perms.pagelets.change_pagelet or perms.pagelets.change_pagelet.delete_pagelet %}
 	<ul class="pagelet-links">
 	{% if perms.pagelets.change_pagelet  %}
 	    <li class="pagelet-edit-link">
@@ -16,6 +17,7 @@
 	    </li>
 	{% endif %}
 	</ul>
+	{% endif %}
 	{% endif %}
     <div class="pagelet-content">
     {% if pagelet %}
