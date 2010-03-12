@@ -11,7 +11,7 @@
     {% if page.meta_robots %}
     <meta name="robots" content="{{ page.meta_robots }}">
     {% endif %}
-    {% if page.meta_description %}
+    {% if page.description %}
     <meta name="description" content="{{ page.description|striptags|truncatewords:35 }}">
     {% endif %}
 {% endblock %}
