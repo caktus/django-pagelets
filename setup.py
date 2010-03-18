@@ -1,11 +1,6 @@
 import os
 from setuptools import setup, find_packages
 
-packages = find_packages()
-packages += [
-    'pagelets.templates',
-    'pagelets.templates.pagelets',
-]
 setup(
     name='django-pagelets',
     version='0.0.1',
