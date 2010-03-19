@@ -45,6 +45,7 @@ Installation
 
         INSTALLED_APPS = (
             ...,
+            'django.contrib.webdesign',
             'pagelets',
         )
 
