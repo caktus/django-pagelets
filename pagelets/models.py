@@ -111,7 +111,7 @@ class Page(PageletBase):
         tags = TagField()
     
     def get_absolute_url(self):
-    	return reverse('view_page', kwargs={'page_slug': self.slug})
+        return reverse('view_page', kwargs={'page_slug': self.slug})
     
     class Meta:
         ordering = ('title',)
@@ -204,7 +204,7 @@ class Pagelet(PageletBase):
         raise Exception("Unsupported template content type '%s'" % content.content_type)
     
     def save(self, **kwargs):
-    	# force empty slugs to None so we don't get a DuplicateKey
+        # force empty slugs to None so we don't get a DuplicateKey
         if self.slug == '':
             self.slug = None
         super(Pagelet, self).save(**kwargs)
@@ -213,10 +213,10 @@ class Pagelet(PageletBase):
         ordering = ('slug',)
     
     def __unicode__(self):
-    	if self.slug:
-    		return self.slug
-    	else:
-    		return self.content[:25]
+        if self.slug:
+            return self.slug
+        else:
+            return self.content[:25]
 
 
 class PageAttachment(models.Model):
