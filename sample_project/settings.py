@@ -1,7 +1,7 @@
 # Django settings for sample_project project.
 import os.path
 PROJECT_PATH = os.path.abspath('%s' % os.path.dirname(__file__))
-
+print PROJECT_PATH
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -60,6 +60,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    #'django.contrib.csrf.middleware.CsrfMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
