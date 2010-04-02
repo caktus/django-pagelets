@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-from django.db import models, transaction
-from django.template import loader, Context
-from django.template import Template as DjangoTemplate
-from django.contrib.sites.models import Site
+from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -203,11 +199,11 @@ class Pagelet(PageletBase):
         
         raise Exception("Unsupported template content type '%s'" % content.content_type)
     
-    def save(self, **kwargs):
+    def save(self, *args, **kwargs):
         # force empty slugs to None so we don't get a DuplicateKey
         if self.slug == '':
             self.slug = None
-        super(Pagelet, self).save(**kwargs)
+        super(Pagelet, self).save(*args, **kwargs)
         
     class Meta:
         ordering = ('slug',)

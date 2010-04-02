@@ -1,15 +1,9 @@
 import re
-import copy
 
 from django import template
-from django.conf import settings
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
-from django.utils.encoding import smart_str
-from django.template import Node, NodeList, Variable, Library, RequestContext,\
-                            Context, TemplateSyntaxError, VariableDoesNotExist
-
-from django.core.urlresolvers import reverse
+from django.template import RequestContext, Context
 
 from pagelets.models import Pagelet, Page
 
