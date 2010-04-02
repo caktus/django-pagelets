@@ -6,7 +6,6 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 
 from django.template import compile_string, TemplateSyntaxError, StringOrigin
-from django.template.context import Context
 
 from datetime import datetime
 
