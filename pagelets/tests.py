@@ -76,7 +76,7 @@ class PageletsTest(TestCase):
             created_by=self.editor, 
             modified_by=self.editor,
         )
-        pagelet = page.pagelets.create(
+        pagelet = page.inline_pagelets.create(
             content='<p>main content</p>',
             css_classes='main',
             created_by=self.editor, 

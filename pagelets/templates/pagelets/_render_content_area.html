@@ -1,0 +1,15 @@
+{% load pagelet_tags %}
+
+{% for pagelet in pagelets %}
+    {% render_pagelet pagelet %}
+{% empty %}
+    {% if perms.pagelets.add_pagelet %}
+    <p>This page currently contains no pagelets.  To add one, click the <a href='{% url create_pagelet %}?page_id={{ page.pk }}&next={{ request.get_full_path }}'>Add Pagelet</a> link below.  This sample content will be automatically removed after a pagelet is added to this page.</p>
+    {% endif %}
+    {% load webdesign %}
+    {% lorem 6 p %}
+{% endfor %}
+
+{% if perms.pagelets.add_pagelet %}
+    <p><a href='{% url create_pagelet %}?page_id={{ page.pk }}&content_area={{ content_area }}&next={{ request.get_full_path }}'>Add pagelet...</a></p>
+{% endif %}

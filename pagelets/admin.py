@@ -9,13 +9,39 @@ except ImportError:
 
 
 class InlinePageletAdmin(admin.StackedInline):
-    model = pagelets.Pagelet
+    model = pagelets.InlinePagelet
     extra = 1
     fk_name = 'page'
+    fieldsets = (
+        (None, {
+            'fields': ('type', 'content')
+        }),
+        ('Style and Placement', {
+            'classes': ('collapse',),
+            'fields': ('css_classes', ('area', 'order')),
+        }),
+    )
+
+
+class SharedPageletAdmin(admin.StackedInline):
+    model = pagelets.SharedPagelet
+    extra = 1
+    fk_name = 'page'
+    fieldsets = (
+        (None, {
+            'fields': ('pagelet', ('area', 'order'))
+        }),
+    )
 
 
 class InlinePageAttachmentAdmin(admin.StackedInline):
     model = pagelets.PageAttachment
+    extra = 1
+    fieldsets = (
+        (None, {
+            'fields': (('name', 'order'), 'file')
+        }),
+    )
 
 
 class PageAdmin(admin.ModelAdmin):
@@ -28,8 +54,8 @@ class PageAdmin(admin.ModelAdmin):
     )
     search_fields = ('title',)
     list_filter = ('modified_by',)
-    inlines = [InlinePageletAdmin, InlinePageAttachmentAdmin]
-    optional_fields = ['description', 'meta_keywords', 'meta_robots']
+    inlines = [InlinePageletAdmin, SharedPageletAdmin, InlinePageAttachmentAdmin]
+    optional_fields = ['description', ('meta_keywords', 'meta_robots')]
     if getattr(settings, 'PAGELET_BASE_TEMPLATES', None):
         optional_fields.insert(0, 'base_template')
     fieldsets = (
@@ -63,7 +89,6 @@ admin.site.register(pagelets.Page, PageAdmin)
 class PageletAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'page',
         'slug',
         'type',
         'modified_by',

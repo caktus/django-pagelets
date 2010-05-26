@@ -39,6 +39,23 @@ def render_pagelet(context, pagelet):
     return context
 
 
+@register.inclusion_tag('pagelets/_render_content_area.html',
+                        takes_context=True)
+def render_content_area(context, page, content_area):
+    """
+    Renders the named content area of the given page in the calling template.
+    """
+    # don't modify the parent context
+    if 'request' in context:
+        context = RequestContext(context['request'])
+    else:
+        context = Context()
+    context['page'] = page
+    context['content_area'] = content_area
+    context['pagelets'] = page.get_area_pagelets(content_area)
+    return context
+
+
 @register.inclusion_tag('pagelets/_pagelink_ifexists.html', takes_context=True)
 def pagelink_ifexists(context, page, link_text):
     """

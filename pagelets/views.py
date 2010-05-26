@@ -10,7 +10,7 @@ from django.template.loader import get_template
 from django.core.urlresolvers import reverse
 from django.db.models import Max
 
-from pagelets.models import Pagelet, Page, PageAttachment
+from pagelets.models import Pagelet, InlinePagelet, Page, PageAttachment
 from pagelets.forms import PageletForm, UploadForm
 
 def view_page(request, page_slug, template='pagelets/view_page.html'):
@@ -18,7 +18,6 @@ def view_page(request, page_slug, template='pagelets/view_page.html'):
     
     context = {
         'page': page,
-        'pagelets': page.pagelets.order_by('order'),
     }
     return render_to_response(
         page.base_template or template,
@@ -49,13 +48,19 @@ def create_pagelet(request, pagelet_slug=None):
             # max(page.pagelets.order) + 1 
             order = page.pagelets.aggregate(Max('order'))['order__max'] or 0
             order += 1
-        pagelet = Pagelet.objects.create(
-            slug=pagelet_slug or '',
-            created_by=request.user,
-            modified_by=request.user,
-            page=page,
-            order=order,
-        )
+            pagelet = InlinePagelet.objects.create(
+                slug=pagelet_slug or '',
+                created_by=request.user,
+                modified_by=request.user,
+                page=page,
+                order=order,
+            )
+        else:
+            pagelet = Pagelet.objects.create(
+                slug=pagelet_slug or '',
+                created_by=request.user,
+                modified_by=request.user,
+            )
     edit_pagelet = reverse('edit_pagelet', kwargs={'pagelet_id': pagelet.id})
     if 'next' in request.GET:
         edit_pagelet += '?next=%s' % request.GET['next']
@@ -119,9 +124,7 @@ def remove_pagelet(
     pagelet = get_object_or_404(Pagelet, pk=pagelet_id)
     
     redirect_to = request.REQUEST.get(redirect_field_name, redirect_to)
-    if not redirect_to and pagelet.page:
-        reverse('view_page', kwargs={'pagelet_slug': pagelet.page.slug})
-    elif not redirect_to:
+    if not redirect_to:
         redirect_to = '/'
     
     if request.method == 'POST':

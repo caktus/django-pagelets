@@ -32,6 +32,9 @@ if hasattr(settings, 'PAGELET_TEMPLATE_TAGS'):
 AUTO_LOAD_TEMPLATE_TAGS = '{%% load %s %%}' % ' '.join(tags)
 
 
+CONTENT_AREAS = getattr(settings, 'PAGELET_CONTENT_AREAS', (('main', 'Main'),))
+
+
 class PageletBase(models.Model):
     creation_date = models.DateTimeField(
         _('creation date'), 
@@ -113,6 +116,12 @@ class Page(PageletBase):
     if TagField:
         tags = TagField()
     
+    def get_area_pagelets(self, area_slug):
+        pagelets = list(self.inline_pagelets.filter(area=area_slug))
+        pagelets.extend(self.shared_pagelets.filter(area=area_slug))
+        pagelets.sort(cmp=lambda a, b: a.order - b.order)
+        return pagelets
+    
     def get_absolute_url(self):
         return reverse('view_page', kwargs={'page_slug': self.slug})
     
@@ -121,8 +130,8 @@ class Page(PageletBase):
     
     def __unicode__(self):
         return self.title
-    
-    
+
+
 class Pagelet(PageletBase):
     """
     Primary model for storing pieces of static content in the database.
@@ -137,19 +146,12 @@ class Pagelet(PageletBase):
         ('textile', 'Textile'),
     )
     
-    page = models.ForeignKey(
-        Page, 
-        related_name='pagelets', 
-        null=True, 
-        blank=True,
-    )
     # whenever you need to reference a pagelet in CSS, use its slug
     slug = models.CharField(
         _('slug'),
         max_length=255,
         null=True, 
         blank=True,
-    #    unique=True,
         help_text='A short string with no spaces or special characters that uniquely identifies this pagelet.  It may be used to link to load this pagelet dynamically from other places on the site, so don\'t change it unless you\'re positive nothing depends on the current name.',
     )
     css_classes = models.CharField(
@@ -157,12 +159,6 @@ class Pagelet(PageletBase):
         max_length=255,
         blank=True,
         help_text='Extra CSS classes, if any, to be added to the pagelet DIV in the HTML.',
-    )
-    order = models.SmallIntegerField(
-        null=True,
-        blank=True,
-        choices=ORDER_CHOICES,
-        help_text='The order in which pagelets should show up on a page.  A lower number equals higher placement.',
     )
     type = models.CharField(
         _('content type'), 
@@ -220,6 +216,40 @@ class Pagelet(PageletBase):
             return self.slug
         else:
             return self.content[:25]
+
+
+class PlacedPageletBase(models.Model):
+    area = models.CharField(
+        _('content area'),
+        max_length=32,
+        choices=CONTENT_AREAS,
+        default=CONTENT_AREAS[0][0],
+        help_text='Specifies the placement of this pagelet on the page.',
+    )
+    order = models.SmallIntegerField(
+        null=True,
+        blank=True,
+        choices=ORDER_CHOICES,
+        help_text='The order in which pagelets should show up on the page.  Lower numbers show up first.',
+    )
+    class Meta:
+        abstract = True
+
+
+class InlinePagelet(Pagelet, PlacedPageletBase):
+    page = models.ForeignKey(Page, related_name='inline_pagelets')
+    
+    class Meta:
+        ordering = ('order',)
+
+
+class SharedPagelet(PlacedPageletBase):
+    pagelet = models.ForeignKey(Pagelet)
+    page = models.ForeignKey(Page, related_name='shared_pagelets')
+
+    class Meta:
+        unique_together = (('pagelet', 'page'),)
+        ordering = ('order',)
 
 
 class PageAttachment(models.Model):
