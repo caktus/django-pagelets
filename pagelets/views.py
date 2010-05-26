@@ -21,7 +21,7 @@ def view_page(request, page_slug, template='pagelets/view_page.html'):
         'pagelets': page.pagelets.order_by('order'),
     }
     return render_to_response(
-        template,
+        page.base_template or template,
         context,
         context_instance=RequestContext(request),
     )

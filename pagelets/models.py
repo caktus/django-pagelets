@@ -85,14 +85,22 @@ class Page(PageletBase):
         blank=True,
         help_text='A description of the page for use in the meta tags and teaser or other short excepts', 
     )
+    base_template = models.CharField(
+        _('base template'),
+        max_length=255,
+        blank=True,
+        help_text='Specify an alternative layout template to use for this page.  Clear the selection to use the default layout.',
+        choices=getattr(settings, 'PAGELET_BASE_TEMPLATES', []),
+        default='pagelets/view_page.html',
+    )
     meta_keywords = models.CharField(
-        "Meta Keywords",
+        _('meta keywords'),
         max_length=200,
         help_text="A comma delineated list of keywords",
         blank=True,
     )
     meta_robots = models.CharField(
-        "Meta Robots",
+        _('meta Robots'),
         max_length=20,
         blank=True,
         choices=[

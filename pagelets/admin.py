@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.conf import settings
 
 from pagelets import models as pagelets
 try:
@@ -28,13 +29,16 @@ class PageAdmin(admin.ModelAdmin):
     search_fields = ('title',)
     list_filter = ('modified_by',)
     inlines = [InlinePageletAdmin, InlinePageAttachmentAdmin]
+    optional_fields = ['description', 'meta_keywords', 'meta_robots']
+    if getattr(settings, 'PAGELET_BASE_TEMPLATES', None):
+        optional_fields.insert(0, 'base_template')
     fieldsets = (
         (None, {
             'fields': ('title', 'slug',)
         }),
-        ('Optional Meta Tags', {
+        ('Optional Information', {
             'classes': ('collapse',),
-            'fields': ('description', 'meta_keywords', 'meta_robots',)
+            'fields': optional_fields,
         }),
     )
     if GenericMenuItemInline:
