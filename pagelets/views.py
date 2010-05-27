@@ -10,7 +10,8 @@ from django.template.loader import get_template
 from django.core.urlresolvers import reverse
 from django.db.models import Max
 
-from pagelets.models import Pagelet, InlinePagelet, Page, PageAttachment
+from pagelets.models import Pagelet, InlinePagelet, Page, PageAttachment,\
+                            CONTENT_AREAS
 from pagelets.forms import PageletForm, UploadForm
 
 def view_page(request, page_slug, template='pagelets/view_page.html'):
@@ -35,6 +36,10 @@ def create_pagelet(request, pagelet_slug=None):
             page = Page.objects.get(pk=page_id)
         except (Page.DoesNotExist, ValueError):
             pass
+    content_area = ''
+    if 'content_area' in request.GET and\
+       request.GET['content_area'] in [slug for slug, name in CONTENT_AREAS]:
+        content_area = request.GET['content_area']
     pagelet = None
     if pagelet_slug:
         try:
@@ -45,14 +50,15 @@ def create_pagelet(request, pagelet_slug=None):
         order = None
         if page:
             # if the page exists, set the order of this pagelet to
-            # max(page.pagelets.order) + 1 
-            order = page.pagelets.aggregate(Max('order'))['order__max'] or 0
+            # max(page.inline_pagelets.order) + 1 
+            order = page.inline_pagelets.aggregate(Max('order'))['order__max'] or 0
             order += 1
             pagelet = InlinePagelet.objects.create(
                 slug=pagelet_slug or '',
                 created_by=request.user,
                 modified_by=request.user,
                 page=page,
+                area=content_area,
                 order=order,
             )
         else:
