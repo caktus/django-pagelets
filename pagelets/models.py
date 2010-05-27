@@ -1,10 +1,10 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils.html import strip_tags
+from django.utils.text import truncate_html_words
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-
 from django.conf import settings
-
 from django.template import compile_string, TemplateSyntaxError, StringOrigin
 
 from datetime import datetime
@@ -75,24 +75,30 @@ class Page(PageletBase):
     title = models.CharField(
         _('title'), 
         max_length=255,
-        help_text='The page title.  To be displayed in the browser\'s title bar as well as at the top of the page.'
+        help_text='The page title.  To be displayed in the browser\'s title '\
+                  'bar as well as at the top of the page.'
     )
     slug = models.CharField(
         _('slug'), 
         unique=True, 
         max_length=255,
-        help_text='A short string with no spaces or special characters that uniquely identifies this page.  It\'s used in the page URL, so don\'t change it unless you\'re positive nothing links to this page.'
+        help_text='A short string with no spaces or special characters that '\
+                  'uniquely identifies this page.  It\'s used in the page '\
+                  'URL, so don\'t change it unless you\'re positive nothing '\
+                  'links to this page.'
     )
     description = models.TextField(
         _('description'),
         blank=True,
-        help_text='A description of the page for use in the meta tags and teaser or other short excepts', 
+        help_text='A description of the page for use in the meta tags and '\
+                  'teaser or other short excepts', 
     )
     base_template = models.CharField(
         _('base template'),
         max_length=255,
         blank=True,
-        help_text='Specify an alternative layout template to use for this page.  Clear the selection to use the default layout.',
+        help_text='Specify an alternative layout template to use for this '\
+                  'page.  Clear the selection to use the default layout.',
         choices=getattr(settings, 'PAGELET_BASE_TEMPLATES', []),
         default='pagelets/view_page.html',
     )
@@ -117,9 +123,14 @@ class Page(PageletBase):
         tags = TagField()
     
     def get_area_pagelets(self, area_slug):
+        """
+        Combines and sorts the inline and shared pagelets for a given content
+        area.  Pagelets without an order are given a high one, so they show up
+        last.
+        """
         pagelets = list(self.inline_pagelets.filter(area=area_slug))
         pagelets.extend(self.shared_pagelets.filter(area=area_slug))
-        pagelets.sort(cmp=lambda a, b: a.order - b.order)
+        pagelets.sort(cmp=lambda a, b: (a.order or 100) - (b.order or 100))
         return pagelets
     
     def get_absolute_url(self):
@@ -152,20 +163,26 @@ class Pagelet(PageletBase):
         max_length=255,
         null=True, 
         blank=True,
-        help_text='A short string with no spaces or special characters that uniquely identifies this pagelet.  It may be used to link to load this pagelet dynamically from other places on the site, so don\'t change it unless you\'re positive nothing depends on the current name.',
+        help_text='A short string with no spaces or special characters that '\
+                  'uniquely identifies this pagelet.  It may be used to link '\
+                  'to load this pagelet dynamically from other places on the '\
+                  'site, so don\'t change it unless you\'re positive nothing '\
+                  'depends on the current name.',
     )
     css_classes = models.CharField(
         _('CSS classes'),
         max_length=255,
         blank=True,
-        help_text='Extra CSS classes, if any, to be added to the pagelet DIV in the HTML.',
+        help_text='Extra CSS classes, if any, to be added to the pagelet DIV '\
+                  'in the HTML.',
     )
     type = models.CharField(
         _('content type'), 
         max_length=32, 
         choices=CONTENT_TYPES, 
         default=settings.PAGELET_CONTENT_DEFAULT,
-        help_text='Controls the markup language and, in some cases, the JavaScript editor to be used for this pagelet\'s content.',
+        help_text='Controls the markup language and, in some cases, the '\
+                  'JavaScript editor to be used for this pagelet\'s content.',
     )
     content = models.TextField(_('content'), blank=True)
 
@@ -215,10 +232,14 @@ class Pagelet(PageletBase):
         if self.slug:
             return self.slug
         else:
-            return self.content[:25]
+            return strip_tags(truncate_html_words(self.content, 5))
 
 
 class PlacedPageletBase(models.Model):
+    """
+    Abstract base model with the common fields for the inline and shared
+    pagelet models.
+    """
     area = models.CharField(
         _('content area'),
         max_length=32,
@@ -230,13 +251,17 @@ class PlacedPageletBase(models.Model):
         null=True,
         blank=True,
         choices=ORDER_CHOICES,
-        help_text='The order in which pagelets should show up on the page.  Lower numbers show up first.',
+        help_text='The order in which pagelets should show up on the page. '\
+                  'Lower numbers show up first.',
     )
     class Meta:
         abstract = True
 
 
 class InlinePagelet(Pagelet, PlacedPageletBase):
+    """
+    A pagelet that shoes up on a single page.
+    """
     page = models.ForeignKey(Page, related_name='inline_pagelets')
     
     class Meta:
@@ -244,8 +269,55 @@ class InlinePagelet(Pagelet, PlacedPageletBase):
 
 
 class SharedPagelet(PlacedPageletBase):
+    """
+    A pagelet that may show up on multiple pages.
+    """
     pagelet = models.ForeignKey(Pagelet)
     page = models.ForeignKey(Page, related_name='shared_pagelets')
+
+    def __init__(self, *args, **kwargs):
+        super(SharedPagelet, self).__init__(*args, **kwargs)
+        self.__pagelet_dirty = False
+
+    def _get_slug(self):
+        return self.pagelet.slug
+    def _set_slug(self, slug):
+        self.__pagelet_dirty = True
+        self.pagelet.slug = slug
+    slug = property(_get_slug, _set_slug)
+
+    def _get_css_classes(self):
+        return self.pagelet.css_classes
+    def _set_css_classes(self, css_classes):
+        self.__pagelet_dirty = True
+        self.pagelet.css_classes = css_classes
+    css_classes = property(_get_css_classes, _set_css_classes)
+
+    def _get_type(self):
+        return self.pagelet.type
+    def _set_type(self, type):
+        self.__pagelet_dirty = True
+        self.pagelet.type = type
+    type = property(_get_type, _set_type)
+
+    def _get_content(self):
+        return self.pagelet.content
+    def _set_content(self, content):
+        self.__pagelet_dirty = True
+        self.pagelet.content = content
+    content = property(_get_content, _set_content)
+
+    def render(self, *args, **kwargs):
+        return self.pagelet.render(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        if self.__pagelet_dirty:
+            self.pagelet.save()
+            self.__pagelet_dirty = False
+        return super(SharedPagelet, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        return unicode(self.pagelet)
 
     class Meta:
         unique_together = (('pagelet', 'page'),)
