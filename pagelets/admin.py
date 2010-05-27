@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.conf import settings
+from django.utils.html import strip_tags
+from django.utils.text import truncate_html_words
 
 from pagelets import models as pagelets
 try:
@@ -54,7 +56,9 @@ class PageAdmin(admin.ModelAdmin):
     )
     search_fields = ('title',)
     list_filter = ('modified_by',)
-    inlines = [InlinePageletAdmin, SharedPageletAdmin, InlinePageAttachmentAdmin]
+    prepopulated_fields = {'slug': ('title',)}
+    inlines = [InlinePageletAdmin, SharedPageletAdmin,
+               InlinePageAttachmentAdmin]
     optional_fields = ['description', ('meta_keywords', 'meta_robots')]
     if getattr(settings, 'PAGELET_BASE_TEMPLATES', None):
         optional_fields.insert(0, 'base_template')
@@ -101,7 +105,7 @@ class PageletAdmin(admin.ModelAdmin):
     list_filter = ('type', 'modified_by', 'last_changed', 'creation_date')
     
     def content_preview(self, obj):
-        return obj.content[:25]
+        return strip_tags(truncate_html_words(obj.content, 5))
     content_preview.short_description = 'content preview'
 
     def save_model(self, request, obj, form, change):
