@@ -9,9 +9,9 @@ from django.template import compile_string, TemplateSyntaxError, StringOrigin
 
 from datetime import datetime
 
-try:
+if 'tagging' in settings.INSTALLED_APPS:
     from tagging.fields import TagField
-except ImportError:
+else:
     TagField = None
 
 ORDER_CHOICES = [(x, x) for x in range(-10, 11)]

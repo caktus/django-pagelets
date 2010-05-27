@@ -4,9 +4,9 @@ from django.utils.html import strip_tags
 from django.utils.text import truncate_html_words
 
 from pagelets import models as pagelets
-try:
+if 'treenav' in settings.INSTALLED_APPS:
     from treenav.admin import GenericMenuItemInline
-except ImportError:
+else:
     GenericMenuItemInline = None
 
 
