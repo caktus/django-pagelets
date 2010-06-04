@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 from django.template import RequestContext, Context
 
-from pagelets.models import Pagelet, Page
+from pagelets.models import Pagelet, Page, DEFAULT_CONTENT_AREA
 
 register = template.Library()
 
@@ -147,8 +147,10 @@ def page_teaser(context, page, num_words):
         if page.description:
             content = page.description
         else:
-            #If link doesn't exist in an SQL database this cannot be used
-            for pagelet in page.pagelets.extra(select={'length':'length(content)'}).order_by('-length'):
+            pagelets = page.get_area_pagelets(DEFAULT_CONTENT_AREA,
+                                              with_shared=False)
+            pagelets.sort(lambda a, b: len(b.content) - len(a.content))
+            for pagelet in pagelets:
                 search = re.findall('<p>(.*?)</p>', pagelet.render(context))
                 if len(search) != 0:
                     content += ' '.join(search)

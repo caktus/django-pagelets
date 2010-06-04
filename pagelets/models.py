@@ -33,6 +33,7 @@ AUTO_LOAD_TEMPLATE_TAGS = '{%% load %s %%}' % ' '.join(tags)
 
 
 CONTENT_AREAS = getattr(settings, 'PAGELET_CONTENT_AREAS', (('main', 'Main'),))
+DEFAULT_CONTENT_AREA = CONTENT_AREAS[0][0]
 
 
 class PageletBase(models.Model):
@@ -122,14 +123,15 @@ class Page(PageletBase):
     if TagField:
         tags = TagField()
     
-    def get_area_pagelets(self, area_slug):
+    def get_area_pagelets(self, area_slug, with_shared=True):
         """
         Combines and sorts the inline and shared pagelets for a given content
         area.  Pagelets without an order are given 0, so they show up
         in the middle.
         """
         pagelets = list(self.inline_pagelets.filter(area=area_slug))
-        pagelets.extend(self.shared_pagelets.filter(area=area_slug))
+        if with_shared:
+            pagelets.extend(self.shared_pagelets.filter(area=area_slug))
         pagelets.sort(cmp=lambda a, b: (a.order or 0) - (b.order or 0))
         return pagelets
     
@@ -248,7 +250,7 @@ class PlacedPageletBase(models.Model):
         _('content area'),
         max_length=32,
         choices=CONTENT_AREAS,
-        default=CONTENT_AREAS[0][0],
+        default=DEFAULT_CONTENT_AREA,
         help_text='Specifies the placement of this pagelet on the page.',
     )
     order = models.SmallIntegerField(
