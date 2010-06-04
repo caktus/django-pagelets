@@ -186,6 +186,10 @@ class Pagelet(PageletBase):
     )
     content = models.TextField(_('content'), blank=True)
 
+    # a property that consistently gives you access to the real "Pagelet"
+    # instance for Pagelets, InlinePagelets, and SharedPagelets
+    real = property(lambda self: self)
+    
     def render(self, context):
         # pagelets can automagically use pagelets templatetags 
         # in order to remove boilerplate
@@ -264,6 +268,10 @@ class InlinePagelet(Pagelet, PlacedPageletBase):
     """
     page = models.ForeignKey(Page, related_name='inline_pagelets')
     
+    # a property that consistently gives you access to the real "Pagelet"
+    # instance for Pagelets, InlinePagelets, and SharedPagelets
+    real = property(lambda self: self)
+    
     class Meta:
         ordering = ('order',)
 
@@ -307,6 +315,10 @@ class SharedPagelet(PlacedPageletBase):
         self.pagelet.content = content
     content = property(_get_content, _set_content)
 
+    # a property that consistently gives you access to the real "Pagelet"
+    # instance for Pagelets, InlinePagelets, and SharedPagelets
+    real = property(lambda self: self.pagelet)
+    
     def render(self, *args, **kwargs):
         return self.pagelet.render(*args, **kwargs)
 

@@ -5,7 +5,7 @@
 {% block title %}Remove Pagelet{% endblock %}
 
 {% block content %}
-<h3>Remove {% if pagelet.slug %}{{ pagelet.slug }}{% else %}pagelet #{{ pagelet.pk }}{% endif %}</h3>
+<h3>Remove {% if pagelet.slug %}{{ pagelet.slug }}{% else %}pagelet #{{ pagelet.real.pk }}{% endif %}</h3>
 
 <p>Are you sure you want to remove this pagelet, the contents of which appear below?</p>
 

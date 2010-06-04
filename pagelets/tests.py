@@ -52,7 +52,7 @@ class PageletsTest(TestCase):
             created_by=self.editor, 
             modified_by=self.editor,
         )
-        url = reverse('edit_pagelet', kwargs={'pagelet_id': pagelet.pk})
+        url = reverse('edit_pagelet', kwargs={'pagelet_id': pagelet.real.pk})
         response = self.c.get(url)
         self.assertEqual(response.status_code, 200)
         data = {

@@ -15,7 +15,7 @@
 
 
 {% if pagelet_preview %}
-    <h3>Preview {% if pagelet_preview.slug %}{{ pagelet_preview.slug }}{% else %}pagelet #{{ pagelet_preview.pk }}{% endif %}</h3>
+    <h3>Preview {% if pagelet_preview.slug %}{{ pagelet_preview.slug }}{% else %}pagelet #{{ pagelet_preview.real.pk }}{% endif %}</h3>
 	<p><strong>This is a preview; the pagelet has not been saved.</strong>  You must click save below to save your changes.</p>
 	<div class='pagelet-preview'>
 		{% render_pagelet pagelet_preview %}
@@ -28,7 +28,7 @@
     </form>
 {% endif %}
 
-<h3>Edit {% if pagelet.slug %}{{ pagelet.slug }}{% else %}pagelet #{{ pagelet.pk }}{% endif %}</h3>
+<h3>Edit {% if pagelet.slug %}{{ pagelet.slug }}{% else %}pagelet #{{ pagelet.real.pk }}{% endif %}</h3>
 
 <form id='pagelet-form' class='modify-pagelet' accept-charset='UTF-8' method='post' action=''>
 	<ul>
