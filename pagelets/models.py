@@ -125,12 +125,12 @@ class Page(PageletBase):
     def get_area_pagelets(self, area_slug):
         """
         Combines and sorts the inline and shared pagelets for a given content
-        area.  Pagelets without an order are given a high one, so they show up
-        last.
+        area.  Pagelets without an order are given 0, so they show up
+        in the middle.
         """
         pagelets = list(self.inline_pagelets.filter(area=area_slug))
         pagelets.extend(self.shared_pagelets.filter(area=area_slug))
-        pagelets.sort(cmp=lambda a, b: (a.order or 100) - (b.order or 100))
+        pagelets.sort(cmp=lambda a, b: (a.order or 0) - (b.order or 0))
         return pagelets
     
     def get_absolute_url(self):

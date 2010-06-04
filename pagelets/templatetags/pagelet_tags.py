@@ -15,8 +15,9 @@ def render_pagelet(context, pagelet):
     Renders the named pagelet in the calling template.
     """
     # don't modify the parent context
+    parent_context = context
     if 'request' in context:
-        context = RequestContext(context['request'])
+        context = RequestContext(parent_context['request'])
     else:
         context = Context()
     if isinstance(pagelet, basestring):
@@ -27,13 +28,12 @@ def render_pagelet(context, pagelet):
             pagelet = Pagelet.objects.get(slug=pagelet)
         except Pagelet.DoesNotExist:
             pagelet = None
-    
     if pagelet:
         # add the slug separately because we need it in the template even
         # if this pagelet doesn't exist
         context['pagelet_slug'] = pagelet.slug
+        context['page'] = parent_context.get('page', None)
         pagelet.rendered_content = pagelet.render(context)
-        
     context['pagelet'] = pagelet
     context['include_links'] = True
     return context
