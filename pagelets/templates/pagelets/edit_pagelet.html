@@ -21,6 +21,7 @@
 		{% render_pagelet pagelet_preview %}
 	</div>
     <form id='pagelet-preview-form' class='modify-pagelet' accept-charset='UTF-8' method='post' action=''>
+    {% csrf_token %}
     {{ preview_form }}
     <div class='pagelet-submit'>
         <input type='submit' name='save_btn' value='Save &rarr;' />
@@ -32,6 +33,7 @@
 
 <form id='pagelet-form' class='modify-pagelet' accept-charset='UTF-8' method='post' action=''>
 	<ul>
+        {% csrf_token %}
         {{ form.as_ul }}
 	</ul>
     <div class='pagelet-submit'>
