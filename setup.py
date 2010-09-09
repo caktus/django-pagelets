@@ -16,7 +16,7 @@ setup(
         '': ['*.sql', '*.pyc'],
         'pagelets': ['media/*'],
     },
-    url='http://code.google.com/p/django-pagelets/',
+    url='http://http://github.com/caktus/django-pagelets',
     license='LICENSE.txt',
     description='Simple, flexible app for integrating static, unstructured '
                 'content in a Django site',
