@@ -20,5 +20,5 @@ setup(
     license='LICENSE.txt',
     description='Simple, flexible app for integrating static, unstructured '
                 'content in a Django site',
-    long_description=open('README.txt').read(),
+    long_description=open('README.rst').read(),
 )
