@@ -1,7 +1,7 @@
 # Django settings for sample_project project.
 import os.path
 PROJECT_PATH = os.path.abspath('%s' % os.path.dirname(__file__))
-print PROJECT_PATH
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -81,5 +81,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.webdesign',
+    'django.contrib.admin',
     'pagelets',
 )
