@@ -2,15 +2,23 @@ from django import forms
 
 from pagelets.models import Pagelet, PageAttachment
 
+
 class PageletForm(forms.ModelForm):
+
     class Meta:
         model = Pagelet
-        fields = ('type', 'content',)
-    
+        fields = ('type', 'content')
+
+    class Media:
+        css = {
+            'all': ('pagelets/css/pagelets.css',)
+        }
+        js = ('pagelets/wymeditor/jquery.wymeditor.js',
+              'pagelets/js/pagelets.js')
+
     def __init__(self, *args, **kwargs):
         self.preview = kwargs.pop('preview', False)
         super(PageletForm, self).__init__(*args, **kwargs)
-        
         if self.preview:
             for field in self.fields.itervalues():
                 field.widget = forms.HiddenInput()
@@ -18,27 +26,25 @@ class PageletForm(forms.ModelForm):
             self.fields['content'].widget = forms.Textarea(
                 attrs={'rows': 30, 'cols': 90}
             )
-    
+
     def save(self, commit=True, user=None):
         instance = super(PageletForm, self).save(commit=False)
-        
         if user:
             instance.created_by = user
             instance.modified_by = user
         else:
             raise ValueError('A user is required when saving a Pagelet')
-        
         if commit:
             instance.save()
-        
         return instance
 
 
 class UploadForm(forms.ModelForm):
+
     class Meta:
         model = PageAttachment
-        fields = ('name', 'file', 'order',)
-    
+        fields = ('name', 'file', 'order')
+
     def save(self, page, commit=True):
         instance = super(UploadForm, self).save(commit=False)
         instance.page = page

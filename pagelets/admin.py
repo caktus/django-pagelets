@@ -107,6 +107,13 @@ class PageletAdmin(admin.ModelAdmin):
     search_fields = ('slug', 'content',)
     list_filter = ('type', 'modified_by', 'last_changed', 'creation_date')
     
+    class Media:
+        css = {
+            'all': ('pagelets/css/wymeditor.admin.css',)
+        }
+        js = ('pagelets/wymeditor/jquery.wymeditor.js',
+              'pagelets/js/pagelets.js')
+    
     def content_preview(self, obj):
         return strip_tags(truncate_html_words(obj.content, 5))
     content_preview.short_description = 'content preview'

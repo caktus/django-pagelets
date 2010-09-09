@@ -1,0 +1,21 @@
+.wym_skin_default {
+    float: left;
+    width: 800px;
+}
+
+form .aligned .wym_skin_default ul {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.wym_skin_default .wym_dropdown ul {
+    font-size: 100%;
+}
+
+body.change-form .wym_skin_default li {
+    font-size: 8pt;
+}
+
+body.change-form .wym_skin_default h2 {
+    font-size: 9pt;
+}
