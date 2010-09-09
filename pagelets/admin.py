@@ -77,6 +77,13 @@ class PageAdmin(admin.ModelAdmin):
     if GenericMenuItemInline:
         inlines.insert(0, GenericMenuItemInline)
     
+    class Media:
+        css = {
+            'all': ('pagelets/css/wymeditor.admin.css',)
+        }
+        js = ('pagelets/wymeditor/jquery.wymeditor.js',
+              'pagelets/js/pagelets.js')
+    
     def save_model(self, request, obj, form, change):
         if not obj.id:
             obj.created_by = request.user
