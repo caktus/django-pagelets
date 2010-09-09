@@ -1,8 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-packages = find_packages()
-packages.remove('sample_project')
+packages = find_packages(exclude=['sample_project'])
 
 classifiers = """
 Topic :: Internet :: WWW/HTTP :: Dynamic Content
@@ -11,6 +10,7 @@ License :: OSI Approved :: BSD License
 Programming Language :: Python
 Topic :: Software Development :: Libraries :: Python Modules
 Development Status :: 4 - Beta
+Operating System :: OS Independent
 """
 
 setup(
