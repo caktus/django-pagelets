@@ -25,63 +25,42 @@ Optional
  - `WYMeditor
    <http://www.wymeditor.org/>`_ (included in pagelets media)
 
-Installation
-============
-1) Download the app through SVN and add it to your Python path:
+Installation and Setup
+======================
 
-    ::
+1) django-pagelets is available on `PyPI <http://pypi.python.org/pypi/django-pagelets>`_, so the easiest way to install it is to use `pip <http://pip.openplans.org/>`_::
 
-        svn co http://django-pagelets.googlecode.com/svn/trunk/ pagelets
+    pip install django-pagelets
 
-2) Install to dist-packages
-
-    ::
-
-        (sudo) python setup.py install
-
-3) Add to your INSTALLED_APPS and run syncdb
-
-    ::
+2) Add `pagelets` to INSTALLED_APPS in settings.py and run syncdb::
 
         INSTALLED_APPS = (
             ...,
-            'django.contrib.webdesign',
             'pagelets',
+            ...
         )
 
-4) Copy the CSS and, if you need it, the WYMeditor CSS and JavaScript into your static media directory:
+3) Add the pagelets URLs to urls.py, e.g.::
 
-    ::
+    urlpatterns += patterns('',
+        (r'^pagelets/', include('pagelets.urls.content')),
+        (r'^pagelets-management/', include('pagelets.urls.management')),
+    )
 
-        rsync -av --exclude=.svn pagelets/media/ /path/to/project/media
+4) In development, you can serve pagelet's static media in urls.py::
 
+    import pagelets
+    path = os.path.join(os.path.dirname(pagelets.__file__), 'media')
 
-  If you don't have `rsync`, you can accomplish the same thing by manually copying all the directories within the `pagelets/media` directory into your project's static media directory and removing the `.svn` folders in the target (assuming you got the pagelets app from Subversion).
+    urlpatterns += patterns('',
+        (
+            r'^%spagelets/(?P<path>.*)' % settings.MEDIA_URL.lstrip('/'),
+            'django.views.static.serve',
+            {'document_root': path, 'show_indexes': True}
+        ),
+    )
 
-Setup
-=====
-1) Add the pagelets tables to your database:
-
-    ::
-
-        ./manage.py syncdb
-
-2) Add the pagelets CSS and, if desired, the WYMeditor CSS/JavaScript to your base.html template:
-
-    ::
-
-        <link rel="stylesheet" href="{{ MEDIA_URL }}css/pagelets.css" />
-        <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery-1.3.2.min.js"></script>
-        <script type="text/javascript" src="{{ MEDIA_URL }}wymeditor/jquery.wymeditor.min.js"></script>
-        <script type="text/javascript" src="{{ MEDIA_URL }}wymeditor/pagelets.js"></script>
-
-3) Add the pagelets URLs to your `urls.py` file, e.g.:
-
-    ::
-
-        (r'^pages/', include('pagelets.urls')),
-
-4) Visit the admin site, add and save a new page, and click the View on site link.  If everything is setup correctly, you should be able to see and edit the content you just added.
+5) Visit the admin site, add and save a new page, and click the View on site link.  If everything is setup correctly, you should be able to see and edit the content you just added.
 
 Development sponsored by `Caktus Consulting Group, LLC.
 <http://www.caktusgroup.com/services>`_.
