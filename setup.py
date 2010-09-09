@@ -1,7 +1,6 @@
 import os
 from setuptools import setup, find_packages
-
-packages = find_packages(exclude=['sample_project'])
+from pagelets import __version__
 
 classifiers = """
 Topic :: Internet :: WWW/HTTP :: Dynamic Content
@@ -15,10 +14,10 @@ Operating System :: OS Independent
 
 setup(
     name='django-pagelets',
-    version='0.5',
+    version=__version__,
     author='Caktus Consulting Group',
     author_email='solutions@caktusgroup.com',
-    packages=packages,
+    packages=find_packages(exclude=['sample_project']),
     install_requires = [],
     include_package_data = True,
     exclude_package_data={
