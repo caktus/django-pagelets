@@ -54,14 +54,25 @@ Installation and Setup
             ...
         )
 
-3) Add the pagelets URLs to urls.py, e.g.::
+3) Add `django.core.context_processors.request` to TEMPLATE_CONTEXT_PROCESSORS::
+
+    TEMPLATE_CONTEXT_PROCESSORS = (
+        "django.contrib.auth.context_processors.auth",
+        "django.core.context_processors.debug",
+        "django.core.context_processors.i18n",
+        "django.core.context_processors.media",
+        "django.contrib.messages.context_processors.messages",
+        "django.core.context_processors.request", # <----
+    )
+
+4) Add the pagelets URLs to urls.py, e.g.::
 
     urlpatterns += patterns('',
         (r'^pagelets/', include('pagelets.urls.content')),
         (r'^pagelets-management/', include('pagelets.urls.management')),
     )
 
-4) In development, you can serve pagelet's static media in urls.py::
+5) In development, you can serve pagelet's static media in urls.py::
 
     import pagelets
     path = os.path.join(os.path.dirname(pagelets.__file__), 'media')
@@ -74,7 +85,7 @@ Installation and Setup
         ),
     )
 
-5) Visit the admin site, add and save a new page, and click the View on site link.  If everything is setup correctly, you should be able to see and edit the content you just added.
+6) Visit the admin site, add and save a new page, and click the View on site link.  If everything is setup correctly, you should be able to see and edit the content you just added.
 
 Development sponsored by `Caktus Consulting Group, LLC.
 <http://www.caktusgroup.com/services>`_.
