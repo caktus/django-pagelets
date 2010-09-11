@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 
 from pagelets import views
+from pagelets.validators import PAGE_SLUG_RE
 
 
 urlpatterns = patterns('',
@@ -20,12 +21,12 @@ urlpatterns = patterns('',
         name='remove_pagelet',
     ),
     url(
-        r'^page/(?P<page_slug>[\w-]+)/attachment/upload/$',
+        r'^page/(?P<page_slug>{0})/attachment/upload/$'.format(PAGE_SLUG_RE),
         views.add_attachment,
         name='add_attachment',
     ),
     url(
-        r'^page/(?P<page_slug>[\w-]+)/attachment/(?P<attachment_id>\d+)/remove/$',
+        r'^page/(?P<page_slug>{0})/attachment/(?P<attachment_id>\d+)/remove/$'.format(PAGE_SLUG_RE),
         views.remove_attachment,
         name='remove_attachment',
     ),

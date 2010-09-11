@@ -9,6 +9,8 @@ from django.template import compile_string, TemplateSyntaxError, StringOrigin
 
 from datetime import datetime
 
+from pagelets import validators
+
 if 'tagging' in settings.INSTALLED_APPS:
     from tagging.fields import TagField
 else:
@@ -20,7 +22,6 @@ try:
     settings.PAGELET_CONTENT_DEFAULT
 except AttributeError:
     settings.PAGELET_CONTENT_DEFAULT = 'html'    
-
 
 # settings.PAGELET_TEMPLATE_TAGS is a list of template tag names that
 # will load before each pagelet is rendered, allowing custom template
@@ -83,10 +84,18 @@ class Page(PageletBase):
         _('slug'), 
         unique=True, 
         max_length=255,
-        help_text='A short string with no spaces or special characters that '\
-                  'uniquely identifies this page.  It\'s used in the page '\
+        help_text='A short string that uniquely identifies this page. '\
+                  'It\'s used in the page '\
                   'URL, so don\'t change it unless you\'re positive nothing '\
-                  'links to this page.'
+                  'links to this page. Valid url chars include '\
+                  'uppercase and lowercase letters, decimal digits, '\
+                  'hyphen, period, underscore, and tilde. '\
+                  'Do not include leading or trailing slashes.', 
+        validators=[
+            validators.validate_url_chars,
+            validators.validate_leading_slash,
+            validators.validate_trailing_slash
+        ]
     )
     description = models.TextField(
         _('description'),
