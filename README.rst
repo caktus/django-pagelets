@@ -87,5 +87,62 @@ Installation and Setup
 
 6) Visit the admin site, add and save a new page, and click the View on site link.  If everything is setup correctly, you should be able to see and edit the content you just added.
 
+Extending and Customizing Pagelets
+==================================
+
+Auto template tag loading
+-------------------------
+
+To automatically load a custom template tag on every pagelet, add a
+``PAGELET_TEMPLATE_TAGS`` list to settings.py::
+
+    PAGELET_TEMPLATE_TAGS  = (
+        'myapp_tags',
+        'myotherapp_tags',
+    )
+
+Custom base templates and content areas
+---------------------------------------
+
+By default, django-pagelets uses a simplified setup for rendering pages in a
+uniform way. However, pages can be modified to extend from different base
+templates for greater customization. Pagelets can also specify custom content
+areas to allow for special grouping and positioning within pages.
+
+Base templates and content areas can be customized via 2 settings:
+PAGELET_BASE_TEMPLATES and PAGELET_CONTENT_AREAS. For example, if you'd like
+to add an alternative 2-column layout, you could define the settings like so::
+
+    PAGELET_BASE_TEMPLATES = (
+        ('pagelets/two_column_page.html', 'Two Column'),
+    )
+
+    PAGELET_CONTENT_AREAS = (
+        ('main', 'Main'),
+        ('sidebar', 'Sidebar'),
+    )
+
+The page admin will now include an additional form field to select a base
+template and pagelets will allow the specification of content areas. The `Two
+Column` template could look something like this::
+
+    {% extends "base.html" %}
+
+    {% load pagelet_tags %}
+
+    {% block title %}{{ page.title }}{% endblock %}
+
+    {% block content %}
+        <div id="main-panel">
+                {% render_content_area page 'main' %}
+        </div>
+        <div id="sidebar-panel">
+                {% render_content_area page 'sidebar' %}
+        </div>
+    {% endblock %}
+
+Note the ``render_content_area`` template tags with ``main`` and ``sidebar``
+specified.
+
 Development sponsored by `Caktus Consulting Group, LLC.
 <http://www.caktusgroup.com/services>`_.
