@@ -68,8 +68,8 @@ Installation and Setup
 4) Add the pagelets URLs to urls.py, e.g.::
 
     urlpatterns += patterns('',
-        (r'^pagelets/', include('pagelets.urls.content')),
         (r'^pagelets-management/', include('pagelets.urls.management')),
+        (r'^', include('pagelets.urls.content')),
     )
 
 5) In development, you can serve pagelet's static media in urls.py::
