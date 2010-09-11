@@ -87,5 +87,18 @@ Installation and Setup
 
 6) Visit the admin site, add and save a new page, and click the View on site link.  If everything is setup correctly, you should be able to see and edit the content you just added.
 
+Extending and Customizing Pagelets
+==================================
+
+Auto template tag loading
+-------------------------
+
+To load a custom template tag on every pagelet, add the ``PAGELET_TEMPLATE_TAGS`` list to settings.py::
+
+    PAGELET_TEMPLATE_TAGS  = (
+        'myapp_tags',
+        'myotherapp_tags',
+    )
+
 Development sponsored by `Caktus Consulting Group, LLC.
 <http://www.caktusgroup.com/services>`_.
