@@ -96,7 +96,7 @@ Auto template tag loading
 To automatically load a custom template tag on every pagelet, add a
 ``PAGELET_TEMPLATE_TAGS`` list to settings.py::
 
-    PAGELET_TEMPLATE_TAGS  = (
+    PAGELET_TEMPLATE_TAGS = (
         'myapp_tags',
         'myotherapp_tags',
     )
@@ -134,10 +134,10 @@ Column` template could look something like this::
 
     {% block content %}
         <div id="main-panel">
-                {% render_content_area page 'main' %}
+            {% render_content_area page 'main' %}
         </div>
         <div id="sidebar-panel">
-                {% render_content_area page 'sidebar' %}
+            {% render_content_area page 'sidebar' %}
         </div>
     {% endblock %}
 
