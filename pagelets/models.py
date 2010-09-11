@@ -77,20 +77,20 @@ class Page(PageletBase):
     title = models.CharField(
         _('title'), 
         max_length=255,
-        help_text='The page title.  To be displayed in the browser\'s title '\
-                  'bar as well as at the top of the page.'
+        help_text=_('The page title.  To be displayed in the browser\'s title '
+                  'bar as well as at the top of the page.')
     )
     slug = models.CharField(
         _('slug'), 
         unique=True, 
         max_length=255,
-        help_text='A short string that uniquely identifies this page. '\
-                  'It\'s used in the page '\
-                  'URL, so don\'t change it unless you\'re positive nothing '\
-                  'links to this page. Valid url chars include '\
-                  'uppercase and lowercase letters, decimal digits, '\
-                  'hyphen, period, underscore, and tilde. '\
-                  'Do not include leading or trailing slashes.', 
+        help_text=_('A short string that uniquely identifies this page. '
+                  'It\'s used in the page '
+                  'URL, so don\'t change it unless you\'re positive nothing '
+                  'links to this page. Valid url chars include '
+                  'uppercase and lowercase letters, decimal digits, '
+                  'hyphen, period, underscore, and tilde. '
+                  'Do not include leading or trailing slashes.'), 
         validators=[
             validators.validate_url_chars,
             validators.validate_leading_slash,
@@ -100,22 +100,22 @@ class Page(PageletBase):
     description = models.TextField(
         _('description'),
         blank=True,
-        help_text='A description of the page for use in the meta tags and '\
-                  'teaser or other short excepts', 
+        help_text=_('A description of the page for use in the meta tags and '
+                  'teaser or other short excepts'), 
     )
     base_template = models.CharField(
         _('base template'),
         max_length=255,
         blank=True,
-        help_text='Specify an alternative layout template to use for this '\
-                  'page.  Clear the selection to use the default layout.',
+        help_text=_('Specify an alternative layout template to use for this '
+                  'page.  Clear the selection to use the default layout.'),
         choices=getattr(settings, 'PAGELET_BASE_TEMPLATES', []),
         default='pagelets/view_page.html',
     )
     meta_keywords = models.CharField(
         _('meta keywords'),
         max_length=200,
-        help_text="A comma delineated list of keywords",
+        help_text=_("A comma delineated list of keywords"),
         blank=True,
     )
     meta_robots = models.CharField(
@@ -174,26 +174,26 @@ class Pagelet(PageletBase):
         max_length=255,
         null=True, 
         blank=True,
-        help_text='A short string with no spaces or special characters that '\
-                  'uniquely identifies this pagelet.  It may be used to link '\
-                  'to load this pagelet dynamically from other places on the '\
-                  'site, so don\'t change it unless you\'re positive nothing '\
-                  'depends on the current name.',
+        help_text=_('A short string with no spaces or special characters that '
+                  'uniquely identifies this pagelet.  It may be used to link '
+                  'to load this pagelet dynamically from other places on the '
+                  'site, so don\'t change it unless you\'re positive nothing '
+                  'depends on the current name.'),
     )
     css_classes = models.CharField(
         _('CSS classes'),
         max_length=255,
         blank=True,
-        help_text='Extra CSS classes, if any, to be added to the pagelet DIV '\
-                  'in the HTML.',
+        help_text=_('Extra CSS classes, if any, to be added to the pagelet DIV '
+                  'in the HTML.'),
     )
     type = models.CharField(
         _('content type'), 
         max_length=32, 
         choices=CONTENT_TYPES, 
         default=settings.PAGELET_CONTENT_DEFAULT,
-        help_text='Controls the markup language and, in some cases, the '\
-                  'JavaScript editor to be used for this pagelet\'s content.',
+        help_text=_('Controls the markup language and, in some cases, the '
+                  'JavaScript editor to be used for this pagelet\'s content.'),
     )
     content = models.TextField(_('content'), blank=True)
 
@@ -260,14 +260,14 @@ class PlacedPageletBase(models.Model):
         max_length=32,
         choices=CONTENT_AREAS,
         default=DEFAULT_CONTENT_AREA,
-        help_text='Specifies the placement of this pagelet on the page.',
+        help_text=_('Specifies the placement of this pagelet on the page.'),
     )
     order = models.SmallIntegerField(
         null=True,
         blank=True,
         choices=ORDER_CHOICES,
-        help_text='The order in which pagelets should show up on the page. '\
-                  'Lower numbers show up first.',
+        help_text=_('The order in which pagelets should show up on the page. '
+                  'Lower numbers show up first.'),
     )
     class Meta:
         abstract = True
