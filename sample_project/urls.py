@@ -36,6 +36,6 @@ urlpatterns += patterns('',
 )
 
 urlpatterns += patterns('',
-    (r'^pagelets/', include('pagelets.urls.content')),
     (r'^pagelets-management/', include('pagelets.urls.management')),
+    (r'^', include('pagelets.urls.content')),
 )

@@ -1,6 +1,7 @@
 import re
 
 from django import template
+from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 from django.template import RequestContext, Context
@@ -120,6 +121,7 @@ def page_content_teaser(context, page, num_words):
     context['num_words'] = num_words
     return context
 
+
 @register.inclusion_tag('pagelets/_page_teaser_new.html', takes_context=True)    
 def page_teaser(context, page, num_words):
     """
@@ -160,4 +162,39 @@ def page_teaser(context, page, num_words):
     context['page'] = page
     context['content'] = content
     context['num_words'] = num_words
+    return context
+
+
+@register.inclusion_tag('pagelets/_create_page.html', takes_context=True)
+def create_page(context, link_text):
+    """
+    Renders a link to the admin to create a page based on the
+    current request path. Meant to be used on a 404 page.
+    """
+    # don't modify the parent context
+    if 'request' in context:
+        request = context['request']
+        context = RequestContext(request)
+    else:
+        return {'exists': True}
+    
+    has_perm = request.user.has_perm('pagelets.add_page')
+    
+
+    if has_perm:
+        path = request.path.strip('/')
+        try:
+            exists = Page.objects.filter(slug=path).exists()
+        except Page.DoesNotExist:
+            exists = False
+    else:
+        path = ''
+        exists = True
+
+    admin_url = reverse('admin:%s_%s_add' % (Page._meta.app_label, Page._meta.module_name))
+        
+    context['exists'] = exists
+    context['admin_url'] = u'{0}?slug={1}'.format(admin_url, path)
+    context['link_text'] = link_text
+    context['has_perm'] = has_perm
     return context
