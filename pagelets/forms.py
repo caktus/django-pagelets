@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
 from pagelets.models import Pagelet, PageAttachment
 
@@ -33,7 +34,7 @@ class PageletForm(forms.ModelForm):
             instance.created_by = user
             instance.modified_by = user
         else:
-            raise ValueError('A user is required when saving a Pagelet')
+            raise ValueError(_(u'A user is required when saving a Pagelet'))
         if commit:
             instance.save()
         return instance
