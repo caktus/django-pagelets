@@ -18,16 +18,11 @@ setup(
     author='Caktus Consulting Group',
     author_email='solutions@caktusgroup.com',
     packages=find_packages(exclude=['sample_project']),
-    install_requires = [],
-    include_package_data = True,
-    exclude_package_data={
-        '': ['*.sql', '*.pyc'],
-        'pagelets': ['media/*'],
-    },
+    include_package_data=True,
     url='http://http://github.com/caktus/django-pagelets',
     license='LICENSE.txt',
     description='Simple, flexible app for integrating static, unstructured '
                 'content in a Django site',
-    classifiers = filter(None, classifiers.split("\n")),
+    classifiers=filter(None, classifiers.split("\n")),
     long_description=open('README.rst').read(),
 )

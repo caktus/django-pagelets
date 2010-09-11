@@ -1,1 +1,3 @@
 include README.rst
+recursive-include pagelets/media *
+recursive-include pagelets/templates *
