@@ -3,6 +3,7 @@ import os
 from django.conf import settings
 from django.conf.urls.defaults import *
 
+from pagelets.sitemaps import PageSiteMap
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -35,7 +36,12 @@ urlpatterns += patterns('',
     ),
 )
 
+sitemaps = {
+    'pagelets': PageSiteMap(priority=0.6),
+}
+
 urlpatterns += patterns('',
     (r'^pagelets-management/', include('pagelets.urls.management')),
     (r'^', include('pagelets.urls.content')),
+    (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
 )

@@ -91,5 +91,6 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.webdesign',
     'django.contrib.admin',
+    'django.contrib.sitemaps',
     'pagelets',
 )
