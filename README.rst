@@ -87,6 +87,29 @@ Installation and Setup
 
 6) Visit the admin site, add and save a new page, and click the View on site link.  If everything is setup correctly, you should be able to see and edit the content you just added.
 
+Optional Additional Setup
+=========================
+
+If you are using the `contrib.sitemaps` application to generate your sitemap you can make use of the `PageSiteMap`, e.g.::
+
+    from django.conf.urls.defaults import *
+    from pagelets.sitemaps import PageSiteMap
+
+    sitemaps = {
+        'pagelets': PageSiteMap(priority=0.6),
+        # Your other sitemaps
+        # ...
+    }
+
+    # Site url patterns would go here
+    # ...
+
+    urlpatterns += patterns('',
+
+        # the sitemap
+        (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
+    )
+
 Extending and Customizing Pagelets
 ==================================
 
