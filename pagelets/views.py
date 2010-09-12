@@ -1,18 +1,17 @@
-from django import forms
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-from django.template import RequestContext, TemplateDoesNotExist
+from django.template import RequestContext
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
-from django.template.loader import get_template
 from django.core.urlresolvers import reverse
 from django.db.models import Max
 
-from pagelets.models import Pagelet, InlinePagelet, Page, PageAttachment,\
+from pagelets.models import Pagelet, InlinePagelet, Page, PageAttachment, \
                             CONTENT_AREAS
 from pagelets.forms import PageletForm, UploadForm
+
 
 def view_page(request, page_slug, template='pagelets/view_page.html'):
     page = get_object_or_404(Page, slug=page_slug)
@@ -27,7 +26,8 @@ def view_page(request, page_slug, template='pagelets/view_page.html'):
     )
 
 
-@user_passes_test(lambda u: u.has_perm('pagelets.add_pagelet'), login_url=settings.LOGIN_URL)
+@user_passes_test(lambda u: u.has_perm('pagelets.add_pagelet'),
+                  login_url=settings.LOGIN_URL)
 def create_pagelet(request, pagelet_slug=None):
     page = None
     if 'page_id' in request.GET:
@@ -73,7 +73,8 @@ def create_pagelet(request, pagelet_slug=None):
     return HttpResponseRedirect(edit_pagelet)
 
 
-@user_passes_test(lambda u: u.has_perm('pagelets.change_pagelet'), login_url=settings.LOGIN_URL)
+@user_passes_test(lambda u: u.has_perm('pagelets.change_pagelet'),
+                  login_url=settings.LOGIN_URL)
 def edit_pagelet(
     request,
     pagelet_id,
@@ -119,7 +120,8 @@ def edit_pagelet(
     )
 
 
-@user_passes_test(lambda u: u.has_perm('pagelets.delete_pagelet'), login_url=settings.LOGIN_URL)
+@user_passes_test(lambda u: u.has_perm('pagelets.delete_pagelet'),
+                  login_url=settings.LOGIN_URL)
 def remove_pagelet(
     request,
     pagelet_id,
@@ -144,7 +146,8 @@ def remove_pagelet(
     )
 
 
-@user_passes_test(lambda u: u.has_perm('pagelets.add_pageattachment'), login_url=settings.LOGIN_URL)
+@user_passes_test(lambda u: u.has_perm('pagelets.add_pageattachment'),
+                  login_url=settings.LOGIN_URL)
 def add_attachment(
     request,
     page_slug,
@@ -154,7 +157,7 @@ def add_attachment(
     if request.POST:
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():
-            attachment = form.save(page=page)
+            form.save(page=page)
             return HttpResponseRedirect(
                 reverse('view_page', args=[page.slug])
             )
@@ -172,7 +175,8 @@ def add_attachment(
     )
 
 
-@user_passes_test(lambda u: u.has_perm('pagelets.delete_pageattachment'), login_url=settings.LOGIN_URL)
+@user_passes_test(lambda u: u.has_perm('pagelets.delete_pageattachment'),
+                  login_url=settings.LOGIN_URL)
 def remove_attachment(request, page_slug, attachment_id):
     attachment = get_object_or_404(
         PageAttachment,
