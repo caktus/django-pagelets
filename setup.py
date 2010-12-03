@@ -7,7 +7,7 @@ setup(
     author_email='solutions@caktusgroup.com',
     packages=find_packages(exclude=['sample_project']),
     include_package_data=True,
-    url='http://github.com/caktus/django-pagelets',
+    url='http://github.com/caktus/django-pagelets/',
     license='BSD',
     description='Simple, flexible app for integrating static, unstructured '
                 'content in a Django site',
