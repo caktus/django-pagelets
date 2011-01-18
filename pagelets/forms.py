@@ -12,10 +12,10 @@ class PageletForm(forms.ModelForm):
 
     class Media:
         css = {
-            'all': ('pagelets/css/pagelets.css',)
+            'all': ('css/pagelets.css',)
         }
-        js = ('pagelets/wymeditor/jquery.wymeditor.js',
-              'pagelets/js/pagelets.js')
+        js = ('wymeditor/jquery.wymeditor.js',
+              'js/pagelets.js')
 
     def __init__(self, *args, **kwargs):
         self.preview = kwargs.pop('preview', False)

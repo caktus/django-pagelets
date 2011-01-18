@@ -79,10 +79,10 @@ class PageAdmin(admin.ModelAdmin):
     
     class Media:
         css = {
-            'all': ('pagelets/css/wymeditor.admin.css',)
+            'all': ('css/wymeditor.admin.css',)
         }
-        js = ('pagelets/wymeditor/jquery.wymeditor.js',
-              'pagelets/js/pagelets.js')
+        js = ('wymeditor/jquery.wymeditor.js',
+              'js/pagelets.js')
     
     def save_model(self, request, obj, form, change):
         if not obj.id:
@@ -116,10 +116,10 @@ class PageletAdmin(admin.ModelAdmin):
     
     class Media:
         css = {
-            'all': ('pagelets/css/wymeditor.admin.css',)
+            'all': ('css/wymeditor.admin.css',)
         }
-        js = ('pagelets/wymeditor/jquery.wymeditor.js',
-              'pagelets/js/pagelets.js')
+        js = ('wymeditor/jquery.wymeditor.js',
+              'js/pagelets.js')
     
     def content_preview(self, obj):
         return strip_tags(truncate_html_words(obj.content, 5))
