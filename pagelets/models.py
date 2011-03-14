@@ -45,7 +45,7 @@ class PageletBase(models.Model):
     )
     created_by = models.ForeignKey(
         User, 
-        related_name='pagelets_created', 
+        related_name='%(app_label)s_%(class)s_created', 
         editable=False,
     )
     
@@ -56,7 +56,7 @@ class PageletBase(models.Model):
     )
     modified_by = models.ForeignKey(
         User, 
-        related_name='pagelets_last_modified', 
+        related_name='%(app_label)s_%(class)s_last_modified', 
         editable=False,
     )
 
@@ -72,6 +72,8 @@ class PageletBase(models.Model):
         
         super(PageletBase, self).save(**kwargs)
 
+    class Meta:
+        abstract = True
 
 class Page(PageletBase):
     title = models.CharField(
