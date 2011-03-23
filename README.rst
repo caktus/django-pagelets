@@ -4,27 +4,27 @@ django-pagelets
 Simple, flexible app for integrating static, unstructured content in a Django site
 
 Features
-========
+--------
 - "Pagelets" for adding small pieces of content to otherwise static templates
 - CMS "pages" which include any number of pagelets and, if needed, attachments
 - Different pagelet content types including HTML and Markdown
 - An integrated WYSIWYG editor (`WYMeditor <http://www.wymeditor.org/>`_) which can be selectively enabled/disabled
 
 Required Dependencies
-=====================
+---------------------
 
 - Django admin site
 - The `django.core.context_processors.request` context processor
 
 Optional Dependencies
-=====================
+---------------------
 
 - `jQuery 1.3 <http://jquery.com>`_
 - `WYMeditor <http://www.wymeditor.org/>`_ (included in pagelets media)
 
 
 Installation and Setup
-======================
+----------------------
 
 .. highlight:: python
 
