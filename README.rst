@@ -30,11 +30,11 @@ Features
 Installation and Setup
 ======================
 
-1) django-pagelets is available on `PyPI <http://pypi.python.org/pypi/django-pagelets>`_, so the easiest way to install it is to use `pip <http://pip.openplans.org/>`_::
+#. django-pagelets is available on `PyPI <http://pypi.python.org/pypi/django-pagelets>`_, so the easiest way to install it is to use `pip <http://pip.openplans.org/>`_::
 
     pip install django-pagelets
 
-2) Add `pagelets` to INSTALLED_APPS in settings.py and run syncdb::
+#. Add `pagelets` to INSTALLED_APPS in settings.py and run syncdb::
 
         INSTALLED_APPS = (
             ...,
@@ -42,7 +42,7 @@ Installation and Setup
             ...
         )
 
-3) Add `django.core.context_processors.request` to TEMPLATE_CONTEXT_PROCESSORS::
+#. Add `django.core.context_processors.request` to TEMPLATE_CONTEXT_PROCESSORS::
 
     TEMPLATE_CONTEXT_PROCESSORS = (
         "django.contrib.auth.context_processors.auth",
@@ -53,14 +53,14 @@ Installation and Setup
         "django.core.context_processors.request", # <----
     )
 
-4) Add the pagelets URLs to urls.py, e.g.::
+#. Add the pagelets URLs to urls.py, e.g.::
 
     urlpatterns += patterns('',
         (r'^pagelets-management/', include('pagelets.urls.management')),
         (r'^', include('pagelets.urls.content')),
     )
 
-5) In development, you can serve pagelet's static media in urls.py::
+#. In development, you can serve pagelet's static media in urls.py::
 
     import pagelets
     path = os.path.join(os.path.dirname(pagelets.__file__), 'media')
@@ -73,7 +73,7 @@ Installation and Setup
         ),
     )
 
-6) Visit the admin site, add and save a new page, and click the View on site link.  If everything is setup correctly, you should be able to see and edit the content you just added.
+#. Visit the admin site, add and save a new page, and click the View on site link.  If everything is setup correctly, you should be able to see and edit the content you just added.
 
 Development sponsored by `Caktus Consulting Group, LLC.
 <http://www.caktusgroup.com/services>`_.
