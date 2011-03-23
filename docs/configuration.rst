@@ -58,6 +58,8 @@ to add an alternative 2-column layout, you could define the settings like so::
         ('sidebar', 'Sidebar'),
     )
 
+.. highlight:: html+django
+
 The page admin will now include an additional form field to select a base
 template and pagelets will allow the specification of content areas. The `Two
 Column` template could look something like this::
