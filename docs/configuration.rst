@@ -1,3 +1,5 @@
+..  _configuration:
+
 Optional Additional Setup
 =========================
 
@@ -36,6 +38,7 @@ To automatically load a custom template tag on every pagelet, add a
         'myotherapp_tags',
     )
 
+..  _custom_base_templates:
 
 Custom base templates and content areas
 ---------------------------------------
