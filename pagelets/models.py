@@ -64,14 +64,8 @@ class PageletBase(models.Model):
 
     def save(self, **kwargs):
         if not self.id:
-            self.creation_date = datetime.now()
-            
-        queryset = self.__class__.objects.all()
-        if self.id:
-            queryset = queryset.exclude(pk=self.id)
-        
+            self.creation_date = datetime.now()       
         self.last_changed = datetime.now()
-        
         super(PageletBase, self).save(**kwargs)
 
     class Meta:
