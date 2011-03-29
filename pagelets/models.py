@@ -11,6 +11,8 @@ from datetime import datetime
 
 from pagelets import validators
 
+PAGE_ATTACHMENT_PATH = getattr(settings, 'PAGE_ATTACHMENT_PATH', 'attachments/pages/')
+
 if 'tagging' in settings.INSTALLED_APPS:
     from tagging.fields import TagField
 else:
