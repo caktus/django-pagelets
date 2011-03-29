@@ -66,7 +66,7 @@ class PageletBase(models.Model):
         if not self.id:
             self.creation_date = datetime.now()
             
-        queryset = PageletBase.objects.all()
+        queryset = self.__class__.objects.all()
         if self.id:
             queryset = queryset.exclude(pk=self.id)
         
