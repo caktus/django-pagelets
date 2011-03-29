@@ -39,3 +39,11 @@ Default: `html`
 
 This defines the default content type used when creating new pagelets. It can be either
 a build-in content type or a user defined content type as described above.
+
+PAGE_ATTACHMENT_PATH
+--------------------
+
+Default: `attachments/pages/`
+
+This defines the location where page attachments will be stored relative to the
+media directory.
