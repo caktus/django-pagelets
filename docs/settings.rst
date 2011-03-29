@@ -1,3 +1,5 @@
+.. highlight:: python
+
 List of Available Settngs
 =================================
 
@@ -18,7 +20,9 @@ Default: `[]`
 
 By default pages all render using the `pagelets/view_page.html` template. If you wish
 to define additional templates which pages can use then you can define them here. This
-should be a list of tuples i.e. `[("pagelets/two_col_page.html", "Two Column Template"), ]`.
+should be a list of tuples i.e.::
+
+    [("pagelets/two_col_page.html", "Two Column Template"), ]
 
 
 PAGELET_CONTENT_AREAS
