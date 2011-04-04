@@ -10,6 +10,8 @@ Features
 - Different pagelet content types including HTML and Markdown
 - An integrated WYSIWYG editor (`WYMeditor <http://www.wymeditor.org/>`_) which can be selectively enabled/disabled
 
+For complete documentation checkout, `<http://django-pagelets.readthedocs.org>`_
+
 Required Dependencies
 ---------------------
 
@@ -75,3 +77,4 @@ Installation and Setup
 
 Development sponsored by `Caktus Consulting Group, LLC.
 <http://www.caktusgroup.com/services>`_.
+
