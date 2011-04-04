@@ -3,14 +3,14 @@ django-pagelets
 
 Simple, flexible app for integrating static, unstructured content in a Django site
 
+For complete documentation checkout, `<http://django-pagelets.readthedocs.org>`_
+
 Features
 --------
 - "Pagelets" for adding small pieces of content to otherwise static templates
 - CMS "pages" which include any number of pagelets and, if needed, attachments
 - Different pagelet content types including HTML and Markdown
 - An integrated WYSIWYG editor (`WYMeditor <http://www.wymeditor.org/>`_) which can be selectively enabled/disabled
-
-For complete documentation checkout, `<http://django-pagelets.readthedocs.org>`_
 
 Required Dependencies
 ---------------------
