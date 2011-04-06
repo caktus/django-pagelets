@@ -76,20 +76,21 @@ class PageAdmin(admin.ModelAdmin):
     )
     if GenericMenuItemInline:
         inlines.insert(0, GenericMenuItemInline)
-    
+
     class Media:
         css = {
             'all': ('css/wymeditor.admin.css',)
         }
-        js = ('wymeditor/jquery.wymeditor.js',
-              'js/pagelets.js')
-    
+        js = ("http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js",
+                'wymeditor/jquery.wymeditor.js',
+                'js/pagelets.js')
+
     def save_model(self, request, obj, form, change):
         if not obj.id:
             obj.created_by = request.user
             obj.modified_by = request.user
         obj.save()
-    
+
     def save_formset(self, request, form, formset, change):
         pagelets = formset.save(commit=False)
         for pagelet in pagelets:
@@ -113,14 +114,15 @@ class PageletAdmin(admin.ModelAdmin):
     )
     search_fields = ('slug', 'content',)
     list_filter = ('type', 'modified_by', 'last_changed', 'creation_date')
-    
+
     class Media:
         css = {
             'all': ('css/wymeditor.admin.css',)
         }
-        js = ('wymeditor/jquery.wymeditor.js',
+        js = ("http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js",
+              'wymeditor/jquery.wymeditor.js',
               'js/pagelets.js')
-    
+
     def content_preview(self, obj):
         return strip_tags(truncate_html_words(obj.content, 5))
     content_preview.short_description = 'content preview'
@@ -131,3 +133,4 @@ class PageletAdmin(admin.ModelAdmin):
             obj.modified_by = request.user
         obj.save()
 admin.site.register(pagelets.Pagelet, PageletAdmin)
+
