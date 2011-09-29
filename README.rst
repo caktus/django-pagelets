@@ -78,6 +78,14 @@ Installation and Setup
 History
 -------
 
+0.7.1
+*****
+
+* Add Read the Docs reference to README
+* Update sample_project to work with Django 1.3
+* Use CDN for external jQuery dependencies
+* Add migration to install sequences properly on PostgreSQL
+
 0.7.0
 *****
 
