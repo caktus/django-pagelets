@@ -75,6 +75,38 @@ Installation and Setup
 
 #. Visit the admin site, add and save a new page, and click the View on site link.  If everything is setup correctly, you should be able to see and edit the content you just added.
 
+History
+-------
+
+0.7.1
+*****
+
+* Add Read the Docs reference to README
+* Update sample_project to work with Django 1.3
+* Use CDN for external jQuery dependencies
+* Add migration to install sequences properly on PostgreSQL
+
+0.7.0
+*****
+
+* Add docs and publish on Read the Docs
+* Update media references to work better with staticfiles
+* Make PageletBase an abstract base class
+* Begin using South for migrations
+* Update sample_project to use Django 1.2
+
+0.6.2
+*****
+
+* Remove use of .format() to support earlier versions of Python
+* Fix license reference and URL endpoint in setup.py
+* Include sample_project in MANIFEST.in
+* Update license date
+
+0.6.0
+*****
+
+* First official release
+
 Development sponsored by `Caktus Consulting Group, LLC.
 <http://www.caktusgroup.com/services>`_.
-

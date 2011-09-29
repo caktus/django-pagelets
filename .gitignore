@@ -5,3 +5,4 @@ sample_project/*.db
 *.egg-info
 docs/_build/*
 attachments/
+dist/
