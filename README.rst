@@ -80,6 +80,7 @@ History
 *****
 
 * Updated migration 0003 to be a data migration
+* Made Page.tags field always exist, and add migration for it
 
 0.7.1
 *****
