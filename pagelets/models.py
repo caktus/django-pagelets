@@ -128,7 +128,9 @@ class Page(PageletBase):
         ]
     )
     if TagField:
-        tags = TagField()
+        tags = TagField(blank=True, default='', max_length=255)
+    else:
+        tags = models.CharField(blank=True, default='', max_length=255)
     
     def get_area_pagelets(self, area_slug, with_shared=True):
         """
