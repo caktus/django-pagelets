@@ -28,8 +28,6 @@ Optional Dependencies
 Installation and Setup
 ----------------------
 
-.. highlight:: python
-
 #. django-pagelets is available on `PyPI <http://pypi.python.org/pypi/django-pagelets>`_, so the easiest way to install it is to use `pip <http://pip.openplans.org/>`_::
 
     pip install django-pagelets
