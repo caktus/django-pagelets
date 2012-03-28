@@ -78,6 +78,11 @@ Installation and Setup
 History
 -------
 
+0.7.2
+*****
+
+* Updated migration 0003 to be a data migration
+
 0.7.1
 *****
 
