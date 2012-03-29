@@ -12,28 +12,28 @@ class Migration(SchemaMigration):
         db.delete_table('pagelets_pageletbase')
 
         # Changing field 'Pagelet.modified_by'
-        db.alter_column('pagelets_pagelet', 'modified_by_id', self.gf('django.db.models.fields.related.ForeignKey')(default=None, to=orm['auth.User']))
+        db.alter_column('pagelets_pagelet', 'modified_by_id', self.gf('django.db.models.fields.related.ForeignKey')(default=0, to=orm['auth.User']))
 
         # Changing field 'Pagelet.last_changed'
-        db.alter_column('pagelets_pagelet', 'last_changed', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, default=None))
+        db.alter_column('pagelets_pagelet', 'last_changed', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, default=0))
 
         # Changing field 'Pagelet.created_by'
-        db.alter_column('pagelets_pagelet', 'created_by_id', self.gf('django.db.models.fields.related.ForeignKey')(default=None, to=orm['auth.User']))
+        db.alter_column('pagelets_pagelet', 'created_by_id', self.gf('django.db.models.fields.related.ForeignKey')(default=0, to=orm['auth.User']))
 
         # Changing field 'Pagelet.creation_date'
-        db.alter_column('pagelets_pagelet', 'creation_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, default=None))
+        db.alter_column('pagelets_pagelet', 'creation_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, default=0))
 
         # Changing field 'Page.modified_by'
-        db.alter_column('pagelets_page', 'modified_by_id', self.gf('django.db.models.fields.related.ForeignKey')(default=None, to=orm['auth.User']))
+        db.alter_column('pagelets_page', 'modified_by_id', self.gf('django.db.models.fields.related.ForeignKey')(default=0, to=orm['auth.User']))
 
         # Changing field 'Page.last_changed'
-        db.alter_column('pagelets_page', 'last_changed', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, default=None))
+        db.alter_column('pagelets_page', 'last_changed', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, default=0))
 
         # Changing field 'Page.created_by'
-        db.alter_column('pagelets_page', 'created_by_id', self.gf('django.db.models.fields.related.ForeignKey')(default=None, to=orm['auth.User']))
+        db.alter_column('pagelets_page', 'created_by_id', self.gf('django.db.models.fields.related.ForeignKey')(default=0, to=orm['auth.User']))
 
         # Changing field 'Page.creation_date'
-        db.alter_column('pagelets_page', 'creation_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, default=None))
+        db.alter_column('pagelets_page', 'creation_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, default=0))
 
 
     def backwards(self, orm):
