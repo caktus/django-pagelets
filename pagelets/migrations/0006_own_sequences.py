@@ -7,12 +7,14 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        db.execute("ALTER SEQUENCE pagelets_page_id_seq OWNED BY pagelets_page.id")
-        db.execute("ALTER SEQUENCE pagelets_pagelet_id_seq OWNED BY pagelets_pagelet.id")
+        if db.backend_name == 'postgres':
+            db.execute("ALTER SEQUENCE pagelets_page_id_seq OWNED BY pagelets_page.id")
+            db.execute("ALTER SEQUENCE pagelets_pagelet_id_seq OWNED BY pagelets_pagelet.id")
 
     def backwards(self, orm):
-        db.execute("ALTER SEQUENCE pagelets_page_id_seq OWNED BY NONE")
-        db.execute("ALTER SEQUENCE pagelets_pagelet_id_seq OWNED BY NONE")
+        if db.backend_name == 'postgres':
+            db.execute("ALTER SEQUENCE pagelets_page_id_seq OWNED BY NONE")
+            db.execute("ALTER SEQUENCE pagelets_pagelet_id_seq OWNED BY NONE")
 
     models = {
         'auth.group': {
