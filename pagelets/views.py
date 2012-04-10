@@ -73,8 +73,6 @@ def create_pagelet(request, pagelet_slug=None):
     return HttpResponseRedirect(edit_pagelet)
 
 
-@user_passes_test(lambda u: u.has_perm('pagelets.change_pagelet'),
-                  login_url=settings.LOGIN_URL)
 def edit_pagelet(
     request,
     pagelet_id,
@@ -87,37 +85,41 @@ def edit_pagelet(
         redirect_to = '/'
     
     pagelet = get_object_or_404(Pagelet, pk=pagelet_id)
-
-    preview_form = None
-    pagelet_preview = None
-    if request.POST:
-        form = PageletForm(request.POST, instance=pagelet)
-        if form.is_valid():
-            if request.REQUEST.has_key('save_btn'):
-                form.save(user=request.user)
-                return HttpResponseRedirect(redirect_to)
-            else:
-                preview_form = PageletForm(
-                    request.POST, 
-                    instance=pagelet, 
-                    preview=True,
-                )
-                pagelet_preview = form.save(commit=False, user=request.user)
-    else:
-        form = PageletForm(instance=pagelet)
-    
-    context = {
-        'form': form,
-        'pagelet': pagelet,
-        'preview_form': preview_form,
-        'pagelet_preview': pagelet_preview,
-    }
-    
-    return render_to_response(
-        template,
-        context,
-        context_instance=RequestContext(request),
-    )
+    @user_passes_test(
+        lambda u: u.has_perm('pagelets.change_pagelet', pagelet),
+        login_url=settings.LOGIN_URL)
+    def _(request):
+        preview_form = None
+        pagelet_preview = None
+        if request.POST:
+            form = PageletForm(request.POST, instance=pagelet)
+            if form.is_valid():
+                if request.REQUEST.has_key('save_btn'):
+                    form.save(user=request.user)
+                    return HttpResponseRedirect(redirect_to)
+                else:
+                    preview_form = PageletForm(
+                        request.POST, 
+                        instance=pagelet, 
+                        preview=True,
+                    )
+                    pagelet_preview = form.save(commit=False, user=request.user)
+        else:
+            form = PageletForm(instance=pagelet)
+        
+        context = {
+            'form': form,
+            'pagelet': pagelet,
+            'preview_form': preview_form,
+            'pagelet_preview': pagelet_preview,
+        }
+        
+        return render_to_response(
+            template,
+            context,
+            context_instance=RequestContext(request),
+        )
+    return _(request)
 
 
 @user_passes_test(lambda u: u.has_perm('pagelets.delete_pagelet'),
