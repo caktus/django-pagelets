@@ -197,7 +197,7 @@ class Pagelet(PageletBase):
     Primary model for storing pieces of static content in the database.
     """
     
-    CONTENT_TYPES = (
+    CONTENT_TYPES = tuple(
         (val, label) for (val, label, scripts, styles)
         in PAGELET_CONTENT_TYPES
     )
