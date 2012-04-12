@@ -31,6 +31,7 @@ class PageletForm(forms.ModelForm):
 
         if len(self.fields['type'].choices) == 1:
             self.fields['type'].widget = forms.HiddenInput()
+            self.fields['type'].initial = self.fields['type'].choices[0][0]
 
     def save(self, commit=True, user=None):
         instance = super(PageletForm, self).save(commit=False)
