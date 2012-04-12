@@ -1,5 +1,5 @@
 function setEditor(popup) {
-    var value = popup.find('>:selected').val();
+    var value = popup.val();
     var parent_form = popup.parents('form');
     var content_field_name = popup.attr('name').replace(/type$/, 'content');
     var content_field = parent_form.find('textarea[name=' + content_field_name + ']');
