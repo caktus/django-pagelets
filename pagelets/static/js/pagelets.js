@@ -41,7 +41,7 @@ jQuery(function() {
             setEditor($(popup));
         }
     }
-    var select = $('select[name$=type]');
+    var select = $('form [name$=type]');
     select.live('change', function() {
         install_editor($(this));
     }).each(function (i) {
