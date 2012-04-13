@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from pagelets.models import Pagelet, PageAttachment
+from pagelets.models import Pagelet, PageAttachment, get_pagelet_type_assets
 
 
 class PageletForm(forms.ModelForm):
@@ -14,8 +14,9 @@ class PageletForm(forms.ModelForm):
         css = {
             'all': ('css/pagelets.css',)
         }
-        js = ('wymeditor/jquery.wymeditor.js',
-              'js/pagelets.js')
+        js = ('js/pagelets.js',)
+
+        js, css = get_pagelet_type_assets(base_scripts=js, base_styles=css)
 
     def __init__(self, *args, **kwargs):
         self.preview = kwargs.pop('preview', False)
@@ -27,6 +28,10 @@ class PageletForm(forms.ModelForm):
             self.fields['content'].widget = forms.Textarea(
                 attrs={'rows': 30, 'cols': 90}
             )
+
+        if len(self.fields['type'].choices) == 1:
+            self.fields['type'].widget = forms.HiddenInput()
+            self.fields['type'].initial = self.fields['type'].choices[0][0]
 
     def save(self, commit=True, user=None):
         instance = super(PageletForm, self).save(commit=False)
