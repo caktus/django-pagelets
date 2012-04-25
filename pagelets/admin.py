@@ -81,8 +81,7 @@ class PageAdmin(admin.ModelAdmin):
         css = {
             'all': ('css/wymeditor.admin.css',)
         }
-        js = ("http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js",
-                'wymeditor/jquery.wymeditor.js',
+        js = (  'wymeditor/jquery.wymeditor.js',
                 'js/pagelets.js')
 
     def save_model(self, request, obj, form, change):
@@ -119,9 +118,8 @@ class PageletAdmin(admin.ModelAdmin):
         css = {
             'all': ('css/wymeditor.admin.css',)
         }
-        js = ("http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js",
-              'wymeditor/jquery.wymeditor.js',
-              'js/pagelets.js')
+        js = (  'wymeditor/jquery.wymeditor.js',
+                'js/pagelets.js')
 
     def content_preview(self, obj):
         return strip_tags(truncate_html_words(obj.content, 5))
