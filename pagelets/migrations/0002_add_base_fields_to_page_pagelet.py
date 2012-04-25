@@ -8,6 +8,10 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
+        # It's not a foreign key anymore, it's just a primary key field
+        db.delete_foreign_key('pagelets_pagelet', 'pageletbase_ptr_id')
+        db.alter_column('pagelets_pagelet', 'pageletbase_ptr_id', self.gf('django.db.models.fields.IntegerField')())
+
         # Renaming field 'Pagelet.pageletbase_ptr' to 'id'
         db.rename_column('pagelets_pagelet', 'pageletbase_ptr_id', 'id')
 
