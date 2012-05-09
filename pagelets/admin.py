@@ -12,7 +12,7 @@ else:
 
 class InlinePageletAdmin(admin.StackedInline):
     model = pagelets.InlinePagelet
-    extra = 1
+    extra = 0
     fk_name = 'page'
     fieldsets = (
         (None, {
@@ -27,7 +27,7 @@ class InlinePageletAdmin(admin.StackedInline):
 
 class SharedPageletAdmin(admin.StackedInline):
     model = pagelets.SharedPagelet
-    extra = 1
+    extra = 0
     fk_name = 'page'
     fieldsets = (
         (None, {
@@ -38,7 +38,7 @@ class SharedPageletAdmin(admin.StackedInline):
 
 class InlinePageAttachmentAdmin(admin.StackedInline):
     model = pagelets.PageAttachment
-    extra = 1
+    extra = 0
     fieldsets = (
         (None, {
             'fields': (('name', 'order'), 'file')
