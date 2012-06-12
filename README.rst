@@ -1,9 +1,9 @@
 django-pagelets
 ===============
 
-Simple, flexible app for integrating static, unstructured content in a Django site
+django-pagelets is a simple, flexible app for integrating static, unstructured content in a Django site.
 
-For complete documentation checkout, `<http://django-pagelets.readthedocs.org>`_
+For complete documentation, checkout `<http://django-pagelets.readthedocs.org>`_
 
 Features
 --------

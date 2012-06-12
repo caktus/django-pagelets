@@ -10,9 +10,8 @@ Render Pagelet
     
     {% render_pagelet pagelet %}
 
-This takes in either the slug of a pagelet or the pagelet object itself. 
-
-Then outputs the content of the pagelet along with some divs to wrap the content 
+This takes in either the slug of a pagelet or the pagelet object itself,
+then outputs the content of the pagelet along with some divs to wrap the content,
 and adds the administration links when a logged in user has permission to edit.
 
 Create Page
@@ -43,9 +42,9 @@ Pagelink Ifexists
 
 ::
     
-    {% pagelink_ifexits pagelet %}
+    {% pagelink_ifexists pagelet %}
 
-Creates a link to the input pagelet(or pagelet with slug) if it exists otherwise
+Creates a link to the input pagelet (or pagelet with slug) if it exists; otherwise,
 it renders nothing.
 
 Page Content Teaser
@@ -55,7 +54,7 @@ Page Content Teaser
     
     {% page_content_teaser page number_of_words %}
 
-Uses the content from the pagelets related to the page(or page with slug) and
+Uses the content from the pagelets related to the page (or page with slug) and
 truncates the texts to the number_of_words. 
 
 Page Teaser
@@ -65,7 +64,7 @@ Page Teaser
     
     {% page_teaser page number_of_words %}
 
-If the page has a description then it is truncated to the number_of_words and 
-returned, after removing the HTML.  If there is no description then the related
+If the page has a description, then it is truncated to the number_of_words and 
+returned, after removing the HTML.  If there is no description, then the related
 pagelets are searched for <p> tags and the inner HTML is combined then truncated.
 
