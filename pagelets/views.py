@@ -140,7 +140,7 @@ def remove_pagelet(
     
     if request.method == 'POST':
         pagelet.delete()
-        messages.info('Pagelet successfully deleted.')
+        messages.info(request, 'Pagelet successfully deleted.')
         return HttpResponseRedirect(redirect_to)
     return render_to_response(
         template,
