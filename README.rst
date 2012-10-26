@@ -3,38 +3,36 @@ django-pagelets
 
 Simple, flexible app for integrating static, unstructured content in a Django site
 
+For complete documentation checkout, `<http://django-pagelets.readthedocs.org>`_
+
 Features
-========
-  - "Pagelets" for adding small pieces of content to otherwise static templates
-  - CMS "pages" which include any number of pagelets and, if needed, attachments
-  - Different pagelet content types including HTML and Markdown
-  - An integrated WYSIWYG editor (`WYMeditor
-    <http://www.wymeditor.org/>`_) which can be selectively enabled/disabled
+--------
+- "Pagelets" for adding small pieces of content to otherwise static templates
+- CMS "pages" which include any number of pagelets and, if needed, attachments
+- Different pagelet content types including HTML and Markdown
+- An integrated WYSIWYG editor (`WYMeditor <http://www.wymeditor.org/>`_) which can be selectively enabled/disabled
 
-..  
-    Dependencies
-    ============
-    Required
-    --------
-    - Django admin site
-      - The `django.core.context_processors.request` context processor
+Required Dependencies
+---------------------
 
-    Optional
-    --------
-     - `jQuery 1.3
-       <http://jquery.com>`_
-     - `WYMeditor
-       <http://www.wymeditor.org/>`_ (included in pagelets media)
+- Django admin site
+- The `django.core.context_processors.request` context processor
+
+Optional Dependencies
+---------------------
+
+- `jQuery 1.3 <http://jquery.com>`_
+- `WYMeditor <http://www.wymeditor.org/>`_ (included in pagelets media)
 
 
 Installation and Setup
-======================
+----------------------
 
-1) django-pagelets is available on `PyPI <http://pypi.python.org/pypi/django-pagelets>`_, so the easiest way to install it is to use `pip <http://pip.openplans.org/>`_::
+#. django-pagelets is available on `PyPI <http://pypi.python.org/pypi/django-pagelets>`_, so the easiest way to install it is to use `pip <http://pip.openplans.org/>`_::
 
     pip install django-pagelets
 
-2) Add `pagelets` to INSTALLED_APPS in settings.py and run syncdb::
+#. Add `pagelets` to INSTALLED_APPS in settings.py and run syncdb::
 
         INSTALLED_APPS = (
             ...,
@@ -42,7 +40,7 @@ Installation and Setup
             ...
         )
 
-3) Add `django.core.context_processors.request` to TEMPLATE_CONTEXT_PROCESSORS::
+#. Add `django.core.context_processors.request` to TEMPLATE_CONTEXT_PROCESSORS::
 
     TEMPLATE_CONTEXT_PROCESSORS = (
         "django.contrib.auth.context_processors.auth",
@@ -53,14 +51,14 @@ Installation and Setup
         "django.core.context_processors.request", # <----
     )
 
-4) Add the pagelets URLs to urls.py, e.g.::
+#. Add the pagelets URLs to urls.py, e.g.::
 
     urlpatterns += patterns('',
         (r'^pagelets-management/', include('pagelets.urls.management')),
         (r'^', include('pagelets.urls.content')),
     )
 
-5) In development, you can serve pagelet's static media in urls.py::
+#. In development, you can serve pagelet's static media in urls.py::
 
     import pagelets
     path = os.path.join(os.path.dirname(pagelets.__file__), 'media')
@@ -73,7 +71,46 @@ Installation and Setup
         ),
     )
 
-6) Visit the admin site, add and save a new page, and click the View on site link.  If everything is setup correctly, you should be able to see and edit the content you just added.
+#. Visit the admin site, add and save a new page, and click the View on site link.  If everything is setup correctly, you should be able to see and edit the content you just added.
+
+History
+-------
+
+0.7.2
+*****
+
+* Updated migration 0003 to be a data migration
+* Made Page.tags field always exist, and add migration for it
+
+0.7.1
+*****
+
+* Add Read the Docs reference to README
+* Update sample_project to work with Django 1.3
+* Use CDN for external jQuery dependencies
+* Add migration to install sequences properly on PostgreSQL
+
+0.7.0
+*****
+
+* Add docs and publish on Read the Docs
+* Update media references to work better with staticfiles
+* Make PageletBase an abstract base class
+* Begin using South for migrations
+* Update sample_project to use Django 1.2
+
+0.6.2
+*****
+
+* Remove use of .format() to support earlier versions of Python
+* Fix license reference and URL endpoint in setup.py
+* Include sample_project in MANIFEST.in
+* Update license date
+
+0.6.0
+*****
+
+* First official release
 
 Development sponsored by `Caktus Consulting Group, LLC.
 <http://www.caktusgroup.com/services>`_.

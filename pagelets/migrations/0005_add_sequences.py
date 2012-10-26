@@ -1,46 +1,28 @@
 # encoding: utf-8
 import datetime
 from south.db import db
-from south.v2 import DataMigration 
+from south.v2 import SchemaMigration
 from django.db import models
 
-class Migration(DataMigration):
+class Migration(SchemaMigration):
 
     def forwards(self, orm):
 
-        for page in orm.Page.objects.all():
-            base = orm.PageletBase.objects.get(pk=page.pk)
-            page.creation_date = base.creation_date
-            page.created_by = base.created_by
-            page.last_changed = base.last_changed
-            page.modified_by = base.modified_by
-            page.save()
-
-        for pagelet in orm.Pagelet.objects.all():
-            base = orm.PageletBase.objects.get(pk=pagelet.pk)
-            pagelet.creation_date = base.creation_date
-            pagelet.created_by = base.created_by
-            pagelet.last_changed = base.last_changed
-            pagelet.modified_by = base.modified_by
-            pagelet.save()
+        if db.backend_name == 'postgres':
+            db.execute("CREATE SEQUENCE pagelets_page_id_seq")
+            db.execute("SELECT setval('pagelets_page_id_seq', COALESCE((SELECT MAX(id) FROM pagelets_page) + 1, 1))")
+            db.execute("ALTER TABLE pagelets_page ALTER COLUMN id SET DEFAULT nextval('pagelets_page_id_seq')")
+            db.execute("CREATE SEQUENCE pagelets_pagelet_id_seq")
+            db.execute("SELECT setval('pagelets_pagelet_id_seq', COALESCE((SELECT MAX(id) FROM pagelets_pagelet) + 1, 1))")
+            db.execute("ALTER TABLE pagelets_pagelet ALTER COLUMN id SET DEFAULT nextval('pagelets_pagelet_id_seq')")
 
     def backwards(self, orm):
 
-        for page in orm.Page.objects.all():
-            base = orm.PageletBase.objects.create(
-                pk=page.pk,
-                creation_date=page.creation_date,
-                created_by=page.created_by,
-                last_changed=page.last_changed,
-                modified_by=page.modified_by)
-
-        for pagelet in orm.Pagelet.objects.all():
-            base = orm.PageletBase.objects.create(
-                pk=pagelet.pk,
-                creation_date=pagelet.creation_date,
-                created_by=pagelet.created_by,
-                last_changed=pagelet.last_changed,
-                modified_by=pagelet.modified_by)
+        if db.backend_name == 'postgres':
+            db.execute("ALTER TABLE pagelets_page ALTER COLUMN id DROP DEFAULT")
+            db.execute("DROP SEQUENCE pagelets_page_id_seq")
+            db.execute("ALTER TABLE pagelets_pagelet ALTER COLUMN id DROP DEFAULT")
+            db.execute("DROP SEQUENCE pagelets_pagelet_id_seq")
 
     models = {
         'auth.group': {
@@ -89,14 +71,14 @@ class Migration(DataMigration):
         'pagelets.page': {
             'Meta': {'ordering': "('title',)", 'object_name': 'Page'},
             'base_template': ('django.db.models.fields.CharField', [], {'default': "'pagelets/view_page.html'", 'max_length': '255', 'blank': 'True'}),
-            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_page_created'", 'null': 'True', 'to': "orm['auth.User']"}),
-            'creation_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True'}),
+            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_page_created'", 'to': "orm['auth.User']"}),
+            'creation_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'last_changed': ('django.db.models.fields.DateTimeField', [], {'null': 'True'}),
+            'last_changed': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'meta_keywords': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
             'meta_robots': ('django.db.models.fields.CharField', [], {'max_length': '20', 'blank': 'True'}),
-            'modified_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_page_last_modified'", 'null': 'True', 'to': "orm['auth.User']"}),
+            'modified_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_page_last_modified'", 'to': "orm['auth.User']"}),
             'slug': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
@@ -111,22 +93,14 @@ class Migration(DataMigration):
         'pagelets.pagelet': {
             'Meta': {'ordering': "('slug',)", 'object_name': 'Pagelet'},
             'content': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_pagelet_created'", 'null': 'True', 'to': "orm['auth.User']"}),
-            'creation_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True'}),
+            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_pagelet_created'", 'to': "orm['auth.User']"}),
+            'creation_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'css_classes': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'last_changed': ('django.db.models.fields.DateTimeField', [], {'null': 'True'}),
-            'modified_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_pagelet_last_modified'", 'null': 'True', 'to': "orm['auth.User']"}),
+            'last_changed': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'modified_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_pagelet_last_modified'", 'to': "orm['auth.User']"}),
             'slug': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'type': ('django.db.models.fields.CharField', [], {'default': "'html'", 'max_length': '32'})
-        },
-        'pagelets.pageletbase': {
-            'Meta': {'object_name': 'PageletBase'},
-            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_pageletbase_created'", 'to': "orm['auth.User']"}),
-            'creation_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'last_changed': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'modified_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_pageletbase_last_modified'", 'to': "orm['auth.User']"})
         },
         'pagelets.sharedpagelet': {
             'Meta': {'ordering': "('order',)", 'unique_together': "(('pagelet', 'page'),)", 'object_name': 'SharedPagelet'},

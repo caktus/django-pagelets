@@ -12,6 +12,8 @@ Contents:
 
     sample
     configuration
+    template_tags
+    settings
 
 Indices and tables
 ==================

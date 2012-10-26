@@ -11,6 +11,8 @@ from datetime import datetime
 
 from pagelets import validators
 
+PAGE_ATTACHMENT_PATH = getattr(settings, 'PAGE_ATTACHMENT_PATH', 'attachments/pages/')
+
 if 'tagging' in settings.INSTALLED_APPS:
     from tagging.fields import TagField
 else:
@@ -62,14 +64,8 @@ class PageletBase(models.Model):
 
     def save(self, **kwargs):
         if not self.id:
-            self.creation_date = datetime.now()
-            
-        queryset = PageletBase.objects.all()
-        if self.id:
-            queryset = queryset.exclude(pk=self.id)
-        
+            self.creation_date = datetime.now()       
         self.last_changed = datetime.now()
-        
         super(PageletBase, self).save(**kwargs)
 
     class Meta:
@@ -132,7 +128,9 @@ class Page(PageletBase):
         ]
     )
     if TagField:
-        tags = TagField()
+        tags = TagField(blank=True, default='', max_length=255)
+    else:
+        tags = models.CharField(blank=True, default='', max_length=255)
     
     def get_area_pagelets(self, area_slug, with_shared=True):
         """

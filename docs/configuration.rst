@@ -1,3 +1,5 @@
+..  _configuration:
+
 Optional Additional Setup
 =========================
 
@@ -36,6 +38,7 @@ To automatically load a custom template tag on every pagelet, add a
         'myotherapp_tags',
     )
 
+..  _custom_base_templates:
 
 Custom base templates and content areas
 ---------------------------------------
@@ -57,6 +60,8 @@ to add an alternative 2-column layout, you could define the settings like so::
         ('main', 'Main'),
         ('sidebar', 'Sidebar'),
     )
+
+.. highlight:: html+django
 
 The page admin will now include an additional form field to select a base
 template and pagelets will allow the specification of content areas. The `Two
