@@ -12,7 +12,7 @@ else:
 
 class InlinePageletAdmin(admin.StackedInline):
     model = pagelets.InlinePagelet
-    extra = 1
+    extra = 0
     fk_name = 'page'
     fieldsets = (
         (None, {
@@ -27,7 +27,7 @@ class InlinePageletAdmin(admin.StackedInline):
 
 class SharedPageletAdmin(admin.StackedInline):
     model = pagelets.SharedPagelet
-    extra = 1
+    extra = 0
     fk_name = 'page'
     fieldsets = (
         (None, {
@@ -38,7 +38,7 @@ class SharedPageletAdmin(admin.StackedInline):
 
 class InlinePageAttachmentAdmin(admin.StackedInline):
     model = pagelets.PageAttachment
-    extra = 1
+    extra = 0
     fieldsets = (
         (None, {
             'fields': (('name', 'order'), 'file')
@@ -81,8 +81,7 @@ class PageAdmin(admin.ModelAdmin):
         css = {
             'all': ('css/wymeditor.admin.css',)
         }
-        js = ("http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js",
-                'wymeditor/jquery.wymeditor.js',
+        js = (  'wymeditor/jquery.wymeditor.js',
                 'js/pagelets.js')
 
     def save_model(self, request, obj, form, change):
@@ -119,9 +118,8 @@ class PageletAdmin(admin.ModelAdmin):
         css = {
             'all': ('css/wymeditor.admin.css',)
         }
-        js = ("http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js",
-              'wymeditor/jquery.wymeditor.js',
-              'js/pagelets.js')
+        js = (  'wymeditor/jquery.wymeditor.js',
+                'js/pagelets.js')
 
     def content_preview(self, obj):
         return strip_tags(truncate_html_words(obj.content, 5))

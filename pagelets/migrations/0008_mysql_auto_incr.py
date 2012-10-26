@@ -1,77 +1,25 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 import datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
 
+
+TABLES = [
+    "pagelets_page",
+    "pagelets_pagelet",
+]
+
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        
-        # Deleting model 'PageletBase'
-        db.delete_table('pagelets_pageletbase')
-
-        # Changing field 'Pagelet.modified_by'
-        db.alter_column('pagelets_pagelet', 'modified_by_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='pagelets_pagelet_last_modified', to=orm['auth.User']))
-
-        # Changing field 'Pagelet.last_changed'
-        db.alter_column('pagelets_pagelet', 'last_changed', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True))
-
-        # Changing field 'Pagelet.created_by'
-        db.alter_column('pagelets_pagelet', 'created_by_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='pagelets_pagelet_created', to=orm['auth.User']))
-
-        # Changing field 'Pagelet.creation_date'
-        db.alter_column('pagelets_pagelet', 'creation_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True))
-
-        # Changing field 'Page.modified_by'
-        db.alter_column('pagelets_page', 'modified_by_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='pagelets_page_last_modified', to=orm['auth.User']))
-
-        # Changing field 'Page.last_changed'
-        db.alter_column('pagelets_page', 'last_changed', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True))
-
-        # Changing field 'Page.created_by'
-        db.alter_column('pagelets_page', 'created_by_id', self.gf('django.db.models.fields.related.ForeignKey')(related_name='pagelets_page_created', to=orm['auth.User']))
-
-        # Changing field 'Page.creation_date'
-        db.alter_column('pagelets_page', 'creation_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True))
-
+        if db.backend_name == 'mysql':
+            for table_name in TABLES:
+                db.execute('ALTER TABLE %s MODIFY COLUMN id int(11) AUTO_INCREMENT;' % table_name)
 
     def backwards(self, orm):
-        
-        # Adding model 'PageletBase'
-        db.create_table('pagelets_pageletbase', (
-            ('modified_by', self.gf('django.db.models.fields.related.ForeignKey')(related_name='pagelets_pageletbase_last_modified', to=orm['auth.User'])),
-            ('last_changed', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('created_by', self.gf('django.db.models.fields.related.ForeignKey')(related_name='pagelets_pageletbase_created', to=orm['auth.User'])),
-            ('creation_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-        ))
-        db.send_create_signal('pagelets', ['PageletBase'])
-
-        # Changing field 'Pagelet.modified_by'
-        db.alter_column('pagelets_pagelet', 'modified_by_id', self.gf('django.db.models.fields.related.ForeignKey')(null=True, to=orm['auth.User']))
-
-        # Changing field 'Pagelet.last_changed'
-        db.alter_column('pagelets_pagelet', 'last_changed', self.gf('django.db.models.fields.DateTimeField')(null=True))
-
-        # Changing field 'Pagelet.created_by'
-        db.alter_column('pagelets_pagelet', 'created_by_id', self.gf('django.db.models.fields.related.ForeignKey')(null=True, to=orm['auth.User']))
-
-        # Changing field 'Pagelet.creation_date'
-        db.alter_column('pagelets_pagelet', 'creation_date', self.gf('django.db.models.fields.DateTimeField')(null=True))
-
-        # Changing field 'Page.modified_by'
-        db.alter_column('pagelets_page', 'modified_by_id', self.gf('django.db.models.fields.related.ForeignKey')(null=True, to=orm['auth.User']))
-
-        # Changing field 'Page.last_changed'
-        db.alter_column('pagelets_page', 'last_changed', self.gf('django.db.models.fields.DateTimeField')(null=True))
-
-        # Changing field 'Page.created_by'
-        db.alter_column('pagelets_page', 'created_by_id', self.gf('django.db.models.fields.related.ForeignKey')(null=True, to=orm['auth.User']))
-
-        # Changing field 'Page.creation_date'
-        db.alter_column('pagelets_page', 'creation_date', self.gf('django.db.models.fields.DateTimeField')(null=True))
-
+        pass
 
     models = {
         'auth.group': {
@@ -129,6 +77,7 @@ class Migration(SchemaMigration):
             'meta_robots': ('django.db.models.fields.CharField', [], {'max_length': '20', 'blank': 'True'}),
             'modified_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_page_last_modified'", 'to': "orm['auth.User']"}),
             'slug': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'}),
+            'tags': ('tagging.fields.TagField', [], {'default': "''"}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'pagelets.pageattachment': {
@@ -149,7 +98,7 @@ class Migration(SchemaMigration):
             'last_changed': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'modified_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_pagelet_last_modified'", 'to': "orm['auth.User']"}),
             'slug': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            'type': ('django.db.models.fields.CharField', [], {'default': "'html'", 'max_length': '32'})
+            'type': ('django.db.models.fields.CharField', [], {'default': "'wymeditor'", 'max_length': '32'})
         },
         'pagelets.sharedpagelet': {
             'Meta': {'ordering': "('order',)", 'unique_together': "(('pagelet', 'page'),)", 'object_name': 'SharedPagelet'},
