@@ -6,6 +6,7 @@ Release History
 
 * Fix migrations to run on MySQL
 * Configurable content types with included JS/CSS requirements
+* Updated message API to be compatible with Django 1.4+
 
 
 0.7.2 (Released 2012-03-28)
