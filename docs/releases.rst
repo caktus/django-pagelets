@@ -24,7 +24,7 @@ Release History
 * Add migration to install sequences properly on PostgreSQL
 
 
-0.7.0
+0.7.0 (Released 2011-04-01)
 ------------------------------------
 
 * Add docs and publish on Read the Docs
