@@ -7,7 +7,7 @@
 {% block content %}
     <div id='page-{{ page.pk }}' class='page {{ page.slug }}'>
         <div class='page-title'>Upload file to {{ page.title }}</div>
-        <form enctype="multipart/form-data" action="" method="post" accept-charset="utf-8">
+        <form enctype="multipart/form-data" action="" method="post" accept-charset="utf-8">{% csrf_token %}
             <table>
             {{ form }}
             </table>
