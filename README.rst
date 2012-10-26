@@ -47,6 +47,7 @@ Installation and Setup
         "django.core.context_processors.debug",
         "django.core.context_processors.i18n",
         "django.core.context_processors.media",
+        "django.core.context_processors.static",
         "django.contrib.messages.context_processors.messages",
         "django.core.context_processors.request", # <----
     )
@@ -56,19 +57,6 @@ Installation and Setup
     urlpatterns += patterns('',
         (r'^pagelets-management/', include('pagelets.urls.management')),
         (r'^', include('pagelets.urls.content')),
-    )
-
-#. In development, you can serve pagelet's static media in urls.py::
-
-    import pagelets
-    path = os.path.join(os.path.dirname(pagelets.__file__), 'media')
-
-    urlpatterns += patterns('',
-        (
-            r'^%spagelets/(?P<path>.*)' % settings.MEDIA_URL.lstrip('/'),
-            'django.views.static.serve',
-            {'document_root': path, 'show_indexes': True}
-        ),
     )
 
 #. Visit the admin site, add and save a new page, and click the View on site link.  If everything is setup correctly, you should be able to see and edit the content you just added.
