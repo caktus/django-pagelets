@@ -51,6 +51,8 @@ def render_content_area(context, page, content_area):
         context = RequestContext(context['request'])
     else:
         context = Context()
+    if isinstance(page, basestring):
+        page = Page.objects.get(slug=page)
     context['page'] = page
     context['content_area'] = content_area
     context['pagelets'] = page.get_area_pagelets(content_area)
