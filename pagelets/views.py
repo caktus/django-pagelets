@@ -1,8 +1,11 @@
+import hashlib
+
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.shortcuts import get_object_or_404
+from django.views.decorators.http import condition
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
 from django.core.urlresolvers import reverse
@@ -73,6 +76,15 @@ def create_pagelet(request, pagelet_slug=None):
     return HttpResponseRedirect(edit_pagelet)
 
 
+def _last_modified(request, pagelet_id):
+    pagelet = get_object_or_404(Pagelet, pk=pagelet_id)
+    return pagelet.last_changed
+def _etag(request, pagelet_id):
+    pagelet = get_object_or_404(Pagelet, pk=pagelet_id)
+    etag = hashlib.md5(str(sorted(vars(pagelet).items()))).hexdigest()
+    return etag
+
+@condition(last_modified_func=_last_modified, etag_func=_etag)
 def edit_pagelet(
     request,
     pagelet_id,
