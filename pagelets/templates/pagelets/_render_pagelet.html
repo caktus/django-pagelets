@@ -1,3 +1,4 @@
+{% load url from future %}
 <div{% if pagelet %} id="pagelet-{{ pagelet.real.pk }}"{% endif %} class="pagelet{% if pagelet_slug %} {{ pagelet_slug }}{% endif %}{% if perms.pagelets.change_pagelet and include_links %} editable{% endif %}{% if pagelet.css_classes %} {{ pagelet.css_classes }}{% endif %}">
 	{% if include_links %}
 	{% if perms.pagelets.change_pagelet or perms.pagelets.delete_pagelet %}
@@ -5,15 +6,15 @@
 	{% if perms.pagelets.change_pagelet  %}
 	    <li class="pagelet-edit-link">
 	        {% if pagelet %}
-		<a href="{% url edit_pagelet pagelet.real.pk %}?next={{ request.get_full_path }}">Edit{% if pagelet.slug %} {{ pagelet.slug }}{% endif %}</a>
+		<a href="{% url "edit_pagelet" pagelet.real.pk %}?next={{ request.get_full_path }}">Edit{% if pagelet.slug %} {{ pagelet.slug }}{% endif %}</a>
 	        {% else %}
-	            <a href="{% url create_pagelet pagelet_slug %}?next={{ request.get_full_path }}">Create {% if pagelet_slug %}{{ pagelet_slug }}{% else %}pagelet{% endif %}</a>
+	            <a href="{% url "create_pagelet" pagelet_slug %}?next={{ request.get_full_path }}">Create {% if pagelet_slug %}{{ pagelet_slug }}{% else %}pagelet{% endif %}</a>
 	        {% endif %}
 	    </li>
 	{% endif %}
 	{% if perms.pagelets.delete_pagelet and pagelet %}
 	    <li class="pagelet-remove-link">
-			<a href="{% url remove_pagelet pagelet.real.pk %}?next={{ request.get_full_path }}">Remove{% if pagelet.slug %} {{ pagelet.slug }}{% endif %}</a>
+			<a href="{% url "remove_pagelet" pagelet.real.pk %}?next={{ request.get_full_path }}">Remove{% if pagelet.slug %} {{ pagelet.slug }}{% endif %}</a>
 	    </li>
 	{% endif %}
 	</ul>
