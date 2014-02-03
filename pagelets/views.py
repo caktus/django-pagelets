@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.http import condition
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models import Max
 
@@ -151,7 +152,7 @@ def remove_pagelet(
     
     if request.method == 'POST':
         pagelet.delete()
-        request.user.message_set.create(message='Pagelet successfully deleted.')
+        messages.info(request, 'Pagelet successfully deleted.')
         return HttpResponseRedirect(redirect_to)
     return render_to_response(
         template,

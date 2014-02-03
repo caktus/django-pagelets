@@ -14,6 +14,7 @@ Contents:
     configuration
     template_tags
     settings
+    releases
 
 Indices and tables
 ==================
