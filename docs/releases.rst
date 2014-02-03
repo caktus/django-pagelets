@@ -1,12 +1,14 @@
 Release History
 ====================================
 
-0.8.0 (Not Yet Released)
+0.8.0 (Released 2014-02-03
 ------------------------------------
 
 * Fix migrations to run on MySQL
 * Configurable content types with included JS/CSS requirements
 * Updated message API to be compatible with Django 1.4+
+* Updated template url syntax to be compatible with Django 1.5+
+* Add missing CSRF token to attach form (see #38)
 
 
 0.7.2 (Released 2012-03-28)
