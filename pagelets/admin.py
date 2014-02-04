@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.conf import settings
 from django.utils.html import strip_tags
-from django.utils.text import truncate_html_words
+from django.utils.text import Truncator
 
 from pagelets import models as pagelets
 if 'treenav' in settings.INSTALLED_APPS:
@@ -122,7 +122,7 @@ class PageletAdmin(admin.ModelAdmin):
                 'js/pagelets.js')
 
     def content_preview(self, obj):
-        return strip_tags(truncate_html_words(obj.content, 5))
+        return strip_tags(Truncator(obj.content).words(5, html=True))
     content_preview.short_description = 'content preview'
 
     def save_model(self, request, obj, form, change):
