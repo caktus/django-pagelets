@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.html import strip_tags
-from django.utils.text import Truncator
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.conf import settings
@@ -10,6 +9,7 @@ from django.template import compile_string, TemplateSyntaxError, StringOrigin
 from datetime import datetime
 
 from pagelets import validators
+from pagelets.utils import truncate_html_words
 
 PAGE_ATTACHMENT_PATH = getattr(settings, 'PAGE_ATTACHMENT_PATH', 'attachments/pages/')
 
@@ -281,7 +281,7 @@ class Pagelet(PageletBase):
         if self.slug:
             return self.slug
         else:
-            return strip_tags(Truncator(self.content).words(5, html=True))
+            return strip_tags(truncate_html_words(self.content, 5))
 
 
 class PlacedPageletBase(models.Model):
