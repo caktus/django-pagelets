@@ -1,7 +1,7 @@
 Release History
 ====================================
 
-0.8.0 (Released 2014-02-03
+0.8.0 (Released 2014-02-03)
 ------------------------------------
 
 * Fix migrations to run on MySQL
