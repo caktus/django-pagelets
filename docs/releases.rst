@@ -9,6 +9,7 @@ Release History
 * Updated message API to be compatible with Django 1.4+
 * Updated template url syntax to be compatible with Django 1.5+
 * Add missing CSRF token to attach form (see #38)
+* Replace `truncate_html_words` with `Truncator` for Django 1.6+ compatibility
 
 
 0.7.2 (Released 2012-03-28)
