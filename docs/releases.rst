@@ -10,7 +10,8 @@ Release History
 * Updated template url syntax to be compatible with Django 1.5+
 * Add missing CSRF token to attach form (see #38)
 * Allow use of `{% render_content_area "by-slug-string" %}`
-* Use `@condition` decorator on the `edit_pagelet` view in 3712f5
+* Provide proper eTag and Last Modified checks to `edit_pagelet` view,
+  avoiding edits that get lost by overzealous caching
 
 
 0.7.2 (Released 2012-03-28)
