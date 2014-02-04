@@ -9,6 +9,8 @@ Release History
 * Updated message API to be compatible with Django 1.4+
 * Updated template url syntax to be compatible with Django 1.5+
 * Add missing CSRF token to attach form (see #38)
+* Allow use of `{% render_content_area "by-slug-string" %}`
+* Use `@condition` decorator on the `edit_pagelet` view in 3712f5
 
 
 0.7.2 (Released 2012-03-28)
