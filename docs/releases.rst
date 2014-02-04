@@ -9,6 +9,9 @@ Release History
 * Updated message API to be compatible with Django 1.4+
 * Updated template url syntax to be compatible with Django 1.5+
 * Add missing CSRF token to attach form (see #38)
+* Allow use of `{% render_content_area "by-slug-string" %}`
+* Provide proper eTag and Last Modified checks to `edit_pagelet` view,
+  avoiding edits that get lost by overzealous caching
 * Add `truncate_html_words` shim for Django 1.6+ compatibility
 * Fix urls.py imports to work with Django 1.6+
 
