@@ -7,6 +7,7 @@ For complete documentation, checkout `<http://django-pagelets.readthedocs.org>`_
 
 Features
 --------
+
 - "Pagelets" for adding small pieces of content to otherwise static templates
 - CMS "pages" which include any number of pagelets and, if needed, attachments
 - Different pagelet content types including HTML and Markdown
@@ -15,6 +16,7 @@ Features
 Required Dependencies
 ---------------------
 
+- Django 1.3+
 - Django admin site
 - The `django.core.context_processors.request` context processor
 
