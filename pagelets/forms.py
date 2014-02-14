@@ -22,7 +22,7 @@ class PageletForm(forms.ModelForm):
         self.preview = kwargs.pop('preview', False)
         super(PageletForm, self).__init__(*args, **kwargs)
         if self.preview:
-            for field in self.fields.itervalues():
+            for field in self.fields.values():
                 field.widget = forms.HiddenInput()
         else:
             self.fields['content'].widget = forms.Textarea(

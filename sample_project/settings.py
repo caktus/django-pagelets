@@ -1,5 +1,8 @@
 # Django settings for sample_project project.
 import os.path
+import sys
+if 'test' in sys.argv:
+    SOUTH_TESTS_MIGRATE = False
 PROJECT_PATH = os.path.abspath('%s' % os.path.dirname(__file__))
 
 DEBUG = True

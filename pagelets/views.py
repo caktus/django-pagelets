@@ -82,7 +82,7 @@ def _last_modified(request, pagelet_id):
     return pagelet.last_changed
 def _etag(request, pagelet_id):
     pagelet = get_object_or_404(Pagelet, pk=pagelet_id)
-    etag = hashlib.md5(str(sorted(vars(pagelet).items()))).hexdigest()
+    etag = hashlib.md5(str(sorted(vars(pagelet).items())).encode('utf8')).hexdigest()
     return etag
 
 @condition(last_modified_func=_last_modified, etag_func=_etag)

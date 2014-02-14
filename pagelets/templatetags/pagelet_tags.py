@@ -10,6 +10,11 @@ from pagelets.models import Pagelet, Page, DEFAULT_CONTENT_AREA
 
 register = template.Library()
 
+try:
+    basestring
+except NameError:
+    basestring = str
+
 @register.inclusion_tag('pagelets/_render_pagelet.html', takes_context=True)
 def render_pagelet(context, pagelet):
     """
