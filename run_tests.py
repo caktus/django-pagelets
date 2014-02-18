@@ -20,10 +20,11 @@ if not settings.configured:
         db_name = "pagelets_%s" % os.environ.get('TESTENV', db_name)
 
     settings.configure(
+        AUTH_USER_MODEL='auth.User',
         DATABASES={
             'default': {
-                'ENGINE': 'django.db.backends.postgresql_psycopg2',
-                'NAME': 'pagelets',
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': 'pagelets.db',
                 'USER': '',
                 'PASSWORD': '',
                 'HOST': '',
@@ -32,6 +33,7 @@ if not settings.configured:
             }
         },
         INSTALLED_APPS=[
+            'django.contrib.admin',
             'django.contrib.auth',
             'django.contrib.contenttypes',
             'django.contrib.sessions',
@@ -42,14 +44,14 @@ if not settings.configured:
             'pagelets',
         ] + jenkins,
         SITE_ID=1,
-        ROOT_URLCONF='pagelets.urls',
+        ROOT_URLCONF='pagelets.tests.urls',
         MIDDLEWARE_CLASSES=(
             'django.contrib.sessions.middleware.SessionMiddleware',
             'django.contrib.auth.middleware.AuthenticationMiddleware',
         ),
         TEMPLATE_LOADERS=(
-            'django.template.loaders.filesystem.Loader',
             'django.template.loaders.app_directories.Loader',
+            'django.template.loaders.filesystem.Loader',
         ),
         TEMPLATE_CONTEXT_PROCESSORS=(
             "django.contrib.auth.context_processors.auth",

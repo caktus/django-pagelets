@@ -3,6 +3,7 @@ import os.path
 import sys
 if 'test' in sys.argv:
     SOUTH_TESTS_MIGRATE = False
+AUTH_USER_MODEL = 'auth.User'
 PROJECT_PATH = os.path.abspath('%s' % os.path.dirname(__file__))
 
 DEBUG = True

@@ -54,8 +54,8 @@ class PageletsTest(TestCase):
             modified_by=self.editor,
         )
         url = reverse('edit_pagelet', kwargs={'pagelet_id': pagelet.real.pk})
-        response = self.c.get(url)
-        self.assertEqual(response.status_code, 200)
+        response = self.c.get(url, follow=True)
+        self.assertEqual(response.status_code, 200, response)
         data = {
             'type': 'html',
             'content': '<p>new content</p>',

@@ -31,7 +31,7 @@
                         <a href='{{ attachment.file.url }}'>{{ attachment }}</a>
                         <span class='file-size'>({{ attachment.file.size|filesizeformat }})</span>
                         {% if perms.pagelets.delete_pageattachment %}
-                            (<a href='{% url "remove_attachment" page.slug,attachment.pk %}?next={{ request.get_full_path }}'>Delete</a>)
+                            (<a href='{% url "remove_attachment" page.slug attachment.pk %}?next={{ request.get_full_path }}'>Delete</a>)
                         {% endif %}
                     </li>
                 {% endfor %}
