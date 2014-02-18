@@ -3,10 +3,16 @@ import re
 from django import template
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
-from django.contrib.auth.models import User
 from django.template import RequestContext, Context
 
 from pagelets.models import Pagelet, Page, DEFAULT_CONTENT_AREA
+
+try:
+    from django.contrib.auth import get_user_model
+except ImportError:
+    from django.contrib.auth.models import User
+else:
+    User = get_user_model()
 
 register = template.Library()
 

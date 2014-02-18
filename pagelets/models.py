@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.html import strip_tags
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.template import compile_string, TemplateSyntaxError, StringOrigin
@@ -46,7 +45,7 @@ class PageletBase(models.Model):
         editable=False,
     )
     created_by = models.ForeignKey(
-        User, 
+        getattr(settings, 'AUTH_USER_MODEL', 'auth.User'),
         related_name='%(app_label)s_%(class)s_created', 
         editable=False,
     )
@@ -57,7 +56,7 @@ class PageletBase(models.Model):
         editable=False,
     )
     modified_by = models.ForeignKey(
-        User, 
+        getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), 
         related_name='%(app_label)s_%(class)s_last_modified', 
         editable=False,
     )
