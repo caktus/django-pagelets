@@ -1,6 +1,12 @@
 Release History
 ====================================
 
+Git master (unreleased)
+------------------------------------
+
+* Custom user model compatibility
+
+
 0.8.0 (Released 2014-02-05)
 ------------------------------------
 
