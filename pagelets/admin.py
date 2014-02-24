@@ -8,7 +8,6 @@ if 'treenav' in settings.INSTALLED_APPS:
     from treenav.admin import GenericMenuItemInline
 else:
     GenericMenuItemInline = None
-1/0
 
 
 class InlinePageletAdmin(admin.StackedInline):
