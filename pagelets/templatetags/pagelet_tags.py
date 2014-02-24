@@ -3,7 +3,6 @@ import re
 from django import template
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
-from django.contrib.auth.models import User
 from django.template import RequestContext, Context
 
 from pagelets.models import Pagelet, Page, DEFAULT_CONTENT_AREA
@@ -14,6 +13,7 @@ try:
     basestring
 except NameError:
     basestring = str
+
 
 @register.inclusion_tag('pagelets/_render_pagelet.html', takes_context=True)
 def render_pagelet(context, pagelet):
@@ -82,12 +82,12 @@ def pagelink_ifexists(context, page, link_text):
             page = Page.objects.get(slug=page)
         except Page.DoesNotExist:
             page = None
-    
+
     if page:
         # add the slug separately because we need it in the template even
         # if this page doesn't exist
         context['page_slug'] = page.slug
-        
+
     context['page'] = page
     context['link_text'] = link_text
     return context
@@ -111,7 +111,7 @@ def page_content_teaser(context, page, num_words):
             page = Page.objects.get(slug=page)
         except Pagelet.DoesNotExist:
             page = None
-    
+
     content = ''
     if page:
         # add the slug separately because we need it in the template even
@@ -129,7 +129,7 @@ def page_content_teaser(context, page, num_words):
     return context
 
 
-@register.inclusion_tag('pagelets/_page_teaser_new.html', takes_context=True)    
+@register.inclusion_tag('pagelets/_page_teaser_new.html', takes_context=True)
 def page_teaser(context, page, num_words):
     """
     Renders a better teaser of the given page object in the calling template.
@@ -147,7 +147,7 @@ def page_teaser(context, page, num_words):
             page = Page.objects.get(slug=page)
         except Pagelet.DoesNotExist:
             page = None
-    
+
     content = ''
     if page:
         # add the slug separately because we need it in the template even
@@ -184,9 +184,8 @@ def create_page(context, link_text):
         context = RequestContext(request)
     else:
         return {'exists': True}
-    
+
     has_perm = request.user.has_perm('pagelets.add_page')
-    
 
     if has_perm:
         path = request.path.strip('/')
@@ -199,7 +198,7 @@ def create_page(context, link_text):
         exists = True
 
     admin_url = reverse('admin:%s_%s_add' % (Page._meta.app_label, Page._meta.module_name))
-        
+
     context['exists'] = exists
     context['admin_url'] = u'{0}?slug={1}'.format(admin_url, path)
     context['link_text'] = link_text
