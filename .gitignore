@@ -6,3 +6,4 @@ sample_project/*.db
 docs/_build/*
 attachments/
 dist/
+.tox

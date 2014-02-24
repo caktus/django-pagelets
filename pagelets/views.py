@@ -12,14 +12,13 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models import Max
 
-from pagelets.models import Pagelet, InlinePagelet, Page, PageAttachment, \
-                            CONTENT_AREAS
+from pagelets.models import Pagelet, InlinePagelet, Page, PageAttachment, CONTENT_AREAS
 from pagelets.forms import PageletForm, UploadForm
 
 
 def view_page(request, page_slug, template='pagelets/view_page.html'):
     page = get_object_or_404(Page, slug=page_slug)
-    
+
     context = {
         'page': page,
     }
@@ -54,7 +53,7 @@ def create_pagelet(request, pagelet_slug=None):
         order = None
         if page:
             # if the page exists, set the order of this pagelet to
-            # max(page.inline_pagelets.order) + 1 
+            # max(page.inline_pagelets.order) + 1
             order = page.inline_pagelets.aggregate(Max('order'))['order__max'] or 0
             order += 1
             pagelet = InlinePagelet.objects.create(
@@ -80,10 +79,13 @@ def create_pagelet(request, pagelet_slug=None):
 def _last_modified(request, pagelet_id):
     pagelet = get_object_or_404(Pagelet, pk=pagelet_id)
     return pagelet.last_changed
+
+
 def _etag(request, pagelet_id):
     pagelet = get_object_or_404(Pagelet, pk=pagelet_id)
-    etag = hashlib.md5(str(sorted(vars(pagelet).items()))).hexdigest()
+    etag = hashlib.md5(str(sorted(vars(pagelet).items())).encode('utf8')).hexdigest()
     return etag
+
 
 @condition(last_modified_func=_last_modified, etag_func=_etag)
 def edit_pagelet(
@@ -96,10 +98,11 @@ def edit_pagelet(
     redirect_to = request.REQUEST.get(redirect_field_name, redirect_to)
     if not redirect_to:
         redirect_to = '/'
-    
+
     pagelet = get_object_or_404(Pagelet, pk=pagelet_id)
+
     @user_passes_test(
-        lambda u: u.has_perm('pagelets.change_pagelet', pagelet),
+        lambda u: u.has_perm('pagelets.change_pagelet'),
         login_url=settings.LOGIN_URL)
     def _(request):
         preview_form = None
@@ -107,26 +110,26 @@ def edit_pagelet(
         if request.POST:
             form = PageletForm(request.POST, instance=pagelet)
             if form.is_valid():
-                if request.REQUEST.has_key('save_btn'):
+                if 'save_btn' in request.REQUEST:
                     form.save(user=request.user)
                     return HttpResponseRedirect(redirect_to)
                 else:
                     preview_form = PageletForm(
-                        request.POST, 
-                        instance=pagelet, 
+                        request.POST,
+                        instance=pagelet,
                         preview=True,
                     )
                     pagelet_preview = form.save(commit=False, user=request.user)
         else:
             form = PageletForm(instance=pagelet)
-        
+
         context = {
             'form': form,
             'pagelet': pagelet,
             'preview_form': preview_form,
             'pagelet_preview': pagelet_preview,
         }
-        
+
         return render_to_response(
             template,
             context,
@@ -145,11 +148,11 @@ def remove_pagelet(
     redirect_to=None,
 ):
     pagelet = get_object_or_404(Pagelet, pk=pagelet_id)
-    
+
     redirect_to = request.REQUEST.get(redirect_field_name, redirect_to)
     if not redirect_to:
         redirect_to = '/'
-    
+
     if request.method == 'POST':
         pagelet.delete()
         messages.info(request, 'Pagelet successfully deleted.')
@@ -164,10 +167,10 @@ def remove_pagelet(
 @user_passes_test(lambda u: u.has_perm('pagelets.add_pageattachment'),
                   login_url=settings.LOGIN_URL)
 def add_attachment(
-    request,
-    page_slug,
-    template='pagelets/attach.html',
-  ):
+        request,
+        page_slug,
+        template='pagelets/attach.html',
+):
     page = get_object_or_404(Page, slug=page_slug)
     if request.POST:
         form = UploadForm(request.POST, request.FILES)
@@ -176,7 +179,7 @@ def add_attachment(
             return HttpResponseRedirect(
                 reverse('view_page', args=[page.slug])
             )
-            
+
     else:
         form = UploadForm()
     context = {

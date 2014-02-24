@@ -5,6 +5,27 @@ from south.v2 import SchemaMigration
 from django.db import models
 
 
+try:
+    import tagging
+except ImportError:
+    tag_field = 'django.db.models.fields.CharField'
+else:
+    tag_field = 'tagging.fields.TagField'
+
+# Safe User import for Django < 1.5
+try:
+    from django.contrib.auth import get_user_model
+except ImportError:
+    from django.contrib.auth.models import User
+else:
+    User = get_user_model()
+
+# With the default User model these will be 'auth.User' and 'auth.user'
+# so instead of using orm['auth.User'] we can use orm[user_orm_label]
+user_orm_label = '%s.%s' % (User._meta.app_label, User._meta.object_name)
+user_model_label = '%s.%s' % (User._meta.app_label, User._meta.module_name)
+
+
 TABLES = [
     "pagelets_page",
     "pagelets_pagelet",
@@ -35,8 +56,8 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
-        'auth.user': {
-            'Meta': {'object_name': 'User'},
+        user_model_label: {
+            'Meta': {'object_name': User.__name__},
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
@@ -68,16 +89,16 @@ class Migration(SchemaMigration):
         'pagelets.page': {
             'Meta': {'ordering': "('title',)", 'object_name': 'Page'},
             'base_template': ('django.db.models.fields.CharField', [], {'default': "'pagelets/view_page.html'", 'max_length': '255', 'blank': 'True'}),
-            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_page_created'", 'to': "orm['auth.User']"}),
+            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_page_created'", 'to': "orm['%s']" % user_orm_label}),
             'creation_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'last_changed': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'meta_keywords': ('django.db.models.fields.CharField', [], {'max_length': '200', 'blank': 'True'}),
             'meta_robots': ('django.db.models.fields.CharField', [], {'max_length': '20', 'blank': 'True'}),
-            'modified_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_page_last_modified'", 'to': "orm['auth.User']"}),
+            'modified_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_page_last_modified'", 'to': "orm['%s']" % user_orm_label}),
             'slug': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'}),
-            'tags': ('tagging.fields.TagField', [], {'default': "''"}),
+            'tags': (tag_field, [], {'default': "''", 'max_length': '255'}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '255'})
         },
         'pagelets.pageattachment': {
@@ -91,12 +112,12 @@ class Migration(SchemaMigration):
         'pagelets.pagelet': {
             'Meta': {'ordering': "('slug',)", 'object_name': 'Pagelet'},
             'content': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_pagelet_created'", 'to': "orm['auth.User']"}),
+            'created_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_pagelet_created'", 'to': "orm['%s']" % user_orm_label}),
             'creation_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'css_classes': ('django.db.models.fields.CharField', [], {'max_length': '255', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'last_changed': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'modified_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_pagelet_last_modified'", 'to': "orm['auth.User']"}),
+            'modified_by': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pagelets_pagelet_last_modified'", 'to': "orm['%s']" % user_orm_label}),
             'slug': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'type': ('django.db.models.fields.CharField', [], {'default': "'wymeditor'", 'max_length': '32'})
         },
