@@ -1,6 +1,15 @@
 Release History
 ====================================
 
+0.9.0 (Released 2014-02-24)
+------------------------------------
+
+* Setup tox
+* Support Django's custom user model
+* Python 3 support
+* Flake8 improvements
+
+
 0.8.0 (Released 2014-02-05)
 ------------------------------------
 
