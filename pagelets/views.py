@@ -85,6 +85,7 @@ def _etag(request, pagelet_id):
     etag = hashlib.md5(str(sorted(vars(pagelet).items())).encode('utf8')).hexdigest()
     return etag
 
+
 @condition(last_modified_func=_last_modified, etag_func=_etag)
 def edit_pagelet(
     request,
@@ -96,10 +97,10 @@ def edit_pagelet(
     redirect_to = request.REQUEST.get(redirect_field_name, redirect_to)
     if not redirect_to:
         redirect_to = '/'
-    
+
     pagelet = get_object_or_404(Pagelet, pk=pagelet_id)
     @user_passes_test(
-        lambda u: u.has_perm('pagelets.change_pagelet', pagelet),
+        lambda u: u.has_perm('pagelets.change_pagelet'),
         login_url=settings.LOGIN_URL)
     def _(request):
         preview_form = None
@@ -126,7 +127,7 @@ def edit_pagelet(
             'preview_form': preview_form,
             'pagelet_preview': pagelet_preview,
         }
-        
+
         return render_to_response(
             template,
             context,

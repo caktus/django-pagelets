@@ -139,7 +139,7 @@ class Page(PageletBase):
         pagelets = list(self.inline_pagelets.filter(area=area_slug))
         if with_shared:
             pagelets.extend(self.shared_pagelets.filter(area=area_slug))
-        pagelets.sort(cmp=lambda a, b: (a.order or 0) - (b.order or 0))
+        pagelets.sort(key=lambda a: a.order or 0)
         return pagelets
     
     def get_absolute_url(self):

@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 
 from pagelets.models import Page, Pagelet
 
+
 class PageletsTest(TestCase):
     def setUp(self):
         self.editor = User.objects.create_user(
@@ -142,6 +143,6 @@ class PageTestCase(TestCase):
         )
         try:
             test_page.full_clean()
-        except ValidationError, e:
+        except ValidationError as e:
             self.fail(str(e))
 
