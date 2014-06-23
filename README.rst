@@ -16,15 +16,23 @@ Features
 Required Dependencies
 ---------------------
 
-- Django 1.3+
+- Django 1.7
 - Django admin site
 - The `django.core.context_processors.request` context processor
 
 Optional Dependencies
 ---------------------
 
-- `jQuery 1.3 <http://jquery.com>`_
+- `jQuery 1.7 <http://jquery.com>`_
 - `WYMeditor <http://www.wymeditor.org/>`_ (included in pagelets media)
+
+Support for Django 1.3 through 1.6
+----------------------------------
+
+If you require support for a Django release before 1.7, you can use a release from the 0.9
+line of Pagelets, which supports Django 1.3, 1.4, 1.5, and 1.6. This release is also compatible
+with Python 3.3 for appropriate Django versions. At this time we will continue to support security
+updates to this version of Pagelets.
 
 
 Installation and Setup
