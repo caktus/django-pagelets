@@ -9,6 +9,13 @@ if 'treenav' in settings.INSTALLED_APPS:
 else:
     GenericMenuItemInline = None
 
+JS_URLS = [
+    'wymeditor/jquery.wymeditor.js',
+    'js/pagelets.js',
+]
+for code, name, js, css in settings.PAGELET_CONTENT_TYPES:
+    JS_URLS.extend(js)
+
 
 class InlinePageletAdmin(admin.StackedInline):
     model = pagelets.InlinePagelet
@@ -81,8 +88,7 @@ class PageAdmin(admin.ModelAdmin):
         css = {
             'all': ('css/wymeditor.admin.css',)
         }
-        js = ('wymeditor/jquery.wymeditor.js',
-              'js/pagelets.js')
+        js = JS_URLS
 
     def save_model(self, request, obj, form, change):
         if not obj.id:
@@ -118,8 +124,7 @@ class PageletAdmin(admin.ModelAdmin):
         css = {
             'all': ('css/wymeditor.admin.css',)
         }
-        js = ('wymeditor/jquery.wymeditor.js',
-              'js/pagelets.js')
+        js = JS_URLS
 
     def content_preview(self, obj):
         return strip_tags(truncate_html_words(obj.content, 5))

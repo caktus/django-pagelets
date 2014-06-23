@@ -42,7 +42,7 @@ jQuery(function() {
         }
     }
     var select = $('form [name$=type]');
-    select.live('change', function() {
+    select.on('change', function() {
         install_editor($(this));
     }).each(function (i) {
         install_editor($(this));
