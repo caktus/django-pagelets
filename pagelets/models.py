@@ -10,12 +10,10 @@ from datetime import datetime
 from pagelets import validators
 from pagelets.utils import truncate_html_words
 
-PAGE_ATTACHMENT_PATH = getattr(settings, 'PAGE_ATTACHMENT_PATH', 'attachments/pages/')
+from taggit.managers import TaggableManager
 
-if 'tagging' in settings.INSTALLED_APPS:
-    from tagging.fields import TagField
-else:
-    TagField = None
+
+PAGE_ATTACHMENT_PATH = getattr(settings, 'PAGE_ATTACHMENT_PATH', 'attachments/pages/')
 
 ORDER_CHOICES = [(x, x) for x in range(-10, 11)]
 
@@ -126,6 +124,8 @@ class Page(PageletBase):
             ('NOFOLLOW, INDEX', 'NOFOLLOW, INDEX'),
         ]
     )
+
+    tags = TaggableManager()
 
     def get_area_pagelets(self, area_slug, with_shared=True):
         """

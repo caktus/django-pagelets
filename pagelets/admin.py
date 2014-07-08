@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.conf import settings
 from django.utils.html import strip_tags
+from django import forms
 
 from pagelets.utils import truncate_html_words
 from pagelets import models as pagelets
@@ -8,6 +9,13 @@ if 'treenav' in settings.INSTALLED_APPS:
     from treenav.admin import GenericMenuItemInline
 else:
     GenericMenuItemInline = None
+
+import selectable.forms
+from selectable.base import ModelLookup
+from selectable.registry import registry
+from taggit.models import Tag
+
+
 
 JS_URLS = [
     'wymeditor/jquery.wymeditor.js',
@@ -53,6 +61,32 @@ class InlinePageAttachmentAdmin(admin.StackedInline):
     )
 
 
+class TagLookup(ModelLookup):
+    model = Tag
+    search_fields = ('name__icontains',)
+
+
+registry.register(TagLookup)
+
+
+class PageForm(forms.ModelForm):
+    tags = selectable.forms.AutoCompleteSelectMultipleField(
+        lookup_class=TagLookup,
+        label='Select a tag',
+        required=False,
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.initial['tags'] = self.instance.tags.all().values_list('pk', flat=True)
+
+    def save(self, *args, **kwargs):
+        ret = super().save(*args, **kwargs)
+        ret._pending_tags = set(tag.name for tag in self.cleaned_data['tags'])
+        return ret
+
+
 class PageAdmin(admin.ModelAdmin):
     list_display = (
         'title',
@@ -61,12 +95,13 @@ class PageAdmin(admin.ModelAdmin):
         'created_by',
         'creation_date',
     )
+    form = PageForm
     search_fields = ('title',)
     list_filter = ('modified_by',)
     prepopulated_fields = {'slug': ('title',)}
     inlines = [InlinePageletAdmin, SharedPageletAdmin,
                InlinePageAttachmentAdmin]
-    shown_fields = ['title', 'slug']
+    shown_fields = ['title', 'slug', 'tags']
     optional_fields = ['description', ('meta_keywords', 'meta_robots')]
     if getattr(settings, 'PAGELET_BASE_TEMPLATES', None):
         optional_fields.insert(0, 'base_template')
@@ -93,6 +128,8 @@ class PageAdmin(admin.ModelAdmin):
             obj.created_by = request.user
             obj.modified_by = request.user
         obj.save()
+        if hasattr(obj, '_pending_tags'):
+            obj.tags.set(*obj._pending_tags)
 
     def save_formset(self, request, form, formset, change):
         pagelets = formset.save(commit=False)
