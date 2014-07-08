@@ -67,8 +67,6 @@ class PageAdmin(admin.ModelAdmin):
     inlines = [InlinePageletAdmin, SharedPageletAdmin,
                InlinePageAttachmentAdmin]
     shown_fields = ['title', 'slug']
-    if 'tagging' in settings.INSTALLED_APPS:
-        shown_fields.append('tags')
     optional_fields = ['description', ('meta_keywords', 'meta_robots')]
     if getattr(settings, 'PAGELET_BASE_TEMPLATES', None):
         optional_fields.insert(0, 'base_template')
