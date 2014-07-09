@@ -13,7 +13,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
+        migrations.RemoveField('page', 'tags'),
+        migrations.AddField(
             model_name='page',
             name='tags',
             field=taggit.managers.TaggableManager(help_text='A comma-separated list of tags.', to=taggit.models.Tag, verbose_name='Tags', through=taggit.models.TaggedItem),
