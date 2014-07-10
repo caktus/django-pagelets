@@ -7,7 +7,7 @@ from selectable.base import ModelLookup
 from selectable.registry import registry
 from taggit.models import Tag
 
-from pagelets.models import Page, Pagelet, PageAttachment, get_pagelet_type_assets
+from pagelets.models import Page, PageletBase, Pagelet, InlinePagelet, SharedPagelet, PageAttachment, get_pagelet_type_assets
 
 
 
@@ -19,13 +19,17 @@ class TagLookup(ModelLookup):
 registry.register(TagLookup)
 
 
-class PageletForm(forms.ModelForm):
+CONTENT_AREAS = getattr(settings, 'PAGELET_CONTENT_AREAS', (('main', 'Main'),))
+
+
+class BasePageletForm(forms.ModelForm):
 
     class Meta:
-        model = Pagelet
-        fields = ('type', 'content')
+        model = PageletBase
+        fields = ()
         widgets = {
             "type": forms.Select(choices=Pagelet.CONTENT_TYPES),
+            "area": forms.Select(choices=CONTENT_AREAS)
         }
 
     class Media:
@@ -36,19 +40,8 @@ class PageletForm(forms.ModelForm):
 
         js, css = get_pagelet_type_assets(base_scripts=js, base_styles=css)
 
-    def __init__(self, *args, **kwargs):
-        self.preview = kwargs.pop('preview', False)
-        super(PageletForm, self).__init__(*args, **kwargs)
-        if self.preview:
-            for field in self.fields.values():
-                field.widget = forms.HiddenInput()
-        else:
-            self.fields['content'].widget = forms.Textarea(
-                attrs={'rows': 30, 'cols': 90}
-            )
-
     def save(self, commit=True, user=None):
-        instance = super(PageletForm, self).save(commit=False)
+        instance = super(BasePageletForm, self).save(commit=False)
         if user:
             instance.created_by = user
             instance.modified_by = user
@@ -57,6 +50,43 @@ class PageletForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
+
+class ContentPageletForm(BasePageletForm):
+    def __init__(self, *args, **kwargs):
+        self.preview = kwargs.pop('preview', False)
+        super(BasePageletForm, self).__init__(*args, **kwargs)
+        if self.preview:
+            for field in self.fields.values():
+                field.widget = forms.HiddenInput()
+        else:
+            self.fields['content'].widget = forms.Textarea(
+                attrs={'rows': 30, 'cols': 90}
+            )
+
+
+class InlinePageletForm(ContentPageletForm):
+    class Meta:
+        model = InlinePagelet
+        fields = ('type', 'content', 'area')
+        widgets = {
+            "area": forms.Select(choices=CONTENT_AREAS),
+        }
+
+
+class SharedPageletForm(BasePageletForm):
+    class Meta:
+        model = SharedPagelet
+        fields = ('pagelet', 'area', 'order')
+        widgets = {
+            "area": forms.Select(choices=CONTENT_AREAS),
+        }
+
+
+class PageletForm(ContentPageletForm):
+    class Meta:
+        model = Pagelet
+        fields = ('type', 'content')
 
 
 class UploadForm(forms.ModelForm):

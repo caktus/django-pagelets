@@ -32,10 +32,6 @@ if hasattr(settings, 'PAGELET_TEMPLATE_TAGS'):
 AUTO_LOAD_TEMPLATE_TAGS = '{%% load %s %%}' % ' '.join(tags)
 
 
-CONTENT_AREAS = getattr(settings, 'PAGELET_CONTENT_AREAS', (('main', 'Main'),))
-DEFAULT_CONTENT_AREA = CONTENT_AREAS[0][0]
-
-
 class PageletBase(models.Model):
     creation_date = models.DateTimeField(
         _('creation date'),
@@ -282,8 +278,7 @@ class PlacedPageletBase(models.Model):
     area = models.CharField(
         _('content area'),
         max_length=32,
-        choices=CONTENT_AREAS,
-        default=DEFAULT_CONTENT_AREA,
+        default='main',
         help_text=_('Specifies the placement of this pagelet on the page.'),
     )
     order = models.SmallIntegerField(

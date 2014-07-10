@@ -12,8 +12,8 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models import Max
 
-from pagelets.models import Pagelet, InlinePagelet, Page, PageAttachment, CONTENT_AREAS
-from pagelets.forms import PageletForm, UploadForm
+from pagelets.models import Pagelet, InlinePagelet, Page, PageAttachment
+from pagelets.forms import PageletForm, UploadForm, CONTENT_AREAS
 
 
 def view_page(request, page_slug, template='pagelets/view_page.html'):
