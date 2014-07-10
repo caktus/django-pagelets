@@ -1,7 +1,22 @@
+from django.conf import settings
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from pagelets.models import Pagelet, PageAttachment, get_pagelet_type_assets
+import selectable.forms
+from selectable.base import ModelLookup
+from selectable.registry import registry
+from taggit.models import Tag
+
+from pagelets.models import Page, Pagelet, PageAttachment, get_pagelet_type_assets
+
+
+
+class TagLookup(ModelLookup):
+    model = Tag
+    search_fields = ('name__icontains',)
+
+
+registry.register(TagLookup)
 
 
 class PageletForm(forms.ModelForm):
@@ -57,3 +72,27 @@ class UploadForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
+
+
+class PageForm(forms.ModelForm):
+    class Meta:
+        model = Page
+        fields = ('title', 'slug', 'tags', 'description', 'meta_keywords', 'meta_robots', 'base_template')
+
+    tags = selectable.forms.AutoCompleteSelectMultipleField(
+        lookup_class=TagLookup,
+        label='Select a tag',
+        required=False,
+    )
+    base_template = forms.CharField(widget=forms.Select(choices=getattr(settings, 'PAGELET_BASE_TEMPLATES', [])))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.initial['tags'] = self.instance.tags.all().values_list('pk', flat=True)
+
+    def save(self, *args, **kwargs):
+        ret = super().save(*args, **kwargs)
+        ret._pending_tags = set(tag.name for tag in self.cleaned_data['tags'])
+        return ret

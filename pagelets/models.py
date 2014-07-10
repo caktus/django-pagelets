@@ -104,7 +104,6 @@ class Page(PageletBase):
         blank=True,
         help_text=_('Specify an alternative layout template to use for this '
                     'page.  Clear the selection to use the default layout.'),
-        choices=getattr(settings, 'PAGELET_BASE_TEMPLATES', []),
         default='pagelets/view_page.html',
     )
     meta_keywords = models.CharField(

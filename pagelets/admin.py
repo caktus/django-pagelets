@@ -3,18 +3,13 @@ from django.conf import settings
 from django.utils.html import strip_tags
 from django import forms
 
+from pagelets.forms import PageForm
 from pagelets.utils import truncate_html_words
 from pagelets import models as pagelets
 if 'treenav' in settings.INSTALLED_APPS:
     from treenav.admin import GenericMenuItemInline
 else:
     GenericMenuItemInline = None
-
-import selectable.forms
-from selectable.base import ModelLookup
-from selectable.registry import registry
-from taggit.models import Tag
-
 
 
 JS_URLS = [
@@ -59,32 +54,6 @@ class InlinePageAttachmentAdmin(admin.StackedInline):
             'fields': (('name', 'order'), 'file')
         }),
     )
-
-
-class TagLookup(ModelLookup):
-    model = Tag
-    search_fields = ('name__icontains',)
-
-
-registry.register(TagLookup)
-
-
-class PageForm(forms.ModelForm):
-    tags = selectable.forms.AutoCompleteSelectMultipleField(
-        lookup_class=TagLookup,
-        label='Select a tag',
-        required=False,
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if self.instance and self.instance.pk:
-            self.initial['tags'] = self.instance.tags.all().values_list('pk', flat=True)
-
-    def save(self, *args, **kwargs):
-        ret = super().save(*args, **kwargs)
-        ret._pending_tags = set(tag.name for tag in self.cleaned_data['tags'])
-        return ret
 
 
 class PageAdmin(admin.ModelAdmin):
