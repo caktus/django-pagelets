@@ -215,8 +215,7 @@ class Pagelet(PageletBase):
     type = models.CharField(
         _('content type'),
         max_length=32,
-        choices=CONTENT_TYPES,
-        default=settings.PAGELET_CONTENT_DEFAULT,
+        default='html',
         help_text=_('Controls the markup language and, in some cases, the '
                     'JavaScript editor to be used for this pagelet\'s content.'),
     )

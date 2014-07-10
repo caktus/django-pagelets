@@ -24,6 +24,9 @@ class PageletForm(forms.ModelForm):
     class Meta:
         model = Pagelet
         fields = ('type', 'content')
+        widgets = {
+            "type": forms.Select(choices=Pagelet.CONTENT_TYPES),
+        }
 
     class Media:
         css = {
@@ -43,10 +46,6 @@ class PageletForm(forms.ModelForm):
             self.fields['content'].widget = forms.Textarea(
                 attrs={'rows': 30, 'cols': 90}
             )
-
-        if len(self.fields['type'].choices) == 1:
-            self.fields['type'].widget = forms.HiddenInput()
-            self.fields['type'].initial = self.fields['type'].choices[0][0]
 
     def save(self, commit=True, user=None):
         instance = super(PageletForm, self).save(commit=False)

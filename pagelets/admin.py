@@ -3,7 +3,7 @@ from django.conf import settings
 from django.utils.html import strip_tags
 from django import forms
 
-from pagelets.forms import PageForm
+from pagelets.forms import PageForm, PageletForm
 from pagelets.utils import truncate_html_words
 from pagelets import models as pagelets
 if 'treenav' in settings.INSTALLED_APPS:
@@ -24,6 +24,7 @@ class InlinePageletAdmin(admin.StackedInline):
     model = pagelets.InlinePagelet
     extra = 0
     fk_name = 'page'
+    form = PageletForm
     fieldsets = (
         (None, {
             'fields': ('type', 'content')
@@ -123,6 +124,7 @@ class PageletAdmin(admin.ModelAdmin):
     )
     search_fields = ('slug', 'content',)
     list_filter = ('type', 'modified_by', 'last_changed', 'creation_date')
+    form = PageletForm
 
     class Media:
         css = {
