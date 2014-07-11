@@ -6,6 +6,8 @@ from django import forms
 from pagelets.forms import PageForm, InlinePageletForm, SharedPageletForm, PageletForm
 from pagelets.utils import truncate_html_words
 from pagelets import models as pagelets
+from pagelets import conf
+
 if 'treenav' in settings.INSTALLED_APPS:
     from treenav.admin import GenericMenuItemInline
 else:
@@ -16,7 +18,7 @@ JS_URLS = [
     'wymeditor/jquery.wymeditor.js',
     'js/pagelets.js',
 ]
-for code, name, js, css in pagelets.PAGELET_CONTENT_TYPES:
+for code, name, js, css in conf.CONTENT_TYPES:
     JS_URLS.extend(js)
 
 

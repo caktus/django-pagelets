@@ -8,6 +8,7 @@ from selectable.registry import registry
 from taggit.models import Tag
 
 from pagelets.models import Page, PageletBase, Pagelet, InlinePagelet, SharedPagelet, PageAttachment, get_pagelet_type_assets
+from pagelets import conf
 
 
 
@@ -19,17 +20,14 @@ class TagLookup(ModelLookup):
 registry.register(TagLookup)
 
 
-CONTENT_AREAS = getattr(settings, 'PAGELET_CONTENT_AREAS', (('main', 'Main'),))
-
-
 class BasePageletForm(forms.ModelForm):
 
     class Meta:
         model = PageletBase
         fields = ()
         widgets = {
-            "type": forms.Select(choices=Pagelet.CONTENT_TYPES),
-            "area": forms.Select(choices=CONTENT_AREAS)
+            "type": forms.Select(choices=conf.CONTENT_TYPES),
+            "area": forms.Select(choices=conf.CONTENT_AREAS)
         }
 
     class Media:
@@ -70,7 +68,7 @@ class InlinePageletForm(ContentPageletForm):
         model = InlinePagelet
         fields = ('type', 'content', 'area')
         widgets = {
-            "area": forms.Select(choices=CONTENT_AREAS),
+            "area": forms.Select(choices=conf.CONTENT_AREAS),
         }
 
 
@@ -79,7 +77,7 @@ class SharedPageletForm(BasePageletForm):
         model = SharedPagelet
         fields = ('pagelet', 'area', 'order')
         widgets = {
-            "area": forms.Select(choices=CONTENT_AREAS),
+            "area": forms.Select(choices=conf.CONTENT_AREAS),
         }
 
 
@@ -114,7 +112,7 @@ class PageForm(forms.ModelForm):
         label='Select a tag',
         required=False,
     )
-    base_template = forms.CharField(widget=forms.Select(choices=getattr(settings, 'PAGELET_BASE_TEMPLATES', [])))
+    base_template = forms.CharField(widget=forms.Select(choices=conf.BASE_TEMPLATES))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

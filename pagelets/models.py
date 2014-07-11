@@ -9,27 +9,12 @@ from datetime import datetime
 
 from pagelets import validators
 from pagelets.utils import truncate_html_words
+from pagelets import conf
 
 from taggit.managers import TaggableManager
 
 
-PAGE_ATTACHMENT_PATH = getattr(settings, 'PAGE_ATTACHMENT_PATH', 'attachments/pages/')
-
 ORDER_CHOICES = [(x, x) for x in range(-10, 11)]
-
-try:
-    settings.PAGELET_CONTENT_DEFAULT
-except AttributeError:
-    settings.PAGELET_CONTENT_DEFAULT = 'html'
-
-# settings.PAGELET_TEMPLATE_TAGS is a list of template tag names that
-# will load before each pagelet is rendered, allowing custom template
-# tags to be included without including {% load <template_tag> %}
-tags = set(['pagelet_tags'])
-if hasattr(settings, 'PAGELET_TEMPLATE_TAGS'):
-    for tag in settings.PAGELET_TEMPLATE_TAGS:
-        tags.add(tag)
-AUTO_LOAD_TEMPLATE_TAGS = '{%% load %s %%}' % ' '.join(tags)
 
 
 class PageletBase(models.Model):
@@ -144,29 +129,13 @@ class Page(PageletBase):
         return self.title
 
 
-PAGELET_CONTENT_TYPES = getattr(settings, 'PAGELET_CONTENT_TYPES', (
-    ('html', 'HTML',
-     (),
-     {},),
-    ('markdown', 'Markdown',
-     (),
-     {},),
-    ('wymeditor', 'WYMeditor',
-     ('wymeditor/jquery.wymeditor.js',),
-     {},),
-    ('textile', 'Textile',
-     (),
-     {},),
-)) + getattr(settings, 'PAGELET_CONTENT_TYPES_EXTRA', ())
-
-
 def get_pagelet_type_assets(pagelet_type=None, base_scripts=None, base_styles=None):
     all_scripts = [] if base_scripts is None else list(base_scripts)
     all_styles = {} if base_styles is None else base_styles
     for k, v in all_styles.items():
         all_styles[k] = list(v)
 
-    for (val, label, scripts, styles) in PAGELET_CONTENT_TYPES:
+    for (val, label, scripts, styles) in conf.CONTENT_TYPES:
         if pagelet_type is None or val == pagelet_type:
             for script in scripts:
                 if script not in all_scripts:
@@ -186,7 +155,7 @@ class Pagelet(PageletBase):
 
     CONTENT_TYPES = tuple(
         (val, label) for (val, label, scripts, styles)
-        in PAGELET_CONTENT_TYPES
+        in conf.CONTENT_TYPES
     )
 
     # whenever you need to reference a pagelet in CSS, use its slug
@@ -224,7 +193,7 @@ class Pagelet(PageletBase):
     def render(self, context):
         # pagelets can automagically use pagelets templatetags
         # in order to remove boilerplate
-        loaded_cms = AUTO_LOAD_TEMPLATE_TAGS + self.content
+        loaded_cms = conf.AUTO_LOAD_TEMPLATE_TAGS + self.content
         """
         skip the first portions of render_to_string() ( finding the template )
          and go directly to compiling the template/pagelet
@@ -370,7 +339,7 @@ class SharedPagelet(PlacedPageletBase):
 class PageAttachment(models.Model):
     page = models.ForeignKey(Page, related_name='attachments')
     name = models.CharField(max_length=255)
-    file = models.FileField(upload_to='attachments/pages/')
+    file = models.FileField(upload_to=conf.ATTACHMENT_PATH)
     order = models.SmallIntegerField(
         null=True,
         blank=True,

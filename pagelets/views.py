@@ -13,7 +13,8 @@ from django.core.urlresolvers import reverse
 from django.db.models import Max
 
 from pagelets.models import Pagelet, InlinePagelet, Page, PageAttachment
-from pagelets.forms import PageletForm, UploadForm, CONTENT_AREAS
+from pagelets.forms import PageletForm, UploadForm
+from pagelets import conf
 
 
 def view_page(request, page_slug, template='pagelets/view_page.html'):
@@ -41,7 +42,7 @@ def create_pagelet(request, pagelet_slug=None):
             pass
     content_area = ''
     if 'content_area' in request.GET and\
-       request.GET['content_area'] in [slug for slug, name in CONTENT_AREAS]:
+       request.GET['content_area'] in [slug for slug, name in conf.CONTENT_AREAS]:
         content_area = request.GET['content_area']
     pagelet = None
     if pagelet_slug:
