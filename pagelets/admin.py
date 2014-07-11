@@ -16,7 +16,7 @@ JS_URLS = [
     'wymeditor/jquery.wymeditor.js',
     'js/pagelets.js',
 ]
-for code, name, js, css in settings.PAGELET_CONTENT_TYPES:
+for code, name, js, css in pagelets.PAGELET_CONTENT_TYPES:
     JS_URLS.extend(js)
 
 

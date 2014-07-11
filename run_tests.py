@@ -42,6 +42,8 @@ if not settings.configured:
             'django.contrib.staticfiles',
             'django.contrib.webdesign',
             'pagelets',
+            'selectable',
+            'taggit',
         ] + jenkins,
         SITE_ID=1,
         ROOT_URLCONF='pagelets.tests.urls',
