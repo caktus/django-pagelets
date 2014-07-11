@@ -129,34 +129,10 @@ class Page(PageletBase):
         return self.title
 
 
-def get_pagelet_type_assets(pagelet_type=None, base_scripts=None, base_styles=None):
-    all_scripts = [] if base_scripts is None else list(base_scripts)
-    all_styles = {} if base_styles is None else base_styles
-    for k, v in all_styles.items():
-        all_styles[k] = list(v)
-
-    for (val, label, scripts, styles) in conf.CONTENT_TYPES:
-        if pagelet_type is None or val == pagelet_type:
-            for script in scripts:
-                if script not in all_scripts:
-                    all_scripts.append(script)
-            for key in styles:
-                all_styles.setdefault(key, [])
-                for stylesheet in styles:
-                    if stylesheet not in all_styles[key]:
-                        all_styles[key].append(stylesheet)
-    return tuple(all_scripts), dict((k, tuple(v)) for (k, v) in all_styles.items())
-
-
 class Pagelet(PageletBase):
     """
     Primary model for storing pieces of static content in the database.
     """
-
-    CONTENT_TYPES = tuple(
-        (val, label) for (val, label, scripts, styles)
-        in conf.CONTENT_TYPES
-    )
 
     # whenever you need to reference a pagelet in CSS, use its slug
     slug = models.CharField(
