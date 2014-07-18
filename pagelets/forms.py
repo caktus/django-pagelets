@@ -51,7 +51,7 @@ class BasePageletForm(forms.ModelForm):
         if user:
             instance.created_by = user
             instance.modified_by = user
-        else:
+        elif commit:
             raise ValueError(_(u'A user is required when saving a Pagelet'))
         if commit:
             instance.save()
