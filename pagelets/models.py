@@ -127,6 +127,7 @@ class Page(PageletBase):
 
     def __unicode__(self):
         return self.title
+    __str__ = __unicode__
 
 
 class Pagelet(PageletBase):
@@ -213,6 +214,7 @@ class Pagelet(PageletBase):
             return self.slug
         else:
             return strip_tags(truncate_html_words(self.content, 5))
+    __str__ = __unicode__
 
 
 class PlacedPageletBase(models.Model):
@@ -306,6 +308,7 @@ class SharedPagelet(PlacedPageletBase):
 
     def __unicode__(self):
         return unicode(self.pagelet)
+    __str__ = __unicode__
 
     class Meta:
         unique_together = (('pagelet', 'page'),)
@@ -327,3 +330,4 @@ class PageAttachment(models.Model):
 
     def __unicode__(self):
         return self.name
+    __str__ = __unicode__
