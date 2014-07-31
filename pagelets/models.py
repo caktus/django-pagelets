@@ -213,7 +213,11 @@ class Pagelet(PageletBase):
         if self.slug:
             return self.slug
         else:
-            return strip_tags(truncate_html_words(self.content, 5))
+            beginning = strip_tags(truncate_html_words(self.content, 5))
+            if beginning:
+                return beginning
+            else:
+                return "Pagelet #%d" % (self.id,)
     __str__ = __unicode__
 
 

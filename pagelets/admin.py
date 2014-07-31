@@ -63,6 +63,7 @@ class InlinePageAttachmentAdmin(admin.StackedInline):
 class PageAdmin(admin.ModelAdmin):
     list_display = (
         'title',
+        'slug',
         'modified_by',
         'last_changed',
         'created_by',
