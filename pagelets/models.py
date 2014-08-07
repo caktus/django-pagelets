@@ -16,6 +16,11 @@ from taggit.managers import TaggableManager
 
 ORDER_CHOICES = [(x, x) for x in range(-10, 11)]
 
+try:
+    unicode
+except NameError:
+    unicode = str
+
 
 class PageletBase(models.Model):
     creation_date = models.DateTimeField(
