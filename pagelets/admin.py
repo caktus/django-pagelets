@@ -107,6 +107,9 @@ class PageAdmin(admin.ModelAdmin):
 
     def save_formset(self, request, form, formset, change):
         pagelets = formset.save(commit=False)
+        deleted = [f.instance for f in formset.deleted_forms]
+        for pagelet in deleted:
+            pagelet.delete()
         for pagelet in pagelets:
             pagelet.created_by = request.user
             pagelet.modified_by = request.user
