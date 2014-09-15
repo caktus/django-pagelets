@@ -222,7 +222,11 @@ class Pagelet(PageletBase):
             if beginning:
                 return beginning
             else:
-                return "Pagelet #%d" % (self.id,)
+                img_count = self.content.lower().count('<img')
+                if img_count:
+                    return "%s #%d (%s Images, no text)" % (type(self).__name__, self.id, img_count,)
+                else:
+                    return "%s #%d" % (type(self).__name__, self.id,)
     __str__ = __unicode__
 
 
@@ -315,9 +319,6 @@ class SharedPagelet(PlacedPageletBase):
             self.__pagelet_dirty = False
         return super(SharedPagelet, self).save(*args, **kwargs)
 
-    def __unicode__(self):
-        return unicode(self.pagelet)
-    __str__ = __unicode__
 
     class Meta:
         unique_together = (('pagelet', 'page'),)
