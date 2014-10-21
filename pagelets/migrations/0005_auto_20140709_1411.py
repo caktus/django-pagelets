@@ -10,6 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('pagelets', '0004_sharedpagelet'),
+        ('taggit', '__first__'),
     ]
 
     operations = [
@@ -17,6 +18,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='page',
             name='tags',
-            field=taggit.managers.TaggableManager(help_text='A comma-separated list of tags.', to=taggit.models.Tag, verbose_name='Tags', through=taggit.models.TaggedItem),
+            field=taggit.managers.TaggableManager(help_text='A comma-separated list of tags.', verbose_name='Tags', to='taggit.Tag', through='taggit.TaggedItem'),
         ),
     ]
