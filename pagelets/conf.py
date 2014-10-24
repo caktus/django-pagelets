@@ -40,3 +40,8 @@ if hasattr(settings, 'PAGELET_TEMPLATE_TAGS'):
 AUTO_LOAD_TEMPLATE_TAGS = '{%% load %s %%}' % ' '.join(tags)
 
 BASE_TEMPLATES = getattr(settings, 'PAGELET_BASE_TEMPLATES', [])
+
+PAGELET_TYPES = list(getattr(settings, 'PAGELET_ADDITIONAL_PAGELET_TYPES', ())) + [
+    'pagelets.InlinePagelet',
+    'pagelets.SharedPagelet',
+]

@@ -122,6 +122,25 @@ def edit_pagelet(
                     )
                     pagelet_preview = form.save(commit=False, user=request.user)
         else:
+            # For non-Inline non-Shared pagelets they can be of a type that can't be edited in the
+            # front-end. Look for the form, if one is provided. If not, redirect to the admin change
+            # url for that object.
+
+            # Look at all the extension related names
+            # if present on this object, find the model
+            # look at the settings did it define a form?
+            # use that form if it is there
+            # otherwise, redirec to the change URL
+
+            for pagelet_type in conf.PAGELET_TYPES:
+                pagelet_model = models.get_model(pagelet_type)
+                try:
+                    pagelet = pagelet_model.objects.get(pk=pagelet.pk)
+                except pagelet_model.DoesNotExist:
+                    continue
+                else:
+                    redirect("admin:%s_change" % (pagelet_type.replace('.').lower(),), (pagelet.pk,))
+
             form = PageletForm(instance=pagelet)
 
         context = {

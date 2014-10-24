@@ -37,7 +37,7 @@ def render_pagelet(context, pagelet):
     if pagelet:
         # add the slug separately because we need it in the template even
         # if this pagelet doesn't exist
-        context['pagelet_slug'] = pagelet.slug
+        context['pagelet_slug'] = getattr(pagelet, 'slug', None)
         context['page'] = parent_context.get('page', None)
         pagelet.rendered_content = pagelet.render(context)
     context['pagelet'] = pagelet

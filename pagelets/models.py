@@ -112,15 +112,17 @@ class Page(PageletBase):
 
     tags = TaggableManager()
 
-    def get_area_pagelets(self, area_slug, with_shared=True):
+    def get_area_pagelets(self, area_slug):
         """
         Combines and sorts the inline and shared pagelets for a given content
         area.  Pagelets without an order are given 0, so they show up
         in the middle.
         """
-        pagelets = list(self.inline_pagelets.filter(area=area_slug))
-        if with_shared:
-            pagelets.extend(self.shared_pagelets.filter(area=area_slug))
+
+        pagelets = []
+        for pagelet_type in conf.PAGELET_TYPES:
+            pagelet_model = models.get_model(pagelet_type)
+            pagelets.extend( pagelet_model.objects.filter(page=self).filter(area=area_slug) )
         pagelets.sort(key=lambda a: a.order or 0)
         return pagelets
 
