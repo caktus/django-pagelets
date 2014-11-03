@@ -17,11 +17,6 @@ if 'tagging' in settings.INSTALLED_APPS:
 else:
     TagField = None
 
-try:
-    unicode
-except NameError:
-    unicode = str
-
 ORDER_CHOICES = [(x, x) for x in range(-10, 11)]
 
 try:
@@ -376,7 +371,7 @@ class SharedPagelet(PlacedPageletBase):
         return super(SharedPagelet, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return unicode(self.pagelet)
+        return self.pagelet.__unicode__()
 
     class Meta:
         unique_together = (('pagelet', 'page'),)
