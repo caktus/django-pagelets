@@ -1,6 +1,11 @@
 Release History
 ====================================
 
+0.9.1 (Released 2014-11-03)
+------------------------------------
+* Fixed Python 3 compatibility bug #59
+* Removed test coverage for unsupported Python 2.6 and Django 1.3
+
 0.9.0 (Released 2014-02-24)
 ------------------------------------
 

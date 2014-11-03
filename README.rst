@@ -16,7 +16,8 @@ Features
 Required Dependencies
 ---------------------
 
-- Django 1.3+
+- Python 2.7 or 3.3
+- Django 1.4+
 - Django admin site
 - The `django.core.context_processors.request` context processor
 
