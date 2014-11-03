@@ -371,7 +371,7 @@ class SharedPagelet(PlacedPageletBase):
         return super(SharedPagelet, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        return unicode(self.pagelet)
+        return self.pagelet.__unicode__()
 
     class Meta:
         unique_together = (('pagelet', 'page'),)
