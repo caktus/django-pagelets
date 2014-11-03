@@ -17,6 +17,11 @@ if 'tagging' in settings.INSTALLED_APPS:
 else:
     TagField = None
 
+try:
+    unicode
+except NameError:
+    unicode = str
+
 ORDER_CHOICES = [(x, x) for x in range(-10, 11)]
 
 try:
