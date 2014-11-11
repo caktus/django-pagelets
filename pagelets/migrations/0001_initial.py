@@ -27,7 +27,6 @@ class Migration(migrations.Migration):
                 ('base_template', models.CharField(default='pagelets/view_page.html', help_text='Specify an alternative layout template to use for this page.  Clear the selection to use the default layout.', max_length=255, blank=True, verbose_name='base template')),
                 ('meta_keywords', models.CharField(help_text='A comma delineated list of keywords', max_length=200, blank=True, verbose_name='meta keywords')),
                 ('meta_robots', models.CharField(max_length=20, blank=True, choices=[('FOLLOW, INDEX', 'FOLLOW, INDEX'), ('NOFOLLOW, NOINDEX', 'NOFOLLOW, NOINDEX'), ('FOLLOW, NOINDEX', 'FOLLOW, NOINDEX'), ('NOFOLLOW, INDEX', 'NOFOLLOW, INDEX')], verbose_name='meta Robots')),
-                ('tags', models.CharField(default='', max_length=255, blank=True)),
             ],
             options={
                 'ordering': ('title',),
