@@ -319,6 +319,8 @@ class SharedPagelet(PlacedPageletBase):
             self.__pagelet_dirty = False
         return super(SharedPagelet, self).save(*args, **kwargs)
 
+    def __unicode__(self):
+        return self.pagelet.__unicode__()
 
     class Meta:
         unique_together = (('pagelet', 'page'),)
