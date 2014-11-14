@@ -4,6 +4,7 @@ from django.conf import settings
 CONTENT_AREAS = getattr(settings, 'PAGELET_CONTENT_AREAS', (
     ('main', 'Main'),
 ))
+CONTENT_AREA_DEFAULT = getattr(settings, 'PAGELET_CONTENT_AREA_DEFAULT', 'main')
 
 CONTENT_TYPES = getattr(settings, 'PAGELET_CONTENT_TYPES', (
     ('html', 'HTML',
@@ -19,16 +20,12 @@ CONTENT_TYPES = getattr(settings, 'PAGELET_CONTENT_TYPES', (
      (),
      {},),
 )) + getattr(settings, 'PAGELET_CONTENT_TYPES_EXTRA', ())
+CONTENT_TYPE_DEFAULT = getattr(settings, 'PAGELET_CONTENT_TYPE_DEFAULT', 'html')
 
 try:
     ATTACHMENT_PATH = settings.PAGELET_ATTACHMENT_PATH
 except AttributeError:
     ATTACHMENT_PATH = getattr(settings, 'PAGE_ATTACHMENT_PATH', 'attachments/pages/')
-
-try:
-    settings.PAGELET_CONTENT_DEFAULT
-except AttributeError:
-    settings.PAGELET_CONTENT_DEFAULT = 'html'
 
 # settings.PAGELET_TEMPLATE_TAGS is a list of template tag names that
 # will load before each pagelet is rendered, allowing custom template
@@ -40,3 +37,4 @@ if hasattr(settings, 'PAGELET_TEMPLATE_TAGS'):
 AUTO_LOAD_TEMPLATE_TAGS = '{%% load %s %%}' % ' '.join(tags)
 
 BASE_TEMPLATES = getattr(settings, 'PAGELET_BASE_TEMPLATES', [])
+BASE_TEMPLATE_DEFAULT = getattr(settings, 'PAGELET_BASE_TEMPLATE_DEFAULT', None)

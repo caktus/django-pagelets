@@ -46,6 +46,12 @@ class BasePageletForm(forms.ModelForm):
 
         js, css = get_pagelet_type_assets(base_scripts=js, base_styles=css)
 
+    def __init__(self, *args, **kwargs):
+        initial = kwargs.setdefault('initial', {})
+        initial.setdefault('type', conf.CONTENT_TYPE_DEFAULT)
+        initial.setdefault('area', conf.CONTENT_AREA_DEFAULT)
+        super(BasePageletForm, self).__init__(*args, **kwargs)
+
     def save(self, commit=True, user=None):
         instance = super(BasePageletForm, self).save(commit=False)
         if user:
@@ -120,7 +126,8 @@ class PageForm(forms.ModelForm):
         label='Select a tag',
         required=False,
     )
-    base_template = forms.CharField(widget=forms.Select(choices=conf.BASE_TEMPLATES))
+    base_template = forms.CharField(widget=forms.Select(choices=conf.BASE_TEMPLATES),
+        initial=conf.BASE_TEMPLATE_DEFAULT)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
