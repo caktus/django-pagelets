@@ -20,6 +20,7 @@ CONTENT_TYPES = getattr(settings, 'PAGELET_CONTENT_TYPES', (
      (),
      {},),
 )) + getattr(settings, 'PAGELET_CONTENT_TYPES_EXTRA', ())
+CONTENT_TYPE_CHOICES = tuple((c[0], c[1]) for c in CONTENT_TYPES)
 CONTENT_TYPE_DEFAULT = getattr(settings, 'PAGELET_CONTENT_TYPE_DEFAULT', 'html')
 
 try:

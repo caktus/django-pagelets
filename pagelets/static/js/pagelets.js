@@ -34,17 +34,17 @@ setEditor.uninstallers['wymeditor'] = function(value, form, field_name, field) {
     field.css('display', 'inline');
 }
 
-jQuery(function() {
+jQuery(function($) {
     function install_editor(popup) {
         var empty_form = $(popup).parents('div.empty-form');
         if (empty_form.length == 0) {
             setEditor($(popup));
         }
     }
-    var select = $('form [name$=type]');
-    select.on('change', function() {
+    var select = $('form').on('change', '[name$=type]', function() {
         install_editor($(this));
-    }).each(function (i) {
+    });
+    $('form [name$=type]').each(function (i) {
         install_editor($(this));
     });
 });

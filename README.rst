@@ -83,8 +83,9 @@ Installation and Setup
 #. Add the pagelets URLs to urls.py, e.g.::
 
     urlpatterns += patterns('',
-        (r'^pagelets-management/', include('pagelets.urls.management')),
-        (r'^', include('pagelets.urls.content')),
+        url(r'^selectable/', include('selectable.urls')),
+        url(r'^pagelets-management/', include('pagelets.urls.management')),
+        url(r'^', include('pagelets.urls.content')),
     )
 
 #. Visit the admin site, add and save a new page, and click the View on site link.  If everything is setup correctly, you should be able to see and edit the content you just added.

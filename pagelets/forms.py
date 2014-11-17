@@ -34,7 +34,7 @@ class BasePageletForm(forms.ModelForm):
         model = PageletBase
         fields = ()
         widgets = {
-            "type": forms.Select(choices=conf.CONTENT_TYPES),
+            "type": forms.Select(choices=conf.CONTENT_TYPE_CHOICES),
             "area": forms.Select(choices=conf.CONTENT_AREAS)
         }
 
@@ -82,7 +82,8 @@ class InlinePageletForm(ContentPageletForm):
         model = InlinePagelet
         fields = ('type', 'content', 'area')
         widgets = {
-            "area": forms.Select(choices=conf.CONTENT_AREAS),
+            "type": forms.Select(choices=conf.CONTENT_TYPE_CHOICES),
+            "area": forms.Select(choices=conf.CONTENT_AREAS)
         }
 
 
