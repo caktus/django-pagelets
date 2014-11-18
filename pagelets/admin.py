@@ -24,7 +24,7 @@ for code, name, js, css in conf.CONTENT_TYPES:
 
 class InlinePageletAdmin(admin.StackedInline):
     model = pagelets.InlinePagelet
-    extra = 0
+    extra = conf.INLINE_PAGELET_EXTRA
     fk_name = 'page'
     form = InlinePageletForm
     fieldsets = (
@@ -40,7 +40,7 @@ class InlinePageletAdmin(admin.StackedInline):
 
 class SharedPageletAdmin(admin.StackedInline):
     model = pagelets.SharedPagelet
-    extra = 0
+    extra = conf.INLINE_SHARED_EXTRA
     fk_name = 'page'
     form = SharedPageletForm
     fieldsets = (
@@ -52,7 +52,7 @@ class SharedPageletAdmin(admin.StackedInline):
 
 class InlinePageAttachmentAdmin(admin.StackedInline):
     model = pagelets.PageAttachment
-    extra = 0
+    extra = conf.INLINE_ATTACHMENT_EXTRA
     fieldsets = (
         (None, {
             'fields': (('name', 'order'), 'file')
