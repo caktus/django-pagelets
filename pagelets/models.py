@@ -17,11 +17,6 @@ from taggit.managers import TaggableManager
 
 ORDER_CHOICES = [(x, x) for x in range(-10, 11)]
 
-try:
-    unicode
-except NameError:
-    unicode = str
-
 
 class PageletBase(models.Model):
     creation_date = models.DateTimeField(
@@ -268,7 +263,6 @@ class InlinePagelet(Pagelet, PlacedPageletBase):
         ordering = ('order',)
 
 
-@python_2_unicode_compatible
 class SharedPagelet(PlacedPageletBase):
     """
     A pagelet that may show up on multiple pages.
@@ -320,9 +314,6 @@ class SharedPagelet(PlacedPageletBase):
             self.pagelet.save()
             self.__pagelet_dirty = False
         return super(SharedPagelet, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return self.pagelet.__unicode__()
 
     class Meta:
         unique_together = (('pagelet', 'page'),)
