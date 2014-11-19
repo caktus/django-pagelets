@@ -4,6 +4,7 @@ from django.utils.html import strip_tags
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.template import compile_string, TemplateSyntaxError, StringOrigin
+from django.utils.encoding import python_2_unicode_compatible
 
 from datetime import datetime
 
@@ -54,6 +55,7 @@ class PageletBase(models.Model):
         abstract = True
 
 
+@python_2_unicode_compatible
 class Page(PageletBase):
     title = models.CharField(
         _('title'),
@@ -130,11 +132,11 @@ class Page(PageletBase):
     class Meta:
         ordering = ('title',)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
-    __str__ = __unicode__
 
 
+@python_2_unicode_compatible
 class Pagelet(PageletBase):
     """
     Primary model for storing pieces of static content in the database.
@@ -214,7 +216,7 @@ class Pagelet(PageletBase):
     class Meta:
         ordering = ('slug',)
 
-    def __unicode__(self):
+    def __str__(self):
         if self.slug:
             return self.slug
         else:
@@ -227,7 +229,6 @@ class Pagelet(PageletBase):
                     return "%s #%d (%s Images, no text)" % (type(self).__name__, self.id, img_count,)
                 else:
                     return "%s #%d" % (type(self).__name__, self.id,)
-    __str__ = __unicode__
 
 
 class PlacedPageletBase(models.Model):
@@ -267,6 +268,7 @@ class InlinePagelet(Pagelet, PlacedPageletBase):
         ordering = ('order',)
 
 
+@python_2_unicode_compatible
 class SharedPagelet(PlacedPageletBase):
     """
     A pagelet that may show up on multiple pages.
@@ -319,7 +321,7 @@ class SharedPagelet(PlacedPageletBase):
             self.__pagelet_dirty = False
         return super(SharedPagelet, self).save(*args, **kwargs)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.pagelet.__unicode__()
 
     class Meta:
@@ -327,6 +329,7 @@ class SharedPagelet(PlacedPageletBase):
         ordering = ('order',)
 
 
+@python_2_unicode_compatible
 class PageAttachment(models.Model):
     page = models.ForeignKey(Page, related_name='attachments')
     name = models.CharField(max_length=255)
@@ -340,6 +343,5 @@ class PageAttachment(models.Model):
     class Meta:
         ordering = ('order',)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
-    __str__ = __unicode__

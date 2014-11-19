@@ -21,11 +21,6 @@ You should be aware of these changes if you are upgrading from the latest 0.9.x 
 If you are using pagelets in a project for the first time with version 0.10.0 or newer, you should
 not need to worry about any of these changes.
 
-South migrations have been moved to south_migrations/
-
-Update to a recent version of South in order to find these and be sure you have run all south
-migrations before moving to 0.10.0 and the new migrations.
-
 Pagelets no longer users django-tagging, which did not support Django 1.7 migrations and is no
 longer maintained. We now use django-taggit. At the moment there is no migration to move tags from
 django-tagging to django-taggit.
@@ -36,6 +31,8 @@ Required Dependencies
 - Django 1.7
 - Python 2.7 or 3.3
 - Django admin site
+- django-taggit 0.12.1 or greater
+- django-selectable 0.9.0 or greater
 - The `django.core.context_processors.request` context processor
 
 Optional Dependencies
