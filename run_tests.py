@@ -6,6 +6,11 @@ import optparse
 
 from django.conf import settings
 from django.core.management import call_command
+try:
+    from django import setup
+except ImportError:
+    def setup():
+        pass
 
 parser = optparse.OptionParser()
 opts, args = parser.parse_args()
@@ -42,6 +47,8 @@ if not settings.configured:
             'django.contrib.staticfiles',
             'django.contrib.webdesign',
             'pagelets',
+            'selectable',
+            'taggit',
         ] + jenkins,
         SITE_ID=1,
         ROOT_URLCONF='pagelets.tests.urls',
@@ -103,6 +110,7 @@ def run_django_tests():
 
 
 def run():
+    setup()
     if 'jenkins' in args:
         run_jenkins_tests()
     else:

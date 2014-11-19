@@ -9,32 +9,30 @@
 {% endblock %}
 
 {% block content %}
-
-
-{% if pagelet_preview %}
-    <h3>Preview {% if pagelet_preview.slug %}{{ pagelet_preview.slug }}{% else %}pagelet #{{ pagelet_preview.real.pk }}{% endif %}</h3>
-	<p><strong>This is a preview; the pagelet has not been saved.</strong>  You must click save below to save your changes.</p>
-	<div class='pagelet-preview'>
-		{% render_pagelet pagelet_preview %}
-	</div>
-    <form id='pagelet-preview-form' class='modify-pagelet' accept-charset='UTF-8' method='post' action=''>
-    {% csrf_token %}
-    {{ preview_form }}
-    <div class='pagelet-submit'>
-        <input type='submit' name='save_btn' value='Save &rarr;' />
-    </div>
-    </form>
-{% endif %}
-
-<h3>Edit {% if pagelet.slug %}{{ pagelet.slug }}{% else %}pagelet #{{ pagelet.real.pk }}{% endif %}</h3>
-
-<form id='pagelet-form' class='modify-pagelet' accept-charset='UTF-8' method='post' action=''>
-	<ul>
+    {% if pagelet_preview %}
+        <h3>Preview {% if pagelet_preview.slug %}{{ pagelet_preview.slug }}{% else %}pagelet #{{ pagelet_preview.real.pk }}{% endif %}</h3>
+    	<p><strong>This is a preview; the pagelet has not been saved.</strong>  You must click save below to save your changes.</p>
+    	<div class='pagelet-preview'>
+    		{% render_pagelet pagelet_preview %}
+    	</div>
+        <form id='pagelet-preview-form' class='modify-pagelet' accept-charset='UTF-8' method='post' action=''>
         {% csrf_token %}
-        {{ form.as_ul }}
-	</ul>
-    <div class='pagelet-submit'>
-        <input type='submit' name='preview_btn' value='Preview &rarr;' />
-    </div>
-</form>
+        {{ preview_form }}
+        <div class='pagelet-submit'>
+            <input type='submit' name='save_btn' value='Save &rarr;' />
+        </div>
+        </form>
+    {% else %}
+        <h3>Edit {% if pagelet.slug %}{{ pagelet.slug }}{% else %}pagelet #{{ pagelet.real.pk }}{% endif %}</h3>
+
+        <form id='pagelet-form' class='modify-pagelet' accept-charset='UTF-8' method='post' action=''>
+        	<ul>
+                {% csrf_token %}
+                {{ form.as_ul }}
+        	</ul>
+            <div class='pagelet-submit'>
+                <input type='submit' name='preview_btn' value='Preview &rarr;' />
+            </div>
+        </form>
+    {% endif %}
 {% endblock %}

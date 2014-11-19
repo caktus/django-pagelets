@@ -5,10 +5,17 @@
     {% render_pagelet pagelet %}
 {% empty %}
     {% if perms.pagelets.add_pagelet %}
-    <p>This page currently contains no pagelets.  To add one, click the <a href='{% url "create_pagelet" %}?page_id={{ page.pk }}&next={{ request.get_full_path }}'>Add Pagelet</a> link below.  This sample content will be automatically removed after a pagelet is added to this page.</p>
+    <p>This page currently contains no pagelets.  To add one, click the <a href='{% url "create_pagelet" %}?page_id={{ page.pk }}&content_area={{ content_area }}&next={{ request.get_full_path }}'>Add Pagelet</a> link below.  This sample content will be automatically removed after a pagelet is added to this page.</p>
     {% endif %}
-    {% load webdesign %}
-    {% lorem 6 p %}
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id venenatis mi, at cursus diam. Maecenas justo turpis, aliquam quis erat vitae, eleifend faucibus orci. Sed ut euismod odio. In pharetra eleifend suscipit. Duis id urna quis lectus tempor bibendum. Morbi non fermentum justo. Nulla quis risus dolor. Aenean quis auctor quam. Mauris non mi accumsan, eleifend nulla at, condimentum lorem. Aenean egestas tempus malesuada. Nam eu justo non urna elementum tincidunt. Suspendisse libero augue, dictum quis accumsan id, suscipit et mi. Phasellus rutrum, nibh et ornare scelerisque, velit augue laoreet nulla, sed feugiat libero purus nec tellus.
+
+    Phasellus volutpat, tortor consectetur congue gravida, mi odio fringilla nunc, eu auctor velit sem quis enim. Sed elementum mi justo, ut lobortis nunc viverra non. Fusce fermentum sed velit a tristique. Nulla facilisi. Integer vehicula fermentum sem. Mauris sit amet nibh arcu. Integer in tempor elit. Suspendisse blandit justo non libero vulputate sagittis volutpat ac enim. Suspendisse potenti.
+
+    Ut a dui sit amet dolor placerat auctor. Cras porta tortor nisl, ac venenatis tellus interdum ut. Nulla facilisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec vulputate tellus et nulla commodo ultricies. Mauris vehicula odio sit amet ligula fermentum, molestie bibendum enim mollis. Aenean id ultrices orci. Morbi egestas, lacus sit amet condimentum convallis, eros arcu semper est, sed volutpat nunc nibh vitae enim. Duis auctor at sapien nec interdum. Sed tincidunt lectus mattis, ullamcorper dui non, ornare enim. Proin sagittis pulvinar ligula nec dapibus. In leo orci, suscipit id erat ac, pellentesque accumsan elit. Praesent scelerisque magna sed arcu feugiat, vel pellentesque ante vulputate.
+
+    Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nullam at tincidunt arcu. Sed vel eleifend augue, id luctus tellus. Nullam facilisis, lorem sed cursus malesuada, odio quam vulputate massa, sed adipiscing urna risus non enim. Sed vel fermentum purus. Pellentesque eu velit lorem. Cras luctus eros a lorem fringilla elementum. Phasellus ac euismod justo. Sed arcu nisi, cursus sed dolor id, vehicula pharetra nunc. Suspendisse eu ligula eget nibh interdum bibendum nec a sem.
+
+    Proin et risus posuere, dignissim lacus sed, sodales nunc. Fusce ac vehicula purus, ut molestie nisi. Phasellus nisl dolor, placerat et augue et, pharetra vehicula nunc. Vivamus a adipiscing risus. Quisque vel pretium diam. Etiam eu feugiat erat. Vivamus aliquet tincidunt justo nec tempor. Donec facilisis elit elit, at commodo tellus congue et. Integer ut nulla rhoncus, facilisis dolor molestie, convallis nulla.
 {% endfor %}
 
 {% if perms.pagelets.add_pagelet %}
