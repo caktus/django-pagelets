@@ -1,6 +1,10 @@
 Release History
 ====================================
 
+0.10.1 (Released 2014-12-02)
+----------------------------
+* Hide the pagelet content type field if there is only one option
+
 0.10.0 (Released 2014-11-19)
 ----------------------------
 * Support for Django 1.7
