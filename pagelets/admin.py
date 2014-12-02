@@ -27,9 +27,14 @@ class InlinePageletAdmin(admin.StackedInline):
     extra = conf.INLINE_PAGELET_EXTRA
     fk_name = 'page'
     form = InlinePageletForm
+
+    main_fields = ['content']
+    if len(conf.CONTENT_TYPES) > 1:
+        main_fields.insert(0, 'type')
+
     fieldsets = (
         (None, {
-            'fields': ('type', 'content')
+            'fields': main_fields,
         }),
         ('Style and Placement', {
             'classes': ('collapse',),
