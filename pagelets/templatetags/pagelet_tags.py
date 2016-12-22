@@ -3,7 +3,6 @@ import re
 from django import template
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
-from django.template import RequestContext, Context
 
 from pagelets.models import Pagelet, Page
 
@@ -20,12 +19,6 @@ def render_pagelet(context, pagelet):
     """
     Renders the named pagelet in the calling template.
     """
-    # don't modify the parent context
-    parent_context = context
-    if 'request' in context:
-        context = RequestContext(parent_context['request'])
-    else:
-        context = Context()
     if isinstance(pagelet, basestring):
         # add the slug separately because we need it in the template even
         # if this pagelet doesn't exist
@@ -38,7 +31,7 @@ def render_pagelet(context, pagelet):
         # add the slug separately because we need it in the template even
         # if this pagelet doesn't exist
         context['pagelet_slug'] = pagelet.slug
-        context['page'] = parent_context.get('page', None)
+        context['page'] = context.get('page', None)
         pagelet.rendered_content = pagelet.render(context)
     context['pagelet'] = pagelet
     context['include_links'] = True
@@ -51,11 +44,6 @@ def render_content_area(context, page, content_area):
     """
     Renders the named content area of the given page in the calling template.
     """
-    # don't modify the parent context
-    if 'request' in context:
-        context = RequestContext(context['request'])
-    else:
-        context = Context()
     if isinstance(page, basestring):
         page = Page.objects.get(slug=page)
     context['page'] = page
@@ -69,11 +57,6 @@ def pagelink_ifexists(context, page, link_text):
     """
     Renders a link to the given page in the calling template.
     """
-    # don't modify the parent context
-    if 'request' in context:
-        context = RequestContext(context['request'])
-    else:
-        context = Context()
     if isinstance(page, basestring):
         # add the slug separately because we need it in the template even
         # if this page doesn't exist
@@ -98,11 +81,6 @@ def page_content_teaser(context, page, num_words):
     """
     Renders a teaser of the given page object in the calling template.
     """
-    # don't modify the parent context
-    if 'request' in context:
-        context = RequestContext(context['request'])
-    else:
-        context = Context()
     if isinstance(page, basestring):
         # add the slug separately because we need it in the template even
         # if this page doesn't exist
@@ -134,11 +112,6 @@ def page_teaser(context, page, num_words):
     """
     Renders a better teaser of the given page object in the calling template.
     """
-    # don't modify the parent context
-    if 'request' in context:
-        context = RequestContext(context['request'])
-    else:
-        context = Context()
     if isinstance(page, basestring):
         # add the slug separately because we need it in the template even
         # if this page doesn't exist
@@ -178,13 +151,7 @@ def create_page(context, link_text):
     Renders a link to the admin to create a page based on the
     current request path. Meant to be used on a 404 page.
     """
-    # don't modify the parent context
-    if 'request' in context:
-        request = context['request']
-        context = RequestContext(request)
-    else:
-        return {'exists': True}
-
+    request = context['request']
     has_perm = request.user.has_perm('pagelets.add_page')
 
     if has_perm:
