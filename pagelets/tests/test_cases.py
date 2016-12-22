@@ -1,5 +1,5 @@
-from django.test import TestCase, Client
-from django.template import compile_string, StringOrigin
+from django.test import TestCase
+from django.template import Template
 from django.template.context import Context
 from django.contrib.auth.models import User, Permission
 from django.core.urlresolvers import reverse
@@ -27,21 +27,20 @@ class PageletsTest(TestCase):
         )
         self.editor.user_permissions.add(change_pagelet)
         self.editor.user_permissions.add(add_pagelet)
-        self.c = Client()
 
     def testViewNonexistentPagelet(self):
         template_str = """{% spaceless %}
 {% load pagelet_tags %}
 {% render_pagelet 'nonexistent-pagelet' %}
 {% endspaceless %}"""
-        origin = StringOrigin('test')
-        compiled = compile_string(template_str, origin).render(Context())
+        t = Template(template_str)
+        compiled = t.render(Context())
         self.assertEqual(compiled, '<div class="pagelet nonexistent-pagelet"><div class="pagelet-content"></div></div>')
 
     def testCreateNotexistentPagelet(self):
-        self.c.login(username=self.editor.username, password='abc123')
+        self.client.login(username=self.editor.username, password='abc123')
         url = reverse('create_pagelet', kwargs={'pagelet_slug': 'new-pagelet'})
-        response = self.c.get(url)
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Pagelet.objects.count(), 1)
         pagelet = Pagelet.objects.get()
@@ -49,24 +48,24 @@ class PageletsTest(TestCase):
         self.assertRedirects(response, url)
 
     def testEditPagelet(self):
-        self.c.login(username=self.editor.username, password='abc123')
+        self.client.login(username=self.editor.username, password='abc123')
         pagelet = Pagelet.objects.create(
             created_by=self.editor,
             modified_by=self.editor,
         )
         url = reverse('edit_pagelet', kwargs={'pagelet_id': pagelet.real.pk})
-        response = self.c.get(url, follow=True)
+        response = self.client.get(url, follow=True)
         self.assertEqual(response.status_code, 200, response)
         data = {
             'type': 'html',
             'content': '<p>new content</p>',
         }
-        response = self.c.post(url, data)
+        response = self.client.post(url, data)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, data['content'])
         self.assertContains(response, 'Preview pagelet #%s' % pagelet.id)
         data['save_btn'] = 'Save'
-        response = self.c.post(url + '?next=/', data)
+        response = self.client.post(url + '?next=/', data)
         self.assertEqual(302, response.status_code)
         pagelet = Pagelet.objects.get(pk=pagelet.id)
         self.assertEqual(pagelet.content, data['content'])
@@ -85,7 +84,7 @@ class PageletsTest(TestCase):
             modified_by=self.editor,
         )
         url = reverse('view_page', kwargs={'page_slug': page.slug})
-        response = self.c.get(url)
+        response = self.client.get(url)
         self.assertContains(response, pagelet.content)
 
 

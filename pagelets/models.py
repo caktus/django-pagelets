@@ -276,6 +276,7 @@ class SharedPagelet(PlacedPageletBase):
 
     def _get_slug(self):
         return self.pagelet.slug
+
     def _set_slug(self, slug):
         self.__pagelet_dirty = True
         self.pagelet.slug = slug
@@ -283,6 +284,7 @@ class SharedPagelet(PlacedPageletBase):
 
     def _get_css_classes(self):
         return self.pagelet.css_classes
+
     def _set_css_classes(self, css_classes):
         self.__pagelet_dirty = True
         self.pagelet.css_classes = css_classes
@@ -290,6 +292,7 @@ class SharedPagelet(PlacedPageletBase):
 
     def _get_type(self):
         return self.pagelet.type
+
     def _set_type(self, type):
         self.__pagelet_dirty = True
         self.pagelet.type = type
@@ -297,6 +300,7 @@ class SharedPagelet(PlacedPageletBase):
 
     def _get_content(self):
         return self.pagelet.content
+
     def _set_content(self, content):
         self.__pagelet_dirty = True
         self.pagelet.content = content

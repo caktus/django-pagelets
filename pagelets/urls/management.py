@@ -1,15 +1,10 @@
-try:
-    # Django 1.4+
-    from django.conf.urls import patterns, url
-except ImportError:
-    # Django 1.3
-    from django.conf.urls.defaults import patterns, url
+from django.conf.urls import url
 
 from pagelets import views
 from pagelets.validators import PAGE_SLUG_RE
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(
         r'^pagelet/(?:(?P<pagelet_slug>[^/]+)/)?create/$',
         views.create_pagelet,
@@ -35,4 +30,4 @@ urlpatterns = patterns('',
         views.remove_attachment,
         name='remove_attachment',
     ),
-)
+]
