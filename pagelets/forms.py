@@ -130,11 +130,11 @@ class PageForm(forms.ModelForm):
                                     required=False)
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(PageForm, self).__init__(*args, **kwargs)
         if self.instance and self.instance.pk:
             self.initial['tags'] = self.instance.tags.all().values_list('pk', flat=True)
 
     def save(self, *args, **kwargs):
-        ret = super().save(*args, **kwargs)
+        ret = super(PageForm, self).save(*args, **kwargs)
         ret._pending_tags = set(tag.name for tag in self.cleaned_data['tags'])
         return ret

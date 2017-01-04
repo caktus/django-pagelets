@@ -5,6 +5,7 @@ from django.contrib.auth.models import User, Permission
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
 
+from pagelets.forms import PageForm
 from pagelets.models import Page, Pagelet
 
 
@@ -144,3 +145,11 @@ class PageTestCase(TestCase):
             test_page.full_clean()
         except ValidationError as e:
             self.fail(str(e))
+
+
+class PageFormTest(TestCase):
+
+    def test_form(self):
+        "Test that we can instantiate the form."
+        form = PageForm()
+        self.assertTrue(form)
