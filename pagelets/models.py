@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.html import strip_tags
 from django.core.urlresolvers import reverse
 from django.conf import settings
-from django.template import compile_string, TemplateSyntaxError, StringOrigin
+from django.template import Template, TemplateSyntaxError
 from django.utils.encoding import python_2_unicode_compatible
 
 from datetime import datetime
@@ -173,20 +173,7 @@ class Pagelet(PageletBase):
         # pagelets can automagically use pagelets templatetags
         # in order to remove boilerplate
         loaded_cms = conf.AUTO_LOAD_TEMPLATE_TAGS + self.content
-        """
-        skip the first portions of render_to_string() ( finding the template )
-         and go directly to compiling the template/pagelet
-        render_to_string abbreviated:
-                def render_to_string(template_name, dictionary=None, context_instance=None):
-                       t = select/get_template(template_name)
-                               template = get_template_from_string(source, origin, template_name)
-                                       return Template(source, origin, name)
-                       t.render(context_instance)
-
-        """
-        #XXX is this what the origin should be?
-        origin = StringOrigin('pagelet: %s' % self.slug)
-        compiled = compile_string(loaded_cms, origin).render(context)
+        compiled = Template(loaded_cms).render(context)
         try:
             if self.type in ('html', 'tinymce', 'wymeditor'):
                 html = compiled
@@ -276,6 +263,7 @@ class SharedPagelet(PlacedPageletBase):
 
     def _get_slug(self):
         return self.pagelet.slug
+
     def _set_slug(self, slug):
         self.__pagelet_dirty = True
         self.pagelet.slug = slug
@@ -283,6 +271,7 @@ class SharedPagelet(PlacedPageletBase):
 
     def _get_css_classes(self):
         return self.pagelet.css_classes
+
     def _set_css_classes(self, css_classes):
         self.__pagelet_dirty = True
         self.pagelet.css_classes = css_classes
@@ -290,6 +279,7 @@ class SharedPagelet(PlacedPageletBase):
 
     def _get_type(self):
         return self.pagelet.type
+
     def _set_type(self, type):
         self.__pagelet_dirty = True
         self.pagelet.type = type
@@ -297,6 +287,7 @@ class SharedPagelet(PlacedPageletBase):
 
     def _get_content(self):
         return self.pagelet.content
+
     def _set_content(self, content):
         self.__pagelet_dirty = True
         self.pagelet.content = content

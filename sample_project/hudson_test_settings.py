@@ -12,9 +12,6 @@ DATABASES = {
 }
 
 INSTALLED_APPS = list(INSTALLED_APPS)
-# disable south
-# there seems to be an issue with south + django_jenkins
-INSTALLED_APPS.remove('south')
 INSTALLED_APPS.append('django_jenkins')
 
 PROJECT_APPS = ('pagelets',)

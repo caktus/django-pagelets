@@ -1,13 +1,10 @@
 # Django settings for sample_project project.
 import os.path
 import sys
-if 'test' in sys.argv:
-    SOUTH_TESTS_MIGRATE = False
 AUTH_USER_MODEL = 'auth.User'
 PROJECT_PATH = os.path.abspath('%s' % os.path.dirname(__file__))
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
@@ -25,6 +22,30 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+        'DIRS': (
+            # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+            # Always use forward slashes, even on Windows.
+            # Don't forget to use absolute paths, not relative paths.
+            '%s/templates' % PROJECT_PATH,
+        ),
+        'OPTIONS': {
+            'context_processors': (
+                "django.contrib.auth.context_processors.auth",
+                "django.template.context_processors.debug",
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.contrib.messages.context_processors.messages",
+                'django.template.context_processors.request',
+            )
+        }
+    }
+]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -51,12 +72,12 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = 'media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -76,13 +97,6 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'INSECURE SECREY_KEY CHANGE ME'
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
-)
-
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -93,23 +107,6 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'sample_project.urls'
 
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    '%s/templates' % PROJECT_PATH,
-)
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.contrib.messages.context_processors.messages",
-    'django.core.context_processors.request',
-)
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -117,11 +114,11 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.webdesign',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'taggit',
+    'selectable',
     'pagelets',
-    'south',
 )

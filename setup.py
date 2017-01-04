@@ -20,10 +20,16 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Software Development :: Libraries :: Python Modules',
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Operating System :: OS Independent',
     ],
     long_description=open('README.rst').read(),
-    zip_safe=False, # because we're including media that Django needs
+    zip_safe=False,  # because we're including media that Django needs
+    install_requires=[
+        "django-selectable>=0.9.0",
+        "django-taggit>=0.12.1",
+    ],
 )

@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.conf import settings
 from django.utils.html import strip_tags
-from django import forms
 
 from pagelets.forms import PageForm, InlinePageletForm, SharedPageletForm, PageletForm
 from pagelets.utils import truncate_html_words
@@ -115,6 +114,8 @@ class PageAdmin(admin.ModelAdmin):
             pagelet.modified_by = request.user
             pagelet.save()
         formset.save_m2m()
+
+
 admin.site.register(pagelets.Page, PageAdmin)
 
 
@@ -148,4 +149,6 @@ class PageletAdmin(admin.ModelAdmin):
             obj.created_by = request.user
             obj.modified_by = request.user
         obj.save()
+
+
 admin.site.register(pagelets.Pagelet, PageletAdmin)
