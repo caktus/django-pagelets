@@ -12,7 +12,6 @@ DATABASES = {
 }
 
 INSTALLED_APPS = list(INSTALLED_APPS)
-# disable south
-INSTALLED_APPS.remove('south')
+INSTALLED_APPS.append('django_jenkins')
 
 PROJECT_APPS = ('pagelets',)
