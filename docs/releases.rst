@@ -1,6 +1,12 @@
 Release History
 ====================================
 
+0.10.0 (Released 2014-11-19)
+----------------------------
+* Support for Django 1.7
+* Moved to django-taggit dropping support for django-tagging
+* Dropped South migrations
+
 0.9.1 (Released 2014-11-03)
 ------------------------------------
 * Fixed Python 3 compatibility bug #59

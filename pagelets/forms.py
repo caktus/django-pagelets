@@ -1,4 +1,3 @@
-from django.conf import settings
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
@@ -116,7 +115,6 @@ class UploadForm(forms.ModelForm):
         return instance
 
 
-
 class PageForm(forms.ModelForm):
     class Meta:
         model = Page
@@ -128,14 +126,15 @@ class PageForm(forms.ModelForm):
         required=False,
     )
     base_template = forms.CharField(widget=forms.Select(choices=conf.BASE_TEMPLATES),
-        initial=conf.BASE_TEMPLATE_DEFAULT)
+                                    initial=conf.BASE_TEMPLATE_DEFAULT,
+                                    required=False)
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(PageForm, self).__init__(*args, **kwargs)
         if self.instance and self.instance.pk:
             self.initial['tags'] = self.instance.tags.all().values_list('pk', flat=True)
 
     def save(self, *args, **kwargs):
-        ret = super().save(*args, **kwargs)
+        ret = super(PageForm, self).save(*args, **kwargs)
         ret._pending_tags = set(tag.name for tag in self.cleaned_data['tags'])
         return ret

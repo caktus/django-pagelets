@@ -2,9 +2,7 @@ import hashlib
 
 from django.conf import settings
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.template import RequestContext
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import condition
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
@@ -23,10 +21,10 @@ def view_page(request, page_slug, template='pagelets/view_page.html'):
     context = {
         'page': page,
     }
-    return render_to_response(
+    return render(
+        request,
         page.base_template or template,
         context,
-        context_instance=RequestContext(request),
     )
 
 
@@ -96,7 +94,7 @@ def edit_pagelet(
     redirect_field_name=REDIRECT_FIELD_NAME,
     redirect_to=None,
 ):
-    redirect_to = request.REQUEST.get(redirect_field_name, redirect_to)
+    redirect_to = request.GET.get(redirect_field_name, redirect_to)
     if not redirect_to:
         redirect_to = '/'
 
@@ -111,7 +109,7 @@ def edit_pagelet(
         if request.POST:
             form = PageletForm(request.POST, instance=pagelet)
             if form.is_valid():
-                if 'save_btn' in request.REQUEST:
+                if 'save_btn' in request.POST:
                     form.save(user=request.user)
                     return HttpResponseRedirect(redirect_to)
                 else:
@@ -131,10 +129,10 @@ def edit_pagelet(
             'pagelet_preview': pagelet_preview,
         }
 
-        return render_to_response(
+        return render(
+            request,
             template,
             context,
-            context_instance=RequestContext(request),
         )
     return _(request)
 
@@ -158,10 +156,10 @@ def remove_pagelet(
         pagelet.delete()
         messages.info(request, 'Pagelet successfully deleted.')
         return HttpResponseRedirect(redirect_to)
-    return render_to_response(
+    return render(
+        request,
         template,
         {'pagelet': pagelet},
-        context_instance=RequestContext(request),
     )
 
 
@@ -187,10 +185,10 @@ def add_attachment(
         'page': page,
         'form': form,
     }
-    return render_to_response(
+    return render(
+        request,
         template,
         context,
-        context_instance=RequestContext(request),
     )
 
 

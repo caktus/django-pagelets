@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load url from future %}
 {% load pagelet_tags %}
 
 {% block title %}{{ page.title }}{% endblock %}
@@ -23,7 +22,7 @@
         {% render_content_area page 'main' %}
 
         <div id='page-attachments'>
-        {% ifnotequal page.attachments.count 0 %}
+        {% if page.attachments.count != 0 %}
             <h2>Attachments</h2>
             <ul>
                 {% for attachment in page.attachments.all %}
@@ -43,7 +42,7 @@
             {% if perms.pagelets.add_pageattachment %}
                 <p><a href='{% url "add_attachment" page.slug %}'>Add attachment...</a></p>
             {% endif %}
-        {% endifnotequal %}
+        {% endif %}
         </div>
     </div>
 {% endblock %}
