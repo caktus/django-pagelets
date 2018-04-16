@@ -1,6 +1,20 @@
 Release History
 ====================================
 
+1.1.0 (Released TBD)
+--------------------
+* Add Django 1.11 support, drop Django <1.11 support
+
+Note: adding Django 2.0 support will require
+`django-selectable <http://django-selectable.readthedocs.io/en/latest/>`_
+to add Django 2.0 support first.
+
+1.0.0 (Released 2017-01-04)
+---------------------------
+* Add Django 1.8+ support
+* Drop Django 1.7 support
+* Travis CI
+
 0.10.0 (Released 2014-11-19)
 ----------------------------
 * Support for Django 1.7

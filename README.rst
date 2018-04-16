@@ -16,12 +16,16 @@ Features
 Required Dependencies
 ---------------------
 
-- Django >= 1.8
+- Django = 1.11
 - A Python version supported by your chosen Django version
 - Django admin site
 - django-taggit 0.12.1 or greater
 - django-selectable 0.9.0 or greater
 - The `django.template.context_processors.request` context processor
+
+Note: adding Django 2.0 support will require
+`django-selectable <http://django-selectable.readthedocs.io/en/latest/>`_
+to add Django 2.0 support first.
 
 Optional Dependencies
 ---------------------

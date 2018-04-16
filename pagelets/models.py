@@ -1,7 +1,7 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.utils.html import strip_tags
-from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.template import Template, TemplateSyntaxError
 from django.utils.encoding import python_2_unicode_compatible
@@ -28,6 +28,7 @@ class PageletBase(models.Model):
         settings.AUTH_USER_MODEL,
         related_name='%(app_label)s_%(class)s_created',
         editable=False,
+        on_delete=models.CASCADE,
     )
 
     last_changed = models.DateTimeField(
@@ -38,6 +39,7 @@ class PageletBase(models.Model):
     modified_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name='%(app_label)s_%(class)s_last_modified',
         editable=False,
+        on_delete=models.CASCADE,
     )
 
     def save(self, **kwargs):
@@ -240,7 +242,7 @@ class InlinePagelet(Pagelet, PlacedPageletBase):
     """
     A pagelet that shoes up on a single page.
     """
-    page = models.ForeignKey(Page, related_name='inline_pagelets')
+    page = models.ForeignKey(Page, related_name='inline_pagelets', on_delete=models.CASCADE)
 
     # a property that consistently gives you access to the real "Pagelet"
     # instance for Pagelets, InlinePagelets, and SharedPagelets
@@ -254,8 +256,8 @@ class SharedPagelet(PlacedPageletBase):
     """
     A pagelet that may show up on multiple pages.
     """
-    pagelet = models.ForeignKey(Pagelet)
-    page = models.ForeignKey(Page, related_name='shared_pagelets')
+    pagelet = models.ForeignKey(Pagelet, on_delete=models.CASCADE)
+    page = models.ForeignKey(Page, related_name='shared_pagelets', on_delete=models.CASCADE)
 
     def __init__(self, *args, **kwargs):
         super(SharedPagelet, self).__init__(*args, **kwargs)
@@ -313,7 +315,7 @@ class SharedPagelet(PlacedPageletBase):
 
 @python_2_unicode_compatible
 class PageAttachment(models.Model):
-    page = models.ForeignKey(Page, related_name='attachments')
+    page = models.ForeignKey(Page, related_name='attachments', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     file = models.FileField(upload_to=conf.ATTACHMENT_PATH)
     order = models.SmallIntegerField(
