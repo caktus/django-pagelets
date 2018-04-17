@@ -1,8 +1,8 @@
 Release History
 ====================================
 
-1.1.0 (Released TBD)
---------------------
+1.1.0 (Released 2018-04-17)
+---------------------------
 * Add Django 1.11 support, drop Django <1.11 support
 
 Note: adding Django 2.0 support will require
