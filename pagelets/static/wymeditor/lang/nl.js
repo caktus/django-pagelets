@@ -42,4 +42,3 @@ WYMeditor.STRINGS['nl'] = {
     Status:           'Status',
     Source_Code:      'Broncode'
 };
-

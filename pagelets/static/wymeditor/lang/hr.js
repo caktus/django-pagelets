@@ -42,4 +42,3 @@ WYMeditor.STRINGS['hr'] = {
     Status:           'Status',
     Source_Code:      'Izvorni kod'
 };
-

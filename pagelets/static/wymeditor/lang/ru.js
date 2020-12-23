@@ -42,4 +42,3 @@ WYMeditor.STRINGS['ru'] = {
     Status:           'Статус',
     Source_Code:      'Исходный код'
 };
-

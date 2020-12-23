@@ -33,11 +33,11 @@ function WymTidy(options, wym) {
                    + " url(" + wym._options.basePath + "plugins/tidy/wand.png)'>"
                    + "Clean up HTML"
                    + "</a></li>",
-    
+
     sButtonSelector: "li.wym_tools_tidy a"
-    
+
   }, options);
-  
+
   this._options = options;
   this._wym = wym;
 
@@ -47,11 +47,11 @@ function WymTidy(options, wym) {
 WymTidy.prototype.init = function() {
 
   var tidy = this;
-            
+
   jQuery(this._wym._box).find(
     this._wym._options.toolsSelector + this._wym._options.toolsListSelector)
     .append(this._options.sButtonHtml);
-  
+
   //handle click event
   jQuery(this._wym._box).find(this._options.sButtonSelector).click(function() {
     tidy.cleanup();

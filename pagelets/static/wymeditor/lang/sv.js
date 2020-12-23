@@ -42,4 +42,3 @@ WYMeditor.STRINGS['sv'] = {
     Status:           'Status',
     Source_Code:      'Källkod'
 };
-

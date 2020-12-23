@@ -1,7 +1,7 @@
 WYMeditor.SKINS['compact'] = {
 
     init: function(wym) {
-    
+
         //move the containers panel to the top area
         jQuery(wym._options.containersSelector + ', '
           + wym._options.classesSelector, wym._box)

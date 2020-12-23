@@ -42,4 +42,3 @@ WYMeditor.STRINGS['cy'] = {
     Status:           'Statws',
     Source_Code:      'Cod ffynhonnell'
 };
-

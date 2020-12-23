@@ -42,4 +42,3 @@ WYMeditor.STRINGS['cs'] = {
     Status:           'Stav',
     Source_Code:      'Zdrojový kód'
 };
-

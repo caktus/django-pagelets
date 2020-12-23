@@ -42,4 +42,3 @@ WYMeditor.STRINGS['nb'] = {
     Status:           'Status',
     Source_Code:      'Kildekode'
 };
-

@@ -1,6 +1,6 @@
-from django.conf.urls import include, url
+from django.urls import include, path
 
 urlpatterns = [
-    url(r'^management/', include('pagelets.urls.management')),
-    url(r'^', include('pagelets.urls.content')),
+    path("management/", include("pagelets.urls.management")),
+    path("/", include("pagelets.urls.content")),
 ]

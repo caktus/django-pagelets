@@ -1,7 +1,7 @@
 WYMeditor.STRINGS['ca'] = {
     Strong:           'Ressaltar',
     Emphasis:         'Emfatitzar',
-    Superscript:      'Superindex', 
+    Superscript:      'Superindex',
     Subscript:        'Subindex',
     Ordered_List:     'Llistat ordenat',
     Unordered_List:   'Llistat sense ordenar',
@@ -42,4 +42,3 @@ WYMeditor.STRINGS['ca'] = {
     Status:           'Estat',
     Source_Code:      'Codi font'
 };
-

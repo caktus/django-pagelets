@@ -1,7 +1,7 @@
 WYMeditor.SKINS['twopanels'] = {
 
     init: function(wym) {
-    
+
         //move the containers panel to the left area
         jQuery(wym._box).find(wym._options.containersSelector)
           .appendTo("div.wym_area_left");

@@ -42,4 +42,3 @@ WYMeditor.STRINGS['nn'] = {
     Status:           'Status',
     Source_Code:      'Kjeldekode'
 };
-

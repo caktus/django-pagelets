@@ -21,7 +21,7 @@
  */
 (function() {
     if (WYMeditor && WYMeditor.XhtmlValidator['_tags']['param']['attributes']) {
-        
+
         WYMeditor.XhtmlValidator['_tags']["embed"] = {
             "attributes":[
                 "allowscriptaccess",
@@ -32,7 +32,7 @@
                 "width"
             ]
         };
-        
+
         WYMeditor.XhtmlValidator['_tags']['param']['attributes'] = {
             '0':'name',
             '1':'type',
@@ -40,7 +40,7 @@
             '2':'valuetype',
             '3':'value'
         };
-        
+
         var XhtmlSaxListener = WYMeditor.XhtmlSaxListener;
         WYMeditor.XhtmlSaxListener = function () {
             var listener = XhtmlSaxListener.call(this);
