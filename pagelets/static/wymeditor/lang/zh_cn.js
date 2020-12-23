@@ -44,4 +44,3 @@ WYMeditor.STRINGS['zh_cn'] = {
     Attachment: '附件',
     NewParagraph: '新段落'
 };
-

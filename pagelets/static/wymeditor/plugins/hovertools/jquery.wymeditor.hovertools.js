@@ -17,9 +17,9 @@
 
 //Extend WYMeditor
 WYMeditor.editor.prototype.hovertools = function() {
-  
+
   var wym = this;
-  
+
   //bind events on buttons
   jQuery(this._box).find(this._options.toolSelector).hover(
     function() {

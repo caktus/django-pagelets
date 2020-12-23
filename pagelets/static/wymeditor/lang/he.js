@@ -42,4 +42,3 @@ WYMeditor.STRINGS['he'] = {
     Status:           'מצב',
     Source_Code:      'קוד מקור'
 };
-

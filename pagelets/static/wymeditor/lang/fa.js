@@ -43,4 +43,3 @@ WYMeditor.STRINGS['fa'] = {
     Status:           'وضعیت',//Status
     Source_Code:      'کد مبدأ'//Source code
 };
-

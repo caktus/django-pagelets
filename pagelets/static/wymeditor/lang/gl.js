@@ -42,4 +42,3 @@ WYMeditor.STRINGS['gl'] = {
     Status:           'Estado',
     Source_Code:      'Código fonte'
 };
-

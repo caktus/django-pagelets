@@ -10,7 +10,7 @@ Default: `[]`
 
 This setting also you to specify a list of template tags to include when rendering
 pagelet content. The names of the template tag libraries should be given as strings.
-`pagelet_tags` are defined and available when rendering pagelet content. 
+`pagelet_tags` are defined and available when rendering pagelet content.
 
 
 PAGELET_BASE_TEMPLATES

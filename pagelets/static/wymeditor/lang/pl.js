@@ -42,4 +42,3 @@ WYMeditor.STRINGS['pl'] = {
     Status:           'Status',
     Source_Code:      'Kod źródłowy'
 };
-

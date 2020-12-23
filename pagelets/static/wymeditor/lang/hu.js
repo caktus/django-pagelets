@@ -42,4 +42,3 @@ WYMeditor.STRINGS['hu'] = {
     Status:           'Állapot',
     Source_Code:      'Forráskód'
 };
-

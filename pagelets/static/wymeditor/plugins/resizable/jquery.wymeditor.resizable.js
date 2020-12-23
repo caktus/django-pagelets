@@ -45,17 +45,17 @@
  *
  * DEPENDENCIES: jQuery UI, jQuery UI resizable
  *
- * @param options options for the plugin  
+ * @param options options for the plugin
  */
 WYMeditor.editor.prototype.resizable = function(options) {
-  
+
     var wym = this;
     var iframe = jQuery(wym._box).find('iframe');
     var iframeOriginalSize = {};
 
     // Define some default options
     var default_options = {
-        start: function(e, ui) {               
+        start: function(e, ui) {
             iframeOriginalSize = {
                 width: jQuery(iframe).width(),
                 height: jQuery(iframe).height()
@@ -64,7 +64,7 @@ WYMeditor.editor.prototype.resizable = function(options) {
 
         // resize is called by the jQuery resizable plugin whenever the
         // client area was resized.
-        resize: function(e, ui) {                
+        resize: function(e, ui) {
             var diff = ui.size.height - ui.originalSize.height;
             jQuery(iframe).height( iframeOriginalSize.height + diff );
 

@@ -23,7 +23,7 @@ Download
 You can download the WYMeditor ``resizable`` plugin here:
 
 * wymeditor-resizable-plugin-0.2.tgz_
-* wymeditor-resizable-plugin-0.1.tgz_ 
+* wymeditor-resizable-plugin-0.1.tgz_
 
 See the Changelog_ for more infos about the releases.
 
@@ -88,22 +88,22 @@ it's done::
     // Make an array of the external JavaScript files required by the plugin.
     var jQueryPlugins = [jQueryPath + '/ui.base.js',
                          jQueryPath + '/ui.resizable.js'];
-    
+
     // First get the jQuery UI base file
     $.getScript(jQueryPlugins[0]);
 
     // Get the jQuery UI resizeable plugin and then init the wymeditor resizable
-    // plugin. It is import to do the initialisation after loading the    
+    // plugin. It is import to do the initialisation after loading the
     // necessary jQuery UI files has finished, otherwise the "resizable" method
     // would not be available.
-    $.getScript(jQueryPlugins[1], function() {     
+    $.getScript(jQueryPlugins[1], function() {
         jQuery(wym._box).resizable(final_options);
     });
 
 An alternative approach would be to use an AJAX queue when getting the script
 files to ensure that all jQuery files are loaded before the initialisation code
 of the plugin is executed. There is an `jQuery AJAX queue plugin`_ which does
-that. 
+that.
 
 .. _jQuery AJAX queue plugin: http://plugins.jquery.com/project/ajaxqueue
 

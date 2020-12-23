@@ -42,4 +42,3 @@ WYMeditor.STRINGS['bg'] = {
     Status:           'Статус',
     Source_Code:      'Източник, код'
 };
-

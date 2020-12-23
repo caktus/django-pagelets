@@ -42,4 +42,3 @@ WYMeditor.STRINGS['tr'] = {
     Status:           'Durum',
     Source_Code:      'Kaynak Kodu'
 };
-

@@ -5,7 +5,7 @@ from taggit.models import Tag
 
 class TagLookup(ModelLookup):
     model = Tag
-    search_fields = ('name__icontains',)
+    search_fields = ("name__icontains",)
 
 
 registry.register(TagLookup)
