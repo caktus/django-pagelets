@@ -1,6 +1,18 @@
 Release History
 ====================================
 
+2.0.0 (Released 2020-12-23)
+---------------------------
+* Add Django 2.2, 3.0 and 3.1 support
+* Switch from Travis CI to Github Actions CI
+* Add pre-commit, black, isort checks
+
+Breaking changes
+~~~~~~~~~~~~~~~~
+* Drop Django <2.2 support
+* Drop Python 2 support
+
+
 1.1.0 (Released 2018-04-17)
 ---------------------------
 * Add Django 1.11 support, drop Django <1.11 support
