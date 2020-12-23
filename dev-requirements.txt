@@ -1,0 +1,9 @@
+. # <- install ourselves
+coverage
+django>=2.2,<3.0
+flake8
+pre-commit
+sphinx
+tox
+tox-gh-actions
+wheel

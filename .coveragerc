@@ -1,3 +1,9 @@
 [run]
+branch = true
 source = pagelets
-omit = */tests*,*/migrations/*
+omit = */tests*
+
+[report]
+fail_under = 60
+show_missing = true
+skip_covered = true

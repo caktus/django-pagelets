@@ -16,16 +16,12 @@ Features
 Required Dependencies
 ---------------------
 
-- Django = 1.11
+- Django >= 2.2
 - A Python version supported by your chosen Django version
 - Django admin site
 - django-taggit 0.12.1 or greater
-- django-selectable 0.9.0 or greater
+- django-selectable 1.2.1 or greater
 - The `django.template.context_processors.request` context processor
-
-Note: adding Django 2.0 support will require
-`django-selectable <http://django-selectable.readthedocs.io/en/latest/>`_
-to add Django 2.0 support first.
 
 Optional Dependencies
 ---------------------
@@ -71,9 +67,9 @@ Installation and Setup
 #. Add the pagelets URLs to urls.py, e.g.::
 
     urlpatterns += [
-        url(r'^selectable/', include('selectable.urls')),
-        url(r'^pagelets-management/', include('pagelets.urls.management')),
-        url(r'^', include('pagelets.urls.content')),
+        path('selectable/', include('selectable.urls')),
+        path('pagelets-management/', include('pagelets.urls.management')),
+        path('/', include('pagelets.urls.content')),
     ]
 
 #. Visit the admin site, add and save a new page, and click the View on site link.  If everything is setup correctly, you should be able to see and edit the content you just added.
